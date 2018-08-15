@@ -3,6 +3,8 @@ import os
 import re
 import shutil
 
+from termcolor import colored
+
 def nospaces(x):
     if ' ' in x:
         raise ValueError
@@ -34,26 +36,31 @@ def make_project(name, number,
         whatif=False):
     dirname = f'{number}-{name}'
     artifact_id = artifact_id_fmt.format(number=number, name=name)
-    print('cp boilerplate', dirname)
-    print('groupId:', group_id)
-    print('artifactId:', artifact_id)
+    pompath = os.path.join(dirname, 'pom.xml')
+
+    def print_row(name, value):
+        print(name, colored(value, 'green'))
+
+    print_row('directory  ', dirname)
+    print_row('groupId    ', group_id)
+    print_row('artifactId ', artifact_id)
 
     if whatif:
         return
 
-    shutil.copy('boilerplate', dirname)
-
-    pompath = os.path.join(dirname, 'pom.xml')
+    shutil.copytree('boilerplate', dirname, copy_function=shutil.copy)
     with open(pompath, 'r') as pomfile:
         pom = pomfile.read()
-    pom.replace('{GROUP_ID}', group_id)
-    pom.replace('{ARTIFACT_ID}', artifact_id)
+    pom = pom.replace('{GROUP_ID}', group_id)
+    pom = pom.replace('{ARTIFACT_ID}', artifact_id)
     with open(pompath, 'w') as pomfile:
         pomfile.write(pom)
 
 def main():
     parser = argparse.ArgumentParser(description='''Creates project boilerplate
-            by copying stub files in boilerplate/ directory''')
+            by copying stub files in the boilerplate/ directory; also
+            increments the PA number and sets the proper groupId and artifactId
+            in the pom.xml''')
 
     parser.add_argument('-m', '--minor', action='store_true',
             help='''Indicates that this is a "minor" assignment and only
@@ -65,13 +72,14 @@ def main():
             name) and `number` (project number); defaults to `rebeccaturner-PA{number}-{name}`''')
     parser.add_argument('-w', '--whatif', action='store_true',
             help='''Don't actually create a project''')
+    parser.add_argument('-g', '--group-id', type=nospaces, default='ooo.becca.cosi131a',
+            help='''groupId used in pom.xml; defaults to ooo.becca.cosi131a''')
 
-    parser.add_argument('project-name', type=nospaces,
+    parser.add_argument('project_name', type=nospaces,
             help='''Display name; used in the artifact ID''')
-    parser.add_argument('group-id', type=nospaces, default='ooo.becca.cosi131a',
-            help='''Default: ooo.becca.cosi131a''')
 
     args = parser.parse_args()
+
     num = args.number or next_pa(
             filter(os.path.isdir, os.listdir()),
             is_minor=args.minor)
