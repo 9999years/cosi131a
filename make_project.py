@@ -36,7 +36,6 @@ def make_project(name, number,
         whatif=False):
     dirname = f'{number}-{name}'
     artifact_id = artifact_id_fmt.format(number=number, name=name)
-    pompath = os.path.join(dirname, 'pom.xml')
 
     def print_row(name, value):
         print(name, colored(value, 'green'))
@@ -48,13 +47,33 @@ def make_project(name, number,
     if whatif:
         return
 
+    if os.path.exists(dirname):
+        raise ValueError(dirname + ' already exists')
+
     shutil.copytree('boilerplate', dirname, copy_function=shutil.copy)
-    with open(pompath, 'r') as pomfile:
-        pom = pomfile.read()
-    pom = pom.replace('{GROUP_ID}', group_id)
-    pom = pom.replace('{ARTIFACT_ID}', artifact_id)
-    with open(pompath, 'w') as pomfile:
-        pomfile.write(pom)
+    os.chdir(dirname)
+
+    def replace(fname):
+        """replace {ARTIFACT_ID}, etc. w/ proper values"""
+        nonlocal group_id, artifact_id
+
+        with open(fname, 'r') as fh:
+            dat = fh.read()
+        dat = dat.replace('{GROUP_ID}', group_id)
+        dat = dat.replace('{ARTIFACT_ID}', artifact_id)
+        with open(fname, 'w') as fh:
+            fh.write(dat)
+
+    # mutating pom.xml
+    replace('pom.xml')
+    replace(os.path.join('.idea', 'compiler.xml'))
+    replace(os.path.join('.idea', 'modules.xml'))
+    replace(os.path.join('.idea', 'workspace.xml'))
+
+    with open(os.path.join('.idea', '.name'), 'w') as namefile:
+        namefile.write(artifact_id)
+
+    shutil.move('template.iml', artifact_id + '.iml')
 
 def main():
     parser = argparse.ArgumentParser(description='''Creates project boilerplate
@@ -89,4 +108,7 @@ def main():
             whatif=args.whatif)
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(colored(str(e), 'red'))
