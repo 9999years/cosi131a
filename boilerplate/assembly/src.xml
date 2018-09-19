@@ -20,10 +20,10 @@
         </fileSet>
         <fileSet>
             <includes>
-                <include>pom.yaml</include>
+                <include>pom.xml</include>
+                <include>LICENSE.txt</include>
                 <include>README.md</include>
                 <include>assembly/*.xml</include>
-                <include>.mvn/extensions.xml</include>
             </includes>
         </fileSet>
     </fileSets>

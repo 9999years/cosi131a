@@ -2,34 +2,75 @@ import argparse
 import os
 import re
 import shutil
+from dataclasses import dataclass
 
 from termcolor import colored
+
+@dataclass(order=True)
+class PAVersion:
+    major: int = 1
+    minor: str = None
+
+    def increment_minor(self):
+        if self.minor:
+            if ord(self.minor) > ord('Z'):
+                raise ValueError
+            self.minor = chr(ord(self.minor) + 1)
+        else:
+            self.minor = 'A'
+
+    def increment_major(self):
+        self.major += 1
+        self.minor = None
+
+    @property
+    def minor_str(self):
+        return self.minor or ''
+
+    @property
+    def major_str(self):
+        return str(self.major)
+
+    def __str__(self):
+        return f'{self.major}{self.minor_str}'
+
 
 def nospaces(x):
     if ' ' in x:
         raise ValueError
     return x
 
-def next_pa(dirnames=None, is_minor=False):
-    pa_num = re.compile(r'^(\d+)\.?(\d+)?')
+def next_pa(dirnames=(), is_minor=False):
+    pa_num = re.compile(r'(\d+)([A-Z]?)')
     pas = []
     for pa in dirnames:
         match = pa_num.match(pa)
         if match:
-            pas.append((*map(
-                lambda pa: None if pa is None else int(pa),
-                match.groups()),))
+            major, minor = match.groups()
+            major = int(major)
+            pas.append(PAVersion(major, minor))
     if not pas:
         return '1'
     pas.sort()
-    major, minor = pas[-1]
+    ver = pas[-1]
     if is_minor:
-        if minor is None:
-            minor = 1
-        minor += 1
+        ver.increment_minor()
     else:
-        major += 1
-    return str(major) + ('.' + str(minor) if is_minor else '')
+        print('semifinal:', ver)
+        ver.increment_major()
+        print('final:', ver)
+    return str(ver)
+
+def test_next_pa():
+    """for pytest"""
+    assert '1' == next_pa()
+    assert '1' == next_pa([])
+    assert '1' == next_pa(['0'])
+    assert '2' == next_pa(['1'])
+    assert '1A' == next_pa(['1'], is_minor=True)
+    assert '1B' == next_pa(['1A'], is_minor=True)
+    assert '2' == next_pa(['1', '1A', '1C'])
+    assert '3' == next_pa(['sadogjasoig', '2', '1', '1A', '1C'])
 
 def make_project(name, number,
         group_id='ooo.becca.cosi131a', artifact_id_fmt='rebeccaturner-PA{number}-{name}',
@@ -43,6 +84,7 @@ def make_project(name, number,
     print_row('directory  ', dirname)
     print_row('groupId    ', group_id)
     print_row('artifactId ', artifact_id)
+    print_row('path       ', os.path.abspath(dirname))
 
     if whatif:
         return
@@ -83,9 +125,9 @@ def main():
 
     parser.add_argument('-m', '--minor', action='store_true',
             help='''Indicates that this is a "minor" assignment and only
-            increments the number by 0.1''')
+            increments the number by one letter''')
     parser.add_argument('-n', '--number', type=nospaces,
-            help='''PA number; 1.1, 2.4, etc.''')
+            help='''PA number; 1, 2A, 12C, etc.''')
     parser.add_argument('-i', '--id-format', default='''rebeccaturner-PA{number}-{name}''',
             help='''Python format-string; valid variables are `name` (project
             name) and `number` (project number); defaults to `rebeccaturner-PA{number}-{name}`''')
