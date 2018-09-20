@@ -108,6 +108,7 @@ def make_project(name, number,
 
     # mutating pom.xml
     replace('pom.xml')
+    replace('README.md')
     replace(os.path.join('.idea', 'compiler.xml'))
     replace(os.path.join('.idea', 'modules.xml'))
     replace(os.path.join('.idea', 'workspace.xml'))
