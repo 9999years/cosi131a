@@ -6,7 +6,8 @@ Written by Rebecca Turner and Lin-ye Kaye.
 
 ## Compiling
 
-Sources are kept in `src/main/java`, tests are kept in `src/test/java`.
+Sources are kept in `src/main/java/cs131/pa1/filter`, tests are kept in
+`src/test/java`.
 
 Maven (3.5.4) is preferred but a lack of complex dependencies means that
 `javac` should be fine. However, Maven provides easy Javadoc generation,

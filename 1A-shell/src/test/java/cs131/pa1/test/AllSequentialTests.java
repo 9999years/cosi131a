@@ -28,16 +28,15 @@ public class AllSequentialTests {
     	createFile("fizz-buzz-10.txt", generateFizzBuzz(10));
     	createFile("fizz-buzz-100.txt", generateFizzBuzz(100));
     	createFile("fizz-buzz-10000.txt", generateFizzBuzz(10000));
-	createFile("fizz-buzz-1500000.txt", generateFizzBuzz(1500000));
+		createFile("fizz-buzz-1500000.txt", generateFizzBuzz(1500000));
     	createFile("ascii.txt", generateASCII());
     	createFile("pi.txt", generatePi());
     	
     	File f = new File("dir1/dir2/dir3/dir4");
     	f.mkdirs();
-	createFile("dir1/f1.txt", "FILE 1\nTHIS IS THE FIRST FILE.\nI HOPE YOU LIKE IT\n\n\nYOU DO????");
-	createFile("dir1/dir2/f2.txt", "FILE 2\nTHIS IS THE SECOND FILE.\nIT IS PRETTY SIMILAR\nI HOPE YOU LIKE IT\n\n\nDO YOU????");
-	createFile("dir1/dir2/dir3/dir4/f4.txt", "FILE 1\nTHIS IS THE LAST FILE.\nI HOPE YOU LIKED IT\n\n\nDID YOU????");
-    	
+		createFile("dir1/f1.txt", "FILE 1\nTHIS IS THE FIRST FILE.\nI HOPE YOU LIKE IT\n\n\nYOU DO????");
+		createFile("dir1/dir2/f2.txt", "FILE 2\nTHIS IS THE SECOND FILE.\nIT IS PRETTY SIMILAR\nI HOPE YOU LIKE IT\n\n\nDO YOU????");
+		createFile("dir1/dir2/dir3/dir4/f4.txt", "FILE 1\nTHIS IS THE LAST FILE.\nI HOPE YOU LIKED IT\n\n\nDID YOU????");
     }
 
     @AfterClass
