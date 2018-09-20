@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.brandeis.cosi131a</groupId> <!-- this identifies you -->
-    <artifactId>PA1A-shell</artifactId> <!-- this identifies the project -->
+    <artifactId>PA1A-shell-rebeccaturner-and-linyekaye</artifactId> <!-- this identifies the project -->
     <version>1.0.0</version>
     <properties>
         <java.version>10</java.version>
@@ -98,7 +98,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>fully.qualified.MainClass</mainClass>
+                            <mainClass>cs131.pa1.filter.sequential.SequentialREPL</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

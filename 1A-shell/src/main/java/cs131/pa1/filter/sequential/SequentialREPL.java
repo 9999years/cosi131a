@@ -4,8 +4,7 @@ public class SequentialREPL {
 
 	static String currentWorkingDirectory;
 	
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		
 	}
-
 }
