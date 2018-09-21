@@ -16,18 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter;
+package cs131.pa1.command;
 
-public abstract class Filter {
+import java.util.Queue;
 
-	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	protected Filter next;
-	protected Filter prev;
+/**
+ * Specifies a runnable "command" (like "cat") which may read input and/or
+ * write output; an abstraction above SequentialFilter. a Command should
+ * have a constructor which accepts a List&lt;String&gt; of args
+ */
+public interface Command {
 
-	public abstract void setNextFilter(Filter next);
-
-	public abstract void setPrevFilter(Filter next);
-
-	public abstract boolean isDone();
-
+	/**
+	 * runs the current command
+	 */
+	void process();
 }

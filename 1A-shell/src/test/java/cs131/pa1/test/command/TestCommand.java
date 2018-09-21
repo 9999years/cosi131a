@@ -16,18 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter;
+package cs131.pa1.test.command;
 
-public abstract class Filter {
+import cs131.pa1.filter.sequential.CollectionFilter;
+import cs131.pa1.filter.sequential.SequentialFilter;
 
-	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	protected Filter next;
-	protected Filter prev;
-
-	public abstract void setNextFilter(Filter next);
-
-	public abstract void setPrevFilter(Filter next);
-
-	public abstract boolean isDone();
-
+public class TestCommand {
+	/**
+	 * collects and returns a String array of all of cmd's output
+	 * @param cmd
+	 * @return
+	 */
+	public static String[] testCommand(SequentialFilter cmd) {
+		var coll = new CollectionFilter();
+		cmd.setNextFilter(coll);
+		cmd.process();
+		return coll.collect().toArray(new String[0]);
+	}
 }

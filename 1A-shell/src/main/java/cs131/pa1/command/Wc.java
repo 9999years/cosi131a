@@ -16,18 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter;
+package cs131.pa1.command;
 
-public abstract class Filter {
+import cs131.pa1.filter.sequential.SequentialFilter;
 
-	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	protected Filter next;
-	protected Filter prev;
-
-	public abstract void setNextFilter(Filter next);
-
-	public abstract void setPrevFilter(Filter next);
-
-	public abstract boolean isDone();
-
+public class Wc extends SequentialFilter {
+	@Override
+	protected String processLine(String line) {
+		return null;
+	}
 }

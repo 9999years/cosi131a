@@ -16,18 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter;
+package cs131.pa1;
 
-public abstract class Filter {
+public class Preconditions {
+	/**
+	 * Uninstantiable
+	 */
+	private Preconditions() {};
 
-	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	protected Filter next;
-	protected Filter prev;
-
-	public abstract void setNextFilter(Filter next);
-
-	public abstract void setPrevFilter(Filter next);
-
-	public abstract boolean isDone();
-
+	public static void checkArgument(boolean condition, String message)
+			throws IllegalArgumentException {
+		if (!condition) {
+			throw new IllegalArgumentException(message);
+		}
+	}
 }

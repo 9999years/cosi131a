@@ -16,18 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter;
+package cs131.pa1.test.command;
 
-public abstract class Filter {
+import cs131.pa1.command.Cat;
+import static cs131.pa1.test.command.TestCommand.testCommand;
 
-	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	protected Filter next;
-	protected Filter prev;
+import org.junit.Test;
 
-	public abstract void setNextFilter(Filter next);
+import static org.junit.Assert.*;
 
-	public abstract void setPrevFilter(Filter next);
+import java.util.List;
 
-	public abstract boolean isDone();
+public class CatTest {
 
+	@Test
+	public void process() {
+		assertArrayEquals(new String[] {}, testCommand(new Cat(List.of("a.txt"))));
+	}
 }

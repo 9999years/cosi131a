@@ -18,36 +18,34 @@
 
 package cs131.pa1.filter.sequential;
 
-import cs131.pa1.command.Cat;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class SequentialCommandBuilder {
-	public static List<SequentialFilter> createFiltersFromCommand(String command) {
+/**
+ * a filter which performs no filtering and simply passes all its input to
+ * its output; useful for testing. a terminal operation!
+ */
+public class CollectionFilter extends SequentialFilter {
+	@Override
+	public void process() {
+	}
+
+	@Override
+	protected String processLine(String line) {
 		return null;
 	}
 
-	private static SequentialFilter determineFinalFilter(String command) {
-		return null;
-	}
-
-	private static String adjustCommandToRemoveFinalFilter(String command) {
-		return null;
-	}
-
-	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		return null;
-	}
-
-	protected static void linkFilters(List<SequentialFilter> filters) {
-		// TODO we need "terminating" and "initializing" filter classes
-		// that wrap System.in and System.out
-		// var itr = filters.listIterator();
-		// if (itr.hasNext()) {
-		// 	var fst = itr.next();
-		// 	fst.setPrevFilter(System.in);
-		// }
+	/**
+	 * collects and yields its input
+	 * @return its input
+	 */
+	public List<String> collect() {
+		var ret = new ArrayList<String>(input.size());
+		while (!prev.isDone()) {
+			while (!input.isEmpty()) {
+				ret.add(input.poll());
+			}
+		}
+		return ret;
 	}
 }

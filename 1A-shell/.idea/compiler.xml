@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="PA1A-shell" target="8" />
+      <module name="PA1A-shell" target="10" />
     </bytecodeTargetLevel>
   </component>
 </project>

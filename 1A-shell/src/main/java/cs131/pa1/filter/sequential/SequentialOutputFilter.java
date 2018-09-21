@@ -16,18 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter;
+package cs131.pa1.filter.sequential;
 
-public abstract class Filter {
+/**
+ * A SequentialFilter that doesn't read input; throws an error if the
+ * input queue is non-empty. only a starting operation
+ */
+public abstract class SequentialOutputFilter extends SequentialFilter {
+	@Override
+	abstract public void process();
 
-	public static final String FILE_SEPARATOR = System.getProperty("file.separator");
-	protected Filter next;
-	protected Filter prev;
-
-	public abstract void setNextFilter(Filter next);
-
-	public abstract void setPrevFilter(Filter next);
-
-	public abstract boolean isDone();
-
+	@Override
+	protected String processLine(String line) {
+		// throw new NotImplementedException("OutputFilter does not read input!");
+		return null;
+	}
 }

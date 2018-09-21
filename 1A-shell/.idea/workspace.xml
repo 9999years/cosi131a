@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8071e995-6144-4e98-af6b-e7f86cd65e2d" name="Default Changelist" comment="" />
+    <list default="true" id="8071e995-6144-4e98-af6b-e7f86cd65e2d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/Preconditions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Command.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Commands.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Grep.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Ls.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Pwd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Redirect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Uniq.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Wc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/CollectionFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialOutputFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CatTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CommandsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/TestCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/a.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/resources/b.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copyright/GPL.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copyright/GPL.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PA1A-shell.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PA1A-shell.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assembly/src.xml" beforeDir="false" afterPath="$PROJECT_DIR$/assembly/src.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Filter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Filter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialCommandBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialCommandBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/AllSequentialTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/AllSequentialTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/REPLTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/REPLTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/RedirectionTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/RedirectionTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/TextProcessingTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/TextProcessingTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/WorkingDirectoryTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cs131/pa1/test/WorkingDirectoryTests.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="-618091999">
@@ -44,32 +95,94 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1580252709">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.11" value="1" />
+          <entry key="project.open.time.15" value="1" />
+          <entry key="project.open.time.25" value="1" />
+          <entry key="project.opened" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="58" />
+          <entry key="txt" value="2" />
+          <entry key="xml" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="58" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="XML" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="java" value="6904" />
+          <entry key="txt" value="76" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="6904" />
+          <entry key="PLAIN_TEXT" value="76" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Filter.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cat.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            <state relative-caret-position="306">
+              <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1910#1911#0" expanded="true" />
+                <element signature="e#1942#1943#0" expanded="true" />
+                <element signature="e#2279#2280#0" expanded="true" />
+                <element signature="e#2346#2347#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CatTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="305">
+              <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#911#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#928#929#0" expanded="true" />
+                <element signature="e#993#994#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/TestCommand.java">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="8" selection-start-column="8" selection-end-column="35" />
+              <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CommandsTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state>
+              <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -80,40 +193,83 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialCommandBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
+            <state relative-caret-position="340">
+              <caret line="45" column="45" lean-forward="true" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+            <state relative-caret-position="373">
+              <caret line="28" selection-start-line="28" selection-end-line="28" />
+              <folding>
+                <element signature="e#0#921#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/AllSequentialTests.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+            <state relative-caret-position="119">
+              <caret line="23" column="35" lean-forward="true" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/CollectionFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="901">
-              <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+            <state relative-caret-position="322">
+              <caret line="43" selection-start-line="43" selection-end-line="43" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Filter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#1094#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="713">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
+              <folding>
+                <element signature="e#0#1896#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#1837#1838#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit4 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -127,16 +283,44 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/filter/sequential/SequentialREPL.java" />
-        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java" />
         <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/test/AllSequentialTests.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialVoidFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Preconditions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/Preconditions.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/SequentialCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/SequentialOutputCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cd.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Grep.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Ls.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Pwd.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Redirect.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Uniq.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Wc.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CommandsTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Commands.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Command.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cat.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/b.txt" />
+        <option value="$PROJECT_DIR$/src/test/resources/a.txt" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialOutputFilter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/CollectionFilter.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/command/CatTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/command/TestCommand.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/command/CatTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CatTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/TestCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialCommandBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="895" />
-    <option name="width" value="1032" />
-    <option name="height" value="1047" />
+    <option name="x" value="1358" />
+    <option name="width" value="1390" />
+    <option name="height" value="1756" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -146,6 +330,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -177,6 +363,24 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pa1" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PA1A-shell" type="b2602c69:ProjectViewProjectNode" />
+              <item name="1A-shell" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pa1" type="462c0819:PsiDirectoryNode" />
+              <item name="command" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PA1A-shell" type="b2602c69:ProjectViewProjectNode" />
+              <item name="1A-shell" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pa1" type="462c0819:PsiDirectoryNode" />
               <item name="filter" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -185,6 +389,7 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="pa1" type="462c0819:PsiDirectoryNode" />
               <item name="filter" type="462c0819:PsiDirectoryNode" />
               <item name="sequential" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -209,30 +414,55 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="PA1A-shell" type="b2602c69:ProjectViewProjectNode" />
+              <item name="1A-shell" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="command" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="PA1A-shell" type="b2602c69:ProjectViewProjectNode" />
+              <item name="1A-shell" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/cs131/pa1" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="cs131.pa1.command" />
+      <recent name="cs131.pa1.test.command" />
       <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\arvensis\Documents\projects\cosi131a\1A-shell\src\test\resources" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cs131.pa1.command" />
+      <recent name="cs131.pa1.filter.sequential" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -247,13 +477,49 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.Test all">
+  <component name="RunManager" selected="JUnit.CatTest">
     <configuration name="&lt;template&gt;" type="TestNG" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CatTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PA1A-shell" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cs131.pa1.test.command.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cs131.pa1.test.command" />
+      <option name="MAIN_CLASS_NAME" value="cs131.pa1.test.command.CatTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://%MODULE_WORKING_DIR%" />
+      <dir value="./" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommandsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="PA1A-shell" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cs131.pa1.test.command.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cs131.pa1.test.command" />
+      <option name="MAIN_CLASS_NAME" value="cs131.pa1.test.command.CommandsTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://%MODULE_WORKING_DIR%" />
+      <dir value="./" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -340,7 +606,15 @@
       <item itemvalue="JUnit.Test all" />
       <item itemvalue="Maven.Compile" />
       <item itemvalue="Maven.Package" />
+      <item itemvalue="JUnit.CommandsTest" />
+      <item itemvalue="JUnit.CatTest" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.CatTest" />
+        <item itemvalue="JUnit.CommandsTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -351,6 +625,9 @@
       <updated>1537411752001</updated>
       <workItem from="1537411753150" duration="1072000" />
       <workItem from="1537412838913" duration="375000" />
+      <workItem from="1537449897194" duration="1970000" />
+      <workItem from="1537455945352" duration="7020000" />
+      <workItem from="1537550797353" duration="6794000" />
     </task>
     <servers />
   </component>
@@ -361,30 +638,39 @@
     <history-entry file="Test_all - 2018.09.19 at 23h 11m 01s.xml">
       <configuration name="Test all" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="CommandsTest - 2018.09.21 at 14h 05m 36s.xml">
+      <configuration name="CommandsTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CatTest - 2018.09.21 at 15h 10m 02s.xml">
+      <configuration name="CatTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CatTest - 2018.09.21 at 15h 10m 21s.xml">
+      <configuration name="CatTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1447000" />
+    <option name="totallyTimeSpent" value="17231000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-6" y="-6" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49842766" visible="true" weight="0.25266525" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49842766" visible="true" weight="0.26303855" />
       <window_info id="Structure" order="1" sideWeight="0.5015723" side_tool="true" weight="0.25266525" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32925472" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32891247" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32891247" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32925472" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32891247" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010661" side_tool="true" weight="0.2925473" />
-      <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.4989339" weight="0.2925473" />
+      <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.4989339" weight="0.2917772" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -392,6 +678,30 @@
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info anchor="right" id="Maven Projects" order="5" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49842766" visible="true" weight="0.26303855" />
+      <window_info id="Structure" order="1" sideWeight="0.5015723" side_tool="true" weight="0.25266525" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32891247" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32891247" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32891247" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5010661" side_tool="true" weight="0.2925473" />
+      <window_info anchor="bottom" id="Messages" order="11" sideWeight="0.4989339" weight="0.2917772" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -410,41 +720,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Filter.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/AllSequentialTests.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="-1521">
+          <caret line="12" column="22" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialVoidFilter.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/Preconditions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="8" selection-start-column="8" selection-end-column="35" />
+        <state relative-caret-position="221">
+          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/SequentialCommand.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/SequentialOutputCommand.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cd.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialCommandBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="26" column="9" selection-start-line="26" selection-start-column="9" selection-end-line="26" selection-end-column="9" />
+        <state relative-caret-position="102">
+          <caret line="22" column="46" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -455,10 +751,191 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/AllSequentialTests.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Uniq.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="22" lean-forward="true" selection-start-line="12" selection-start-column="22" selection-end-line="12" selection-end-column="22" />
+        <state relative-caret-position="102">
+          <caret line="22" column="44" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Redirect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="47" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Pwd.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Ls.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="46" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Wc.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Grep.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="23" column="61" selection-start-line="23" selection-start-column="61" selection-end-line="23" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Commands.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1629#1630#0" expanded="true" />
+            <element signature="e#1664#1665#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/a.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="19" selection-start-column="19" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/b.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="19" selection-start-column="19" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialOutputFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="22" column="54" selection-start-line="22" selection-start-column="54" selection-end-line="22" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Filter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="22" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#1094#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/CollectionFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/TestCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CommandsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="16" column="3" lean-forward="true" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/cs131/pa1/test/command/CatTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="33" column="48" selection-start-line="33" selection-start-column="48" selection-end-line="33" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#911#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
+            <element signature="e#993#994#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/command/Cat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1910#1911#0" expanded="true" />
+            <element signature="e#1942#1943#0" expanded="true" />
+            <element signature="e#2279#2280#0" expanded="true" />
+            <element signature="e#2346#2347#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialFilter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="713">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#0#1896#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1837#1838#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialCommandBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="45" column="45" lean-forward="true" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/sequential/SequentialREPL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="e#0#921#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cs131/pa1/filter/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="23" column="35" lean-forward="true" selection-start-line="23" selection-start-column="35" selection-end-line="23" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -468,6 +945,18 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <last-edited>GPL</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
