@@ -18,30 +18,24 @@
 
 package cs131.pa1.filter.sequential;
 
-import java.util.List;
-import java.util.Queue;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
-public class SequentialCommandBuilder {
-	public static List<SequentialFilter> createFiltersFromCommand(String command) {
-		return null;
+/**
+ * filter which writes all the data in its input queue line-wise to an output stream
+ *
+ * try: new OutputStreamFilter(System.out)
+ */
+public class OutputStreamFilter extends SequentialFilter {
+	private final PrintStream outputStream;
+
+	OutputStreamFilter(OutputStream outputStream) {
+		this.outputStream = new PrintStream(outputStream);
 	}
 
-	private static SequentialFilter determineFinalFilter(String command) {
+	@Override
+	protected String processLine(String line) {
+		outputStream.println(line);
 		return null;
-	}
-
-	private static String adjustCommandToRemoveFinalFilter(String command) {
-		return null;
-	}
-
-	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		return null;
-	}
-
-	public static void linkFilters(List<SequentialFilter> filters) {
-		filters.stream().reduce(new EmptyFilter(), (p, n) -> {
-			p.setNextFilter(n);
-			return n;
-		});
 	}
 }

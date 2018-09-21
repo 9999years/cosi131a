@@ -26,26 +26,26 @@ import java.util.List;
  * its output; useful for testing. a terminal operation!
  */
 public class CollectionFilter extends SequentialFilter {
+	private List<String> acc = new ArrayList<>();
+
 	@Override
 	public void process() {
 	}
 
 	@Override
 	protected String processLine(String line) {
+		acc.add(line);
 		return null;
 	}
 
 	/**
-	 * collects and yields its input
+	 * collects and yields its input; possibly calls process()
 	 * @return its input
 	 */
 	public List<String> collect() {
-		var ret = new ArrayList<String>(input.size());
-		while (!prev.isDone()) {
-			while (!input.isEmpty()) {
-				ret.add(input.poll());
-			}
+		if (!isDone()) {
+			process();
 		}
-		return ret;
+		return acc;
 	}
 }

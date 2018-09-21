@@ -24,6 +24,8 @@ import java.util.Queue;
  * Specifies a runnable "command" (like "cat") which may read input and/or
  * write output; an abstraction above SequentialFilter. a Command should
  * have a constructor which accepts a List&lt;String&gt; of args
+ *
+ * TODO are we even gonna use this?
  */
 public interface Command {
 

@@ -18,30 +18,25 @@
 
 package cs131.pa1.filter.sequential;
 
-import java.util.List;
-import java.util.Queue;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
-public class SequentialCommandBuilder {
-	public static List<SequentialFilter> createFiltersFromCommand(String command) {
-		return null;
+/**
+ * filter which takes input from an input stream
+ *
+ * try: new InputStreamFilter(System.in)
+ */
+public class InputStreamFilter extends SequentialOutputFilter {
+	private final BufferedReader bufferedReader;
+
+	InputStreamFilter(InputStream inputStream) {
+		this.bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 	}
 
-	private static SequentialFilter determineFinalFilter(String command) {
-		return null;
-	}
-
-	private static String adjustCommandToRemoveFinalFilter(String command) {
-		return null;
-	}
-
-	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		return null;
-	}
-
-	public static void linkFilters(List<SequentialFilter> filters) {
-		filters.stream().reduce(new EmptyFilter(), (p, n) -> {
-			p.setNextFilter(n);
-			return n;
-		});
+	@Override
+	public void process() {
+		bufferedReader.lines().forEach(output::add);
 	}
 }

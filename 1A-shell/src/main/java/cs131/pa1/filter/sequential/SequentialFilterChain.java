@@ -18,30 +18,33 @@
 
 package cs131.pa1.filter.sequential;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Queue;
 
-public class SequentialCommandBuilder {
-	public static List<SequentialFilter> createFiltersFromCommand(String command) {
-		return null;
+/**
+ * A pipeline
+ */
+public class SequentialFilterChain extends ArrayList<SequentialFilter> {
+	public static final int DEFAULT_CHAIN_SIZE = 4;
+
+	public SequentialFilterChain(List<SequentialFilter> filters) {
+		super(filters);
 	}
 
-	private static SequentialFilter determineFinalFilter(String command) {
-		return null;
+	SequentialFilterChain(int size) {
+		super(size);
 	}
 
-	private static String adjustCommandToRemoveFinalFilter(String command) {
-		return null;
+	SequentialFilterChain() {
+		super(DEFAULT_CHAIN_SIZE);
 	}
 
-	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		return null;
-	}
-
-	public static void linkFilters(List<SequentialFilter> filters) {
-		filters.stream().reduce(new EmptyFilter(), (p, n) -> {
-			p.setNextFilter(n);
-			return n;
-		});
+	public void process() {
+		SequentialCommandBuilder.linkFilters(this);
+		for (SequentialFilter filter : this) {
+			filter.process();
+		}
 	}
 }

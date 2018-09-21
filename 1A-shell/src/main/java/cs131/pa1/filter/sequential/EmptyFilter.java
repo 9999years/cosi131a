@@ -18,30 +18,26 @@
 
 package cs131.pa1.filter.sequential;
 
-import java.util.List;
-import java.util.Queue;
+import java.util.LinkedList;
 
-public class SequentialCommandBuilder {
-	public static List<SequentialFilter> createFiltersFromCommand(String command) {
-		return null;
+/**
+ * a filter with no input or output
+ *
+ * isDone will always return true
+ */
+public class EmptyFilter extends SequentialFilter {
+	EmptyFilter() {
+		input = new LinkedList<>();
+		// output field is initialized automatically when needed
 	}
 
-	private static SequentialFilter determineFinalFilter(String command) {
-		return null;
+	@Override
+	public void process() {
+		// do nothing!
 	}
 
-	private static String adjustCommandToRemoveFinalFilter(String command) {
+	@Override
+	protected String processLine(String line) {
 		return null;
-	}
-
-	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		return null;
-	}
-
-	public static void linkFilters(List<SequentialFilter> filters) {
-		filters.stream().reduce(new EmptyFilter(), (p, n) -> {
-			p.setNextFilter(n);
-			return n;
-		});
 	}
 }

@@ -1,5 +1,9 @@
 # PA1A-shell
 
+## Notes
+
+This project is written using Java 10. Dimos said that all the imports are OK!
+
 ## Authors
 
 Written by Rebecca Turner and Lin-ye Kaye.
