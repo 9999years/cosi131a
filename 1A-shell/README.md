@@ -6,9 +6,6 @@ Written by Rebecca Turner and Lin-ye Kaye.
 
 ## Compiling
 
-Sources are kept in `src/main/java/cs131/pa1/filter`, tests are kept in
-`src/test/java/cs131/pa1/test`.
-
 Maven (3.5.4) is preferred but a lack of complex dependencies means that
 `javac` should be fine. However, Maven provides easy Javadoc generation,
 executable `.jar` building, source zipping, and so on.
@@ -25,3 +22,17 @@ Quick Maven reference:
     Build an executable `.jar`           | `package` or `jar:jar`
     Create a source `.zip` and `.tar.gz` | `package` or `assembly:single`
     Generate Javadocs                    | `package` or `javadoc:javadoc`
+
+## Sources
+
+    Directory tree                         | Files
+    --------------                         | -----
+    src                                    |
+    ├───main/java/cs131/pa1                |
+    │                   ├───command        | Implementations for commands like `cat`
+    │                   └───filter         | Provided sources
+    │                       └───sequential | Provided sources
+    └───test                               |
+        ├───java/cs131/pa1/test            | Provided tests
+        │                  └───command     | Command tests
+        └───resources                      | Test data
