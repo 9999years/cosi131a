@@ -1,1 +1,2 @@
 first line of a.txt
+second line of a.txt

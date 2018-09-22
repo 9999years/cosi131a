@@ -25,11 +25,12 @@ import java.util.Scanner;
 
 public class SequentialREPL {
 	public static ShellState state = new ShellState();
+	public static boolean shouldExit = false;
 
 	public static void main(String[] args) {
-		System.out.println(Message.WELCOME.toString());
+		System.out.print(Message.WELCOME.toString());
 		var in = new Scanner(System.in);
-		while (true) {
+		while (!shouldExit) {
 			System.out.print(Message.NEWCOMMAND.toString());
 			var line = "exit";
 			if (in.hasNextLine()) {

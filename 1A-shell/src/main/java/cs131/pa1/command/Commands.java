@@ -31,6 +31,7 @@ import cs131.pa1.filter.sequential.EmptyFilter;
 import cs131.pa1.filter.sequential.SequentialFilter;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.AbstractMap;
 import java.util.Map;
 
 /**
@@ -43,17 +44,18 @@ public class Commands {
 	 * map associating user-facing command names with the class that
 	 * implements their behavior
 	 */
-	private static final Map<String, Class<? extends SequentialFilter>> commands = Map.of(
-			"cat",   CatFilter.class,
-			"cd",    CdFilter.class,
-			"grep",  GrepFilter.class,
-			"exit",  ExitFilter.class,
-			"ls",    LsFilter.class,
-			"pwd",   PwdFilter.class,
-			">",     RedirectFilter.class,
-			"uniq",  UniqFilter.class,
-			"wc",    WcFilter.class,
-			"",     EmptyFilter.class
+	private static final Map<String, Class<? extends SequentialFilter>> commands = Map.ofEntries(
+			Map.entry("cat",   CatFilter.class),
+			Map.entry("cd",    CdFilter.class),
+			Map.entry("grep",  GrepFilter.class),
+			Map.entry("help",  HelpFilter.class),
+			Map.entry("exit",  ExitFilter.class),
+			Map.entry("ls",    LsFilter.class),
+			Map.entry("pwd",   PwdFilter.class),
+			Map.entry(">",     RedirectFilter.class),
+			Map.entry("uniq",  UniqFilter.class),
+			Map.entry("wc",    WcFilter.class),
+			Map.entry("",      EmptyFilter.class)
 	);
 
 	/**

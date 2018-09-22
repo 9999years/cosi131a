@@ -53,7 +53,10 @@ public class Arguments extends AbstractList<String> {
 	 * @return
 	 */
 	private String commandLine() {
-		return command + " " + String.join(" ", args);
+		return command + (
+				args.isEmpty()
+					? ""
+					: " " + String.join(" ", args));
 	}
 
 	private void tokenize() {

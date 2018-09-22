@@ -54,6 +54,6 @@ public class LsFilter extends SequentialOutputFilter {
 				.map(fs -> fs.orElseGet(() -> new String[] {
 						errorString(Message.DIRECTORY_NOT_FOUND)}))
 				.flatMap(Arrays::stream)
-				.forEach(output::add);
+				.forEach(this::outputln);
 	}
 }

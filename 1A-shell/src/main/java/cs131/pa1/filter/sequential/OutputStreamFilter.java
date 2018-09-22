@@ -38,7 +38,7 @@ public class OutputStreamFilter extends GoodSequentialFilter {
 
 	@Override
 	protected String processLine(String line) {
-		outputStream.println(line);
+		outputStream.print(line);
 		return null;
 	}
 }

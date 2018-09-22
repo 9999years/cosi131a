@@ -16,22 +16,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.stateful;
+package cs131.pa1.test.other;
 
-import cs131.pa1.Arguments;
-import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.filter.sequential.InputStreamFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
+import org.junit.Test;
 
-public class PwdFilter extends SequentialOutputFilter {
-	public PwdFilter(Arguments args) {
-		super(args);
-		ensureNoArgs(args);
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+
+import static org.junit.Assert.*;
+
+public class SequentialREPLTest {
+	static InputStream inputStream(String string) {
+		try {
+			return new ByteArrayInputStream(string.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// should never happen
+			return null;
+		}
 	}
 
-	@Override
-	public void process() {
-		if (args.isEmpty()) {
-			outputln(SequentialREPL.state.getWorkingDirectory().toString());
-		}
+	@Test
+	public void main() {
+		// just make sure nothing crashes
+		System.setIn(inputStream("pwd\nexit\n"));
+		SequentialREPL.main(null);
 	}
 }

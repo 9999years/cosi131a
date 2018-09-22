@@ -45,13 +45,20 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 		output.add(errorString(message));
 	}
 
+	protected void outputln(String line) {
+		output.add(line + "\n");
+	}
+
+	protected void output(String string) {
+		output.add(string);
+	}
+
 	protected String errorString(Message message) {
 		return message.with_parameter(this.args.getCommandLine());
 	}
 
 	/**
 	 *
-	 * @param name
 	 * @param args
 	 * @return true if args are OK (no args present) false otherwise
 	 */

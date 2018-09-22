@@ -16,22 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.stateful;
+package cs131.pa1;
 
-import cs131.pa1.Arguments;
-import cs131.pa1.filter.sequential.SequentialOutputFilter;
-import cs131.pa1.filter.sequential.SequentialREPL;
+import org.junit.Test;
 
-public class PwdFilter extends SequentialOutputFilter {
-	public PwdFilter(Arguments args) {
-		super(args);
-		ensureNoArgs(args);
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+public class ArgumentsTest {
+	@Test
+	public void simple() {
+		var ls = new Arguments("ls");
+		assertEquals("ls", ls.getCommand());
+		assertEquals(List.of(), ls);
+
+		var cat = new Arguments("cat xyz.txt abc.log");
+		assertEquals("cat", cat.getCommand());
+		assertEquals(List.of("xyz.txt", "abc.log"), cat);
 	}
 
-	@Override
-	public void process() {
-		if (args.isEmpty()) {
-			outputln(SequentialREPL.state.getWorkingDirectory().toString());
-		}
+	@Test
+	public void empty() {
+		var empty = Arguments.empty();
+		assertEquals("", empty.getCommand());
+		assertEquals("", empty.getCommandLine());
+		assertEquals(List.of(), empty);
 	}
 }

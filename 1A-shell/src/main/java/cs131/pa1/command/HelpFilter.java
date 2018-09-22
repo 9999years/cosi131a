@@ -16,22 +16,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.stateful;
+package cs131.pa1.command;
 
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
-import cs131.pa1.filter.sequential.SequentialREPL;
 
-public class PwdFilter extends SequentialOutputFilter {
-	public PwdFilter(Arguments args) {
+public class HelpFilter extends SequentialOutputFilter {
+	public HelpFilter(Arguments args) {
 		super(args);
-		ensureNoArgs(args);
 	}
 
 	@Override
 	public void process() {
-		if (args.isEmpty()) {
-			outputln(SequentialREPL.state.getWorkingDirectory().toString());
-		}
+		outputln("A simple shell. Available commands include:");
+		outputln("+cat        Print file(s) to the terminal");
+		outputln("+exit       Exits the shell");
+		outputln("grep       Search lines of input for a substring");
+		outputln("+help       Prints this help");
+		outputln("+ls         List files and directories in current directory");
+		outputln("+pwd        Prints working directory");
+		outputln("uniq       Unique lines of input");
+		outputln("wc         Counts words, lines, and characters of input");
+		outputln("+>          Redirect input to a file");
 	}
 }

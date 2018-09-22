@@ -62,7 +62,9 @@ public class CatFilter extends SequentialOutputFilter {
 	}
 
 	private static Optional<Stream<String>> lines(File file) {
-		return open(file).map(BufferedReader::lines);
+		return open(file)
+				.map(BufferedReader::lines)
+				.map(stream -> stream.map(s -> s + "\n"));
 	}
 
 	/**
@@ -78,6 +80,6 @@ public class CatFilter extends SequentialOutputFilter {
 
 	@Override
 	public void process() {
-		files.stream().flatMap(this::fileOutput).forEach(output::add);
+		files.stream().flatMap(this::fileOutput).forEach(this::output);
 	}
 }

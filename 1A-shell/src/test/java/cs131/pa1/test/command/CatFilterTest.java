@@ -37,14 +37,17 @@ public class CatFilterTest {
 	@Test
 	public void regular() {
 		assertArrayEquals(
-				new String[] {"first line of a.txt"},
+				new String[] {"first line of a.txt\n",
+					"second line of a.txt\n"},
 				testCommand(cat("src/test/resources/a.txt")));
 	}
 
 	@Test
 	public void multipleFiles() {
 		assertArrayEquals(
-				new String[] {"first line of a.txt", "first line of b.txt"},
+				new String[] {"first line of a.txt\n",
+						"second line of a.txt\n",
+						"first line of b.txt\n"},
 				testCommand(cat(
 						"src/test/resources/a.txt"
 						+ " src/test/resources/b.txt")));

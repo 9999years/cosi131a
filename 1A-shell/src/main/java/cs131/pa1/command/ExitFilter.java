@@ -21,6 +21,7 @@ package cs131.pa1.command;
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.filter.sequential.SequentialREPL;
 
 import java.util.List;
 
@@ -32,6 +33,6 @@ public class ExitFilter extends SequentialOutputFilter {
 	@Override
 	public void process() {
 		error(Message.GOODBYE);
-		System.exit(0);
+		SequentialREPL.shouldExit = true;
 	}
 }
