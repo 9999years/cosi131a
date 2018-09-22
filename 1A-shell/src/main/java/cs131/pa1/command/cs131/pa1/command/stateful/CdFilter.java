@@ -18,7 +18,6 @@
 
 package cs131.pa1.command.cs131.pa1.command.stateful;
 
-import cs131.pa1.filter.sequential.SequentialFilter;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
@@ -29,13 +28,16 @@ import java.util.List;
 public class CdFilter extends SequentialOutputFilter {
 	private Path newPath;
 
-	public static final String WRONG_ARGS = "cd: Exactly one argument required";
-	public static final String DIR_NOT_FOUND = "cd: Directory %s not found";
+	public static final String WRONG_ARGS = "cd: Too many arguments";
+	public static final String DIR_NOT_FOUND = "cd: %s: no such file or directory";
 
 	CdFilter(List<String> args) {
-		if (args.size() != 1) {
+		if (args.size() > 1) {
 			output.add(WRONG_ARGS);
+		} else if (args.isEmpty()) {
+			newPath = SequentialREPL.state.absolutePath("");
 		} else {
+			// 1 argument
 			newPath = SequentialREPL.state.absolutePath(args.get(0));
 		}
 	}
@@ -45,7 +47,10 @@ public class CdFilter extends SequentialOutputFilter {
 		try {
 			SequentialREPL.state.setWorkingDirectory(newPath.toRealPath().toString());
 		} catch (IOException e) {
-			output.add(DIR_NOT_FOUND);
+			output.add(String.format(
+					DIR_NOT_FOUND,
+					newPath.relativize(SequentialREPL.state.getWorkingDirectory()).toString()
+			));
 		}
 	}
 }

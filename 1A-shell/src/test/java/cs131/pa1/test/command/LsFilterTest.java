@@ -16,28 +16,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.cs131.pa1.command.stateful;
+package cs131.pa1.test.command;
 
-import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.command.cs131.pa1.command.stateful.LsFilter;
+import org.junit.Test;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class LsFilter extends SequentialOutputFilter {
-	private List<File> dirs;
+import static cs131.pa1.test.command.TestCommand.testCommand;
+import static org.junit.Assert.*;
 
-	public LsFilter(List<String> args) {
-		dirs = new ArrayList<>(args.size());
-		args.stream().map(File::new).forEach(dirs::add);
-	}
+public class LsFilterTest {
+	@Test
+	public void simple() {
+		var listed = Set.of(testCommand(new LsFilter(List.of(
+				"src/test/resources/ls"))));
+		var expected = new String[] {
+				"whatever", "abc", "x", "y.txt", "README.txt"};
 
-	@Override
-	public void process() {
-		dirs.stream()
-				.map(File::list)
-				.flatMap(Arrays::stream)
-				.forEach(output::add);
+		// same size
+		assertEquals(expected.length, listed.size());
+
+		// same contents
+		for (var expect : expected) {
+			assertTrue("expected `" + expect + "` in ls but not present",
+					listed.contains(expect));
+		}
 	}
 }
