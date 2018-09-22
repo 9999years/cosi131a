@@ -18,6 +18,7 @@
 
 package cs131.pa1.command.cs131.pa1.command.stateful;
 
+import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
@@ -34,11 +35,9 @@ import java.util.stream.Stream;
 
 public class CatFilter extends SequentialOutputFilter {
 	public static final String NAME = "cat";
-	// copied straight from /bin/cat
-	public static final String FILE_NOT_FOUND = NAME + ": %s: No such file or directory";
 	private List<File> files;
 
-	public CatFilter(List<String> args) {
+	public CatFilter(String name, List<String> args) {
 		files = new ArrayList<>(args.size());
 		for (String arg : args) {
 			files.add(new File(SequentialREPL.state.absolutePath(arg).toString()));
@@ -73,7 +72,7 @@ public class CatFilter extends SequentialOutputFilter {
 	 */
 	private static Stream<String> fileOutput(File file) {
 		return lines(file).orElseGet(
-				() -> Stream.of(String.format(FILE_NOT_FOUND, file.getName())));
+				() -> Stream.of(Message.FILE_NOT_FOUND.with_parameter(NAME)));
 	}
 
 	@Override

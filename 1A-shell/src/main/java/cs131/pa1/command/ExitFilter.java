@@ -18,11 +18,18 @@
 
 package cs131.pa1.command;
 
-import cs131.pa1.filter.sequential.SequentialFilter;
+import cs131.pa1.filter.Message;
+import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
-public class UniqFilter extends SequentialFilter {
+import java.util.List;
+
+public class ExitFilter extends SequentialOutputFilter {
+	public ExitFilter(String name, List<String> args) {
+	}
+
 	@Override
-	protected String processLine(String line) {
-		return null;
+	public void process() {
+		output.add(Message.GOODBYE.toString());
+		System.exit(0);
 	}
 }

@@ -18,12 +18,17 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.command.Commands;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class SequentialCommandBuilder {
-	public static List<SequentialFilter> createFiltersFromCommand(String command) {
-		return null;
+	public static SequentialFilterChain createFiltersFromCommand(String command) {
+		return new SequentialFilterChain(List.of(constructFilterFromSubCommand(command)));
 	}
 
 	private static SequentialFilter determineFinalFilter(String command) {
@@ -35,7 +40,18 @@ public class SequentialCommandBuilder {
 	}
 
 	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		return null;
+		var ret = new ArrayList<SequentialFilter>();
+		// tokenize, splitting by spaces, ignoring empty tokens ("")
+		var toks = Arrays.stream(subCommand.split("\\s+"))
+				.filter(s -> s.length() > 0)
+				.collect(Collectors.toUnmodifiableList());
+		if (toks.isEmpty()) {
+			return new EmptyFilter();
+		}
+		// first token is the command
+		var cmd = toks.get(0);
+		// toks is now the arguments
+		return Commands.forName(cmd, toks.subList(1, toks.size()));
 	}
 
 	public static void linkFilters(List<SequentialFilter> filters) {

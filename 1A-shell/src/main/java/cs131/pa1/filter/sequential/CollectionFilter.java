@@ -25,7 +25,7 @@ import java.util.List;
  * a filter which collects its input into an internal list;
  * useful for testing. a terminal operation!
  */
-public class CollectionFilter extends SequentialFilter {
+public class CollectionFilter extends GoodSequentialFilter {
 	private List<String> acc = new ArrayList<>();
 
 	@Override

@@ -18,25 +18,40 @@
 
 package cs131.pa1.command.cs131.pa1.command.stateful;
 
+import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.filter.sequential.SequentialREPL;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class LsFilter extends SequentialOutputFilter {
+	public static final String NAME = "ls";
 	private List<File> dirs;
 
-	public LsFilter(List<String> args) {
+	public LsFilter(String name, List<String> args) {
+		if (args.isEmpty()) {
+			args = List.of("");
+		}
 		dirs = new ArrayList<>(args.size());
-		args.stream().map(File::new).forEach(dirs::add);
+		args.stream()
+				.map(SequentialREPL.state::absolutePath)
+				.map(Path::toString)
+				.map(File::new)
+				.forEach(dirs::add);
 	}
 
 	@Override
 	public void process() {
 		dirs.stream()
 				.map(File::list)
+				.map(Optional::ofNullable)
+				.map(fs -> fs.orElseGet(() -> new String[] {
+						Message.DIRECTORY_NOT_FOUND.with_parameter(NAME)}))
 				.flatMap(Arrays::stream)
 				.forEach(output::add);
 	}

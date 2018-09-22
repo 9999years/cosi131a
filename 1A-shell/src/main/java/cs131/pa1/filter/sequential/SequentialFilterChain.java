@@ -47,4 +47,14 @@ public class SequentialFilterChain extends ArrayList<SequentialFilter> {
 			filter.process();
 		}
 	}
+
+	/**
+	 * prints output of this filter chain by adding a filter which
+	 * redirects its input to System.out to the end of the chain.
+	 * Returns this instance for fluent building approaches
+	 */
+	public SequentialFilterChain printOutput() {
+		add(new OutputStreamFilter(System.out));
+		return this;
+	}
 }

@@ -18,6 +18,7 @@
 
 package cs131.pa1.command.cs131.pa1.command.stateful;
 
+import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
@@ -26,31 +27,26 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class CdFilter extends SequentialOutputFilter {
+	public static String NAME = "cd";
 	private Path newPath;
 
-	public static final String WRONG_ARGS = "cd: Too many arguments";
-	public static final String DIR_NOT_FOUND = "cd: %s: no such file or directory";
-
-	CdFilter(List<String> args) {
-		if (args.size() > 1) {
-			output.add(WRONG_ARGS);
-		} else if (args.isEmpty()) {
+	public CdFilter(String name, List<String> args) {
+		if (args.isEmpty()) {
 			newPath = SequentialREPL.state.absolutePath("");
-		} else {
-			// 1 argument
+		} else if (ensureOneArg(name, args)) {
 			newPath = SequentialREPL.state.absolutePath(args.get(0));
 		}
 	}
 
 	@Override
 	public void process() {
-		try {
-			SequentialREPL.state.setWorkingDirectory(newPath.toRealPath().toString());
-		} catch (IOException e) {
-			output.add(String.format(
-					DIR_NOT_FOUND,
-					newPath.relativize(SequentialREPL.state.getWorkingDirectory()).toString()
-			));
+		if (newPath != null) {
+			try {
+				// note that .toRealPath resolves symlinks
+				SequentialREPL.state.setWorkingDirectory(newPath.toRealPath().toString());
+			} catch (IOException e) {
+				output.add(String.format(Message.DIRECTORY_NOT_FOUND.toString(), NAME));
+			}
 		}
 	}
 }

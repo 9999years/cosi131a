@@ -18,11 +18,23 @@
 
 package cs131.pa1.command;
 
-import cs131.pa1.filter.sequential.SequentialFilter;
+import cs131.pa1.filter.Message;
+import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
-public class GrepFilter extends SequentialFilter {
+import java.util.List;
+
+public class CommandNotFoundFilter extends SequentialOutputFilter {
+	public static final String NAME = "<invalid command>";
+	private String cmd = "";
+
+	public CommandNotFoundFilter(String name, List<String> args) {
+		cmd = name;
+	}
+
 	@Override
-	protected String processLine(String line) {
-		return null;
+	public void process() {
+		if (!cmd.isEmpty()) {
+			output.add(Message.COMMAND_NOT_FOUND.with_parameter(cmd));
+		}
 	}
 }

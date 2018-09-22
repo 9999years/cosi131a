@@ -26,7 +26,7 @@ import java.io.PrintStream;
  *
  * try: new OutputStreamFilter(System.out)
  */
-public class OutputStreamFilter extends SequentialFilter {
+public class OutputStreamFilter extends GoodSequentialFilter {
 	private final PrintStream outputStream;
 
 	OutputStreamFilter(OutputStream outputStream) {

@@ -18,26 +18,27 @@
 
 package cs131.pa1.filter.sequential;
 
-import java.util.LinkedList;
+import cs131.pa1.filter.Message;
+
+import java.util.List;
 
 /**
- * a filter with no input or output
- *
- * isDone will always return true
+ * a Filter which requires input. A SequentialInputFilter subclass
+ * <i>MUST</i> call its super(name) method or empty-input-detection will
+ * not work properly
  */
-public class EmptyFilter extends GoodSequentialFilter {
-	public EmptyFilter() {
-		input = new LinkedList<>();
-		// output field is initialized automatically when needed
+public abstract class SequentialInputFilter extends GoodSequentialFilter {
+	protected String name = "invalid command";
+
+	public SequentialInputFilter(String name) {
+		this.name = name;
 	}
 
 	@Override
 	public void process() {
-		// do nothing!
-	}
-
-	@Override
-	protected String processLine(String line) {
-		return null;
+		if (input.isEmpty()) {
+			output.add(Message.REQUIRES_INPUT.with_parameter(name));
+		}
+		super.process();
 	}
 }

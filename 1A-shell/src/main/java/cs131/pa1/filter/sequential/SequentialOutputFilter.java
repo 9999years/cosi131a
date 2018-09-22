@@ -19,10 +19,10 @@
 package cs131.pa1.filter.sequential;
 
 /**
- * A SequentialFilter that doesn't read input; throws an error if the
+ * A GoodSequentialFilter that doesn't read input; throws an error if the
  * input queue is non-empty. only a starting operation
  */
-public abstract class SequentialOutputFilter extends SequentialFilter {
+public abstract class SequentialOutputFilter extends GoodSequentialFilter {
 	@Override
 	abstract public void process();
 

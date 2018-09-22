@@ -20,9 +20,23 @@ package cs131.pa1.command.cs131.pa1.command.stateful;
 
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
+import java.util.List;
+
 public class PwdFilter extends SequentialOutputFilter {
+	/**
+	 * error-checking value; do we do anything for this command? necessary
+	 * because argument-validation and program execution are divorced
+	 */
+	private boolean ok;
+
+	public PwdFilter(String name, List<String> args) {
+		ok = ensureNoArgs(name, args);
+	}
+
 	@Override
 	public void process() {
-		output.add(System.getProperty("user.dir"));
+		if (ok) {
+			output.add(System.getProperty("user.dir"));
+		}
 	}
 }

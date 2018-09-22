@@ -16,11 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command;
+package cs131.pa1.command.input;
 
-import cs131.pa1.filter.sequential.SequentialFilter;
+import cs131.pa1.filter.sequential.SequentialInputFilter;
 
-public class WcFilter extends SequentialFilter {
+import java.util.List;
+
+public class GrepFilter extends SequentialInputFilter {
+	public GrepFilter(String name, List<String> args) {
+		super(name);
+	}
+
 	@Override
 	protected String processLine(String line) {
 		return null;

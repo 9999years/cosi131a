@@ -19,9 +19,13 @@
 package cs131.pa1.command;
 
 import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
+import cs131.pa1.command.cs131.pa1.command.stateful.CdFilter;
 import cs131.pa1.command.cs131.pa1.command.stateful.LsFilter;
 import cs131.pa1.command.cs131.pa1.command.stateful.PwdFilter;
 import cs131.pa1.command.cs131.pa1.command.stateful.RedirectFilter;
+import cs131.pa1.command.input.GrepFilter;
+import cs131.pa1.command.input.UniqFilter;
+import cs131.pa1.command.input.WcFilter;
 import cs131.pa1.filter.sequential.SequentialFilter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,10 +44,13 @@ public class Commands {
 	 */
 	private static final Map<String, Class<? extends SequentialFilter>> commands = Map.of(
 			"cat",   CatFilter.class,
+			"cd",    CdFilter.class,
 			"grep",  GrepFilter.class,
+			"exit",  ExitFilter.class,
 			"ls",    LsFilter.class,
 			"pwd",   PwdFilter.class,
 			">",     RedirectFilter.class,
+			"uniq",  UniqFilter.class,
 			"wc",    WcFilter.class
 	);
 
@@ -54,7 +61,7 @@ public class Commands {
 	 * @param command
 	 */
 	public static Class<? extends SequentialFilter> classForName(String command) {
-		return commands.get(command);
+		return commands.getOrDefault(command, CommandNotFoundFilter.class);
 	}
 
 	/**
@@ -68,8 +75,8 @@ public class Commands {
 	public static SequentialFilter forName(String command, List<String> args) {
 		try {
 			return classForName(command)
-					.getConstructor(List.class)
-					.newInstance(args);
+					.getConstructor(String.class, List.class)
+					.newInstance(command, args);
 		} catch (InstantiationException
 				| IllegalAccessException
 				| InvocationTargetException

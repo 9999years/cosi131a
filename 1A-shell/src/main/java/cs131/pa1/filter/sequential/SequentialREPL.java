@@ -19,11 +19,24 @@
 package cs131.pa1.filter.sequential;
 
 import cs131.pa1.ShellState;
+import cs131.pa1.filter.Message;
+
+import java.util.Scanner;
 
 public class SequentialREPL {
 	public static ShellState state = new ShellState();
 
 	public static void main(String[] args) {
-
+		System.out.println(Message.WELCOME.toString());
+		var in = new Scanner(System.in);
+		while (true) {
+			System.out.print(Message.NEWCOMMAND.toString());
+			var line = "exit";
+			if (in.hasNextLine()) {
+				line = in.nextLine();
+			}
+			SequentialCommandBuilder.createFiltersFromCommand(line)
+					.printOutput().process();
+		}
 	}
 }
