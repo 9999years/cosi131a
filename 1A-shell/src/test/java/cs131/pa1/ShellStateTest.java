@@ -16,13 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command;
+package cs131.pa1;
 
-import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import org.junit.Test;
 
-public class Pwd extends SequentialOutputFilter {
-	@Override
-	public void process() {
-		output.add(System.getProperty("user.dir"));
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static org.junit.Assert.*;
+
+public class ShellStateTest {
+	public static Path abs(String name) {
+		return Paths.get(name).toAbsolutePath();
+	}
+
+	@Test
+	public void simple() {
+		var cwd = new ShellState();
+		cwd.replaceWorkingDirectory("/tmp/whatever");
+		assertEquals(abs("/tmp/whatever"), cwd.getWorkingDirectory());
+		cwd.setWorkingDirectory("..");
+		assertEquals(abs("/tmp"), cwd.getWorkingDirectory());
+		cwd.replaceWorkingDirectory("xyz/abc");
+		assertEquals(abs("xyz/abc"), cwd.getWorkingDirectory());
 	}
 }

@@ -22,15 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * a filter which performs no filtering and simply passes all its input to
- * its output; useful for testing. a terminal operation!
+ * a filter which collects its input into an internal list;
+ * useful for testing. a terminal operation!
  */
 public class CollectionFilter extends SequentialFilter {
 	private List<String> acc = new ArrayList<>();
-
-	@Override
-	public void process() {
-	}
 
 	@Override
 	protected String processLine(String line) {

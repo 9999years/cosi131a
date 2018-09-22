@@ -18,7 +18,7 @@
 
 package cs131.pa1.test.command;
 
-import cs131.pa1.command.Cat;
+import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
 import static cs131.pa1.test.command.TestCommand.testCommand;
 
 import org.junit.Test;
@@ -27,10 +27,27 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-public class CatTest {
+public class CatFilterTest {
+	@Test
+	public void regular() {
+		assertArrayEquals(
+				new String[] {"first line of a.txt"},
+				testCommand(new CatFilter(List.of("src/test/resources/a.txt"))));
+	}
 
 	@Test
-	public void process() {
-		assertArrayEquals(new String[] {}, testCommand(new Cat(List.of("a.txt"))));
+	public void multipleFiles() {
+		assertArrayEquals(
+				new String[] {"first line of a.txt"},
+				testCommand(new CatFilter(List.of(
+						"src/test/resources/a.txt",
+						"src/test/resources/b.txt"))));
+	}
+
+	@Test
+	public void nonexistentFile() {
+		assertArrayEquals(
+				new String[] {"Could not open nonexistent-file"},
+				testCommand(new CatFilter(List.of("nonexistent-file"))));
 	}
 }

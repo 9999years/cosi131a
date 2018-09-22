@@ -18,7 +18,7 @@
 
 package cs131.pa1.test.command;
 
-import cs131.pa1.command.Cat;
+import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
 import cs131.pa1.command.Commands;
 import org.junit.Test;
 
@@ -29,7 +29,7 @@ public class CommandsTest {
 	@Test
 	public void classForName() {
 		assertEquals(
-				Cat.class,
+				CatFilter.class,
 				Commands.classForName("cat"));
 	}
 

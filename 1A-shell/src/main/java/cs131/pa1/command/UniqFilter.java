@@ -18,11 +18,11 @@
 
 package cs131.pa1.command;
 
-import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.filter.sequential.SequentialFilter;
 
-public class Ls extends SequentialOutputFilter {
+public class UniqFilter extends SequentialFilter {
 	@Override
-	public void process() {
-
+	protected String processLine(String line) {
+		return null;
 	}
 }

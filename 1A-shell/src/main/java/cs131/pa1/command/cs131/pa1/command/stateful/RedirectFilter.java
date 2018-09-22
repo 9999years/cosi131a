@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command;
+package cs131.pa1.command.cs131.pa1.command.stateful;
 
 import cs131.pa1.filter.sequential.SequentialFilter;
 
-public class Uniq extends SequentialFilter {
+public class RedirectFilter extends SequentialFilter {
 	@Override
 	protected String processLine(String line) {
 		return null;

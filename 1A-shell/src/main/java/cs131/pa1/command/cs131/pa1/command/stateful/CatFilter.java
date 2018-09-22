@@ -16,15 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command;
+package cs131.pa1.command.cs131.pa1.command.stateful;
 
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.filter.sequential.SequentialREPL;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -32,14 +32,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public class Cat extends SequentialOutputFilter {
-	public static final String FILE_NOT_FOUND = "Could not open %s for reading";
+public class CatFilter extends SequentialOutputFilter {
+	public static final String NAME = "cat";
+	// copied straight from /bin/cat
+	public static final String FILE_NOT_FOUND = NAME + ": %s: No such file or directory";
 	private List<File> files;
 
-	public Cat(List<String> args) {
+	public CatFilter(List<String> args) {
 		files = new ArrayList<>(args.size());
 		for (String arg : args) {
-			files.add(new File(arg));
+			files.add(new File(SequentialREPL.state.absolutePath(arg).toString()));
 		}
 	}
 
@@ -76,6 +78,6 @@ public class Cat extends SequentialOutputFilter {
 
 	@Override
 	public void process() {
-		files.stream().flatMap(Cat::fileOutput).forEach(output::add);
+		files.stream().flatMap(CatFilter::fileOutput).forEach(output::add);
 	}
 }

@@ -16,26 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.filter.sequential;
+package cs131.pa1.command;
 
-import java.util.LinkedList;
+import cs131.pa1.filter.sequential.SequentialFilter;
 
-/**
- * a filter with no input or output
- *
- * isDone will always return true
- */
-public class EmptyFilter extends SequentialFilter {
-	public EmptyFilter() {
-		input = new LinkedList<>();
-		// output field is initialized automatically when needed
-	}
-
-	@Override
-	public void process() {
-		// do nothing!
-	}
-
+public class WcFilter extends SequentialFilter {
 	@Override
 	protected String processLine(String line) {
 		return null;

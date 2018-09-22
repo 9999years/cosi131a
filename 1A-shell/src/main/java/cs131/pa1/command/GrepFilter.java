@@ -20,7 +20,7 @@ package cs131.pa1.command;
 
 import cs131.pa1.filter.sequential.SequentialFilter;
 
-public class Wc extends SequentialFilter {
+public class GrepFilter extends SequentialFilter {
 	@Override
 	protected String processLine(String line) {
 		return null;

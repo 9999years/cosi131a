@@ -18,9 +18,10 @@
 
 package cs131.pa1.filter.sequential;
 
-public class SequentialREPL {
+import cs131.pa1.ShellState;
 
-	static String currentWorkingDirectory;
+public class SequentialREPL {
+	public static ShellState state = new ShellState();
 
 	public static void main(String[] args) {
 

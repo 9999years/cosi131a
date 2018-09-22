@@ -18,14 +18,15 @@
 
 package cs131.pa1.command;
 
-import cs131.pa1.filter.Filter;
+import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
+import cs131.pa1.command.cs131.pa1.command.stateful.LsFilter;
+import cs131.pa1.command.cs131.pa1.command.stateful.PwdFilter;
+import cs131.pa1.command.cs131.pa1.command.stateful.RedirectFilter;
 import cs131.pa1.filter.sequential.SequentialFilter;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * utility class for command-related functions
@@ -38,18 +39,17 @@ public class Commands {
 	 * implements their behavior
 	 */
 	private static final Map<String, Class<? extends SequentialFilter>> commands = Map.of(
-			"cat",   Cat.class,
-			"cd",    Cd.class,
-			"grep",  Grep.class,
-			"ls",    Ls.class,
-			"pwd",   Pwd.class,
-			">",     Redirect.class,
-			"wc",    Wc.class
+			"cat",   CatFilter.class,
+			"grep",  GrepFilter.class,
+			"ls",    LsFilter.class,
+			"pwd",   PwdFilter.class,
+			">",     RedirectFilter.class,
+			"wc",    WcFilter.class
 	);
 
 	/**
 	 * gets the Class instance for a given command; for "cat" this will
-	 * return Class&lt;cs131.pa1.command.Cat&gt;. Note that this method,
+	 * return Class&lt;cs131.pa1.command.cs131.pa1.command.stateful.CatFilter&gt;. Note that this method,
 	 * unlike forName, does not instantiate the class
 	 * @param command
 	 */

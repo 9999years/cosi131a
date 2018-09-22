@@ -16,13 +16,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command;
+package cs131.pa1.test.filter;
 
-import cs131.pa1.filter.sequential.SequentialFilter;
+import cs131.pa1.filter.sequential.CollectionFilter;
+import cs131.pa1.filter.sequential.EmptyFilter;
+import cs131.pa1.filter.sequential.InputStreamFilter;
+import cs131.pa1.filter.sequential.SequentialCommandBuilder;
+import cs131.pa1.filter.sequential.SequentialFilterChain;
+import org.junit.Test;
 
-public class Grep extends SequentialFilter {
-	@Override
-	protected String processLine(String line) {
-		return null;
-	}
+import java.io.Reader;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+public class SequentialCommandBuilderTest {
 }

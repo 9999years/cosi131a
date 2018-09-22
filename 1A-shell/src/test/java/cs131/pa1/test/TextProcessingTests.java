@@ -33,7 +33,7 @@ import org.junit.Test;
 
 public class TextProcessingTests {
 
-	// Tests for Cat command
+	// Tests for CatFilter command
 	@Test
 	public void testCat(){
 		testInput("cat hello-world.txt\nexit");
