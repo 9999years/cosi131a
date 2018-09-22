@@ -18,6 +18,7 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.command.Commands;
 
 import java.util.ArrayDeque;
@@ -40,18 +41,7 @@ public class SequentialCommandBuilder {
 	}
 
 	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
-		var ret = new ArrayList<SequentialFilter>();
-		// tokenize, splitting by spaces, ignoring empty tokens ("")
-		var toks = Arrays.stream(subCommand.split("\\s+"))
-				.filter(s -> s.length() > 0)
-				.collect(Collectors.toUnmodifiableList());
-		if (toks.isEmpty()) {
-			return new EmptyFilter();
-		}
-		// first token is the command
-		var cmd = toks.get(0);
-		// toks is now the arguments
-		return Commands.forName(cmd, toks.subList(1, toks.size()));
+		return Commands.forName(new Arguments(subCommand));
 	}
 
 	public static void linkFilters(List<SequentialFilter> filters) {

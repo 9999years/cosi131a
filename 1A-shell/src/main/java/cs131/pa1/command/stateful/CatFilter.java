@@ -16,8 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.cs131.pa1.command.stateful;
+package cs131.pa1.command.stateful;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
@@ -34,10 +35,10 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class CatFilter extends SequentialOutputFilter {
-	public static final String NAME = "cat";
 	private List<File> files;
 
-	public CatFilter(String name, List<String> args) {
+	public CatFilter(Arguments args) {
+		super(args);
 		files = new ArrayList<>(args.size());
 		for (String arg : args) {
 			files.add(new File(SequentialREPL.state.absolutePath(arg).toString()));
@@ -70,13 +71,13 @@ public class CatFilter extends SequentialOutputFilter {
 	 * @param file
 	 * @return
 	 */
-	private static Stream<String> fileOutput(File file) {
+	private Stream<String> fileOutput(File file) {
 		return lines(file).orElseGet(
-				() -> Stream.of(Message.FILE_NOT_FOUND.with_parameter(NAME)));
+				() -> Stream.of(errorString(Message.FILE_NOT_FOUND)));
 	}
 
 	@Override
 	public void process() {
-		files.stream().flatMap(CatFilter::fileOutput).forEach(output::add);
+		files.stream().flatMap(this::fileOutput).forEach(output::add);
 	}
 }

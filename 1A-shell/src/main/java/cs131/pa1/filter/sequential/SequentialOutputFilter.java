@@ -18,11 +18,17 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
+
 /**
  * A GoodSequentialFilter that doesn't read input; throws an error if the
  * input queue is non-empty. only a starting operation
  */
 public abstract class SequentialOutputFilter extends GoodSequentialFilter {
+	public SequentialOutputFilter(Arguments args) {
+		super(args);
+	}
+
 	@Override
 	abstract public void process();
 

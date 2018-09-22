@@ -18,6 +18,8 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,6 +34,7 @@ public class InputStreamFilter extends SequentialOutputFilter {
 	private final BufferedReader bufferedReader;
 
 	InputStreamFilter(InputStream inputStream) {
+		super(Arguments.empty());
 		this.bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 	}
 

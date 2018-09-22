@@ -18,6 +18,9 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
+
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 
 /**
@@ -27,8 +30,17 @@ import java.util.LinkedList;
  */
 public class EmptyFilter extends GoodSequentialFilter {
 	public EmptyFilter() {
-		input = new LinkedList<>();
+		super(Arguments.empty());
+		// input = new ArrayDeque<>();
 		// output field is initialized automatically when needed
+	}
+
+	/**
+	 * only provided for interface-compatibility with cs131.pa1.command.stateful
+	 * @param args
+	 */
+	public EmptyFilter(Arguments args) {
+		this();
 	}
 
 	@Override

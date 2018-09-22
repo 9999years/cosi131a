@@ -18,13 +18,14 @@
 
 package cs131.pa1.command.input;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialInputFilter;
 
 import java.util.List;
 
 public class GrepFilter extends SequentialInputFilter {
-	public GrepFilter(String name, List<String> args) {
-		super(name);
+	public GrepFilter(Arguments args) {
+		super(args);
 	}
 
 	@Override

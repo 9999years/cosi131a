@@ -18,26 +18,23 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
 
 import java.util.List;
 
 /**
- * a Filter which requires input. A SequentialInputFilter subclass
- * <i>MUST</i> call its super(name) method or empty-input-detection will
- * not work properly
+ * a Filter which requires input
  */
 public abstract class SequentialInputFilter extends GoodSequentialFilter {
-	protected String name = "invalid command";
-
-	public SequentialInputFilter(String name) {
-		this.name = name;
+	public SequentialInputFilter(Arguments args) {
+		super(args);
 	}
 
 	@Override
 	public void process() {
 		if (input.isEmpty()) {
-			output.add(Message.REQUIRES_INPUT.with_parameter(name));
+			error(Message.REQUIRES_INPUT);
 		}
 		super.process();
 	}

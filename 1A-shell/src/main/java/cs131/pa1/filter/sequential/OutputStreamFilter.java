@@ -18,6 +18,8 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
 
@@ -30,6 +32,7 @@ public class OutputStreamFilter extends GoodSequentialFilter {
 	private final PrintStream outputStream;
 
 	OutputStreamFilter(OutputStream outputStream) {
+		super(Arguments.empty());
 		this.outputStream = new PrintStream(outputStream);
 	}
 

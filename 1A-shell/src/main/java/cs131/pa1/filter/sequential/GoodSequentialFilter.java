@@ -18,6 +18,7 @@
 
 package cs131.pa1.filter.sequential;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
 
@@ -29,8 +30,23 @@ import java.util.List;
  * have an input
  */
 public abstract class GoodSequentialFilter extends SequentialFilter {
+	protected Arguments args;
+
 	public GoodSequentialFilter() {
 		output = new ArrayDeque<>();
+	}
+
+	public GoodSequentialFilter(Arguments args) {
+		this();
+		this.args = args;
+	}
+
+	protected void error(Message message) {
+		output.add(errorString(message));
+	}
+
+	protected String errorString(Message message) {
+		return message.with_parameter(this.args.getCommandLine());
 	}
 
 	/**
@@ -39,22 +55,22 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 	 * @param args
 	 * @return true if args are OK (no args present) false otherwise
 	 */
-	protected boolean ensureNoArgs(String name, List<String> args) {
+	protected boolean ensureNoArgs(Arguments args) {
 		if (args.isEmpty()) {
 			return true;
 		} else {
-			output.add(Message.REQUIRES_PARAMETER.with_parameter(name));
+			error(Message.REQUIRES_PARAMETER);
 			return false;
 		}
 	}
 
-	protected boolean ensureOneArg(String name, List<String> args) {
+	protected boolean ensureOneArg(Arguments args) {
 		if (args.size() == 1) {
 			return true;
 		} else if (args.isEmpty()) {
-			output.add(Message.REQUIRES_PARAMETER.with_parameter(name));
+			error(Message.REQUIRES_PARAMETER);
 		} else {
-			output.add(Message.INVALID_PARAMETER.with_parameter(name));
+			error(Message.INVALID_PARAMETER);
 		}
 		return false;
 	}

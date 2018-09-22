@@ -18,9 +18,11 @@
 
 package cs131.pa1.test.command;
 
-import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
+import cs131.pa1.Arguments;
+import cs131.pa1.command.stateful.CatFilter;
 import static cs131.pa1.test.command.TestCommand.testCommand;
 
+import cs131.pa1.filter.Message;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -28,26 +30,31 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 public class CatFilterTest {
+	static CatFilter cat(String args) {
+		return new CatFilter(new Arguments("cat " + args));
+	}
+
 	@Test
 	public void regular() {
 		assertArrayEquals(
 				new String[] {"first line of a.txt"},
-				testCommand(new CatFilter(List.of("src/test/resources/a.txt"))));
+				testCommand(cat("src/test/resources/a.txt")));
 	}
 
 	@Test
 	public void multipleFiles() {
 		assertArrayEquals(
-				new String[] {"first line of a.txt"},
-				testCommand(new CatFilter(List.of(
-						"src/test/resources/a.txt",
-						"src/test/resources/b.txt"))));
+				new String[] {"first line of a.txt", "first line of b.txt"},
+				testCommand(cat(
+						"src/test/resources/a.txt"
+						+ " src/test/resources/b.txt")));
 	}
 
 	@Test
 	public void nonexistentFile() {
+		var args = "nonexistent-file";
 		assertArrayEquals(
-				new String[] {"Could not open nonexistent-file"},
-				testCommand(new CatFilter(List.of("nonexistent-file"))));
+				new String[] {Message.FILE_NOT_FOUND.with_parameter("cat " + args)},
+				testCommand(cat(args)));
 	}
 }

@@ -18,18 +18,20 @@
 
 package cs131.pa1.command;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
 import java.util.List;
 
 public class ExitFilter extends SequentialOutputFilter {
-	public ExitFilter(String name, List<String> args) {
+	public ExitFilter(Arguments args) {
+		super(args);
 	}
 
 	@Override
 	public void process() {
-		output.add(Message.GOODBYE.toString());
+		error(Message.GOODBYE);
 		System.exit(0);
 	}
 }

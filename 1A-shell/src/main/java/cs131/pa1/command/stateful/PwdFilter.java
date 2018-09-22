@@ -16,37 +16,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.cs131.pa1.command.stateful;
+package cs131.pa1.command.stateful;
 
-import cs131.pa1.filter.Message;
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
-import cs131.pa1.filter.sequential.SequentialREPL;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.List;
-
-public class CdFilter extends SequentialOutputFilter {
-	public static String NAME = "cd";
-	private Path newPath;
-
-	public CdFilter(String name, List<String> args) {
-		if (args.isEmpty()) {
-			newPath = SequentialREPL.state.absolutePath("");
-		} else if (ensureOneArg(name, args)) {
-			newPath = SequentialREPL.state.absolutePath(args.get(0));
-		}
+public class PwdFilter extends SequentialOutputFilter {
+	public PwdFilter(Arguments args) {
+		super(args);
+		ensureNoArgs(args);
 	}
 
 	@Override
 	public void process() {
-		if (newPath != null) {
-			try {
-				// note that .toRealPath resolves symlinks
-				SequentialREPL.state.setWorkingDirectory(newPath.toRealPath().toString());
-			} catch (IOException e) {
-				output.add(String.format(Message.DIRECTORY_NOT_FOUND.toString(), NAME));
-			}
+		if (args.isEmpty()) {
+			output.add(System.getProperty("user.dir"));
 		}
 	}
 }

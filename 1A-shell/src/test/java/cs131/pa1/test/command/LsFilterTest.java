@@ -18,10 +18,10 @@
 
 package cs131.pa1.test.command;
 
-import cs131.pa1.command.cs131.pa1.command.stateful.LsFilter;
+import cs131.pa1.Arguments;
+import cs131.pa1.command.stateful.LsFilter;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,10 +29,13 @@ import static cs131.pa1.test.command.TestCommand.testCommand;
 import static org.junit.Assert.*;
 
 public class LsFilterTest {
+	static LsFilter ls(String args) {
+		return new LsFilter(new Arguments("ls " + args));
+	}
+
 	@Test
 	public void simple() {
-		var listed = Set.of(testCommand(new LsFilter(List.of(
-				"src/test/resources/ls"))));
+		var listed = Set.of(testCommand(ls("src/test/resources/ls")));
 		var expected = new String[] {
 				"whatever", "abc", "x", "y.txt", "README.txt"};
 

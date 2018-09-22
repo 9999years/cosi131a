@@ -16,44 +16,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.cs131.pa1.command.stateful;
+package cs131.pa1.command.stateful;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
-import cs131.pa1.filter.sequential.SequentialInputFilter;
+import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.filter.sequential.SequentialREPL;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-public class RedirectFilter extends SequentialInputFilter {
-	public static final String NAME = ">";
-	private PrintStream outFile;
+public class LsFilter extends SequentialOutputFilter {
+	private List<File> dirs;
 
-	public RedirectFilter(String name, List<String> args) {
-		super(name);
-		if (ensureOneArg(name, args)) {
-			try {
-				outFile = new PrintStream(new File(args.get(0)));
-			} catch (FileNotFoundException e) {
-				output.add(Message.FILE_NOT_FOUND.with_parameter(NAME));
-			}
+	public LsFilter(Arguments args) {
+		super(args);
+		if (args.isEmpty()) {
+			args = new Arguments(args.getCommand(), List.of(""));
 		}
+		dirs = new ArrayList<>(args.size());
+		args.stream()
+				.map(SequentialREPL.state::absolutePath)
+				.map(Path::toString)
+				.map(File::new)
+				.forEach(dirs::add);
 	}
 
 	@Override
 	public void process() {
-		if (outFile != null) {
-			super.process();
-		} else {
-			// drain input
-			input.clear();
-		}
-	}
-
-	@Override
-	protected String processLine(String line) {
-		outFile.println(line);
-		return null;
+		dirs.stream()
+				.map(File::list)
+				.map(Optional::ofNullable)
+				.map(fs -> fs.orElseGet(() -> new String[] {
+						errorString(Message.DIRECTORY_NOT_FOUND)}))
+				.flatMap(Arrays::stream)
+				.forEach(output::add);
 	}
 }

@@ -18,18 +18,19 @@
 
 package cs131.pa1.command;
 
-import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
-import cs131.pa1.command.cs131.pa1.command.stateful.CdFilter;
-import cs131.pa1.command.cs131.pa1.command.stateful.LsFilter;
-import cs131.pa1.command.cs131.pa1.command.stateful.PwdFilter;
-import cs131.pa1.command.cs131.pa1.command.stateful.RedirectFilter;
+import cs131.pa1.Arguments;
+import cs131.pa1.command.stateful.CatFilter;
+import cs131.pa1.command.stateful.CdFilter;
+import cs131.pa1.command.stateful.LsFilter;
+import cs131.pa1.command.stateful.PwdFilter;
+import cs131.pa1.command.stateful.RedirectFilter;
 import cs131.pa1.command.input.GrepFilter;
 import cs131.pa1.command.input.UniqFilter;
 import cs131.pa1.command.input.WcFilter;
+import cs131.pa1.filter.sequential.EmptyFilter;
 import cs131.pa1.filter.sequential.SequentialFilter;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,13 +52,14 @@ public class Commands {
 			"pwd",   PwdFilter.class,
 			">",     RedirectFilter.class,
 			"uniq",  UniqFilter.class,
-			"wc",    WcFilter.class
+			"wc",    WcFilter.class,
+			"",     EmptyFilter.class
 	);
 
 	/**
 	 * gets the Class instance for a given command; for "cat" this will
-	 * return Class&lt;cs131.pa1.command.cs131.pa1.command.stateful.CatFilter&gt;. Note that this method,
-	 * unlike forName, does not instantiate the class
+	 * return Class&lt;cs131.pa1.command.stateful.CatFilter&gt;. Note that
+	 * this method, unlike forName, does not instantiate the class
 	 * @param command
 	 */
 	public static Class<? extends SequentialFilter> classForName(String command) {
@@ -67,16 +69,13 @@ public class Commands {
 	/**
 	 * Creates a new SequentialFilter for the specified command name with
 	 * the specified arguments; instantiates the command too
-	 *
-	 * @param command The command to create
-	 * @param args    The arguments to pass in
 	 * @return
 	 */
-	public static SequentialFilter forName(String command, List<String> args) {
+	public static SequentialFilter forName(Arguments args) {
 		try {
-			return classForName(command)
-					.getConstructor(String.class, List.class)
-					.newInstance(command, args);
+			return classForName(args.getCommand())
+					.getConstructor(Arguments.class)
+					.newInstance(args);
 		} catch (InstantiationException
 				| IllegalAccessException
 				| InvocationTargetException

@@ -18,7 +18,7 @@
 
 package cs131.pa1.test.command;
 
-import cs131.pa1.command.cs131.pa1.command.stateful.CatFilter;
+import cs131.pa1.command.stateful.CatFilter;
 import cs131.pa1.command.Commands;
 import org.junit.Test;
 

@@ -16,27 +16,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1.command.cs131.pa1.command.stateful;
+package cs131.pa1.command.stateful;
 
-import cs131.pa1.filter.sequential.SequentialOutputFilter;
+import cs131.pa1.Arguments;
+import cs131.pa1.filter.Message;
+import cs131.pa1.filter.sequential.SequentialInputFilter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.List;
 
-public class PwdFilter extends SequentialOutputFilter {
-	/**
-	 * error-checking value; do we do anything for this command? necessary
-	 * because argument-validation and program execution are divorced
-	 */
-	private boolean ok;
+public class RedirectFilter extends SequentialInputFilter {
+	private PrintStream outFile;
 
-	public PwdFilter(String name, List<String> args) {
-		ok = ensureNoArgs(name, args);
+	public RedirectFilter(Arguments args) {
+		super(args);
+		if (ensureOneArg(args)) {
+			try {
+				outFile = new PrintStream(new File(args.get(0)));
+			} catch (FileNotFoundException e) {
+				error(Message.FILE_NOT_FOUND);
+			}
+		}
 	}
 
 	@Override
 	public void process() {
-		if (ok) {
-			output.add(System.getProperty("user.dir"));
+		if (outFile != null) {
+			super.process();
+		} else {
+			// drain input
+			input.clear();
 		}
+	}
+
+	@Override
+	protected String processLine(String line) {
+		outFile.println(line);
+		return null;
 	}
 }

@@ -18,23 +18,19 @@
 
 package cs131.pa1.command;
 
+import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
 import java.util.List;
 
 public class CommandNotFoundFilter extends SequentialOutputFilter {
-	public static final String NAME = "<invalid command>";
-	private String cmd = "";
-
-	public CommandNotFoundFilter(String name, List<String> args) {
-		cmd = name;
+	public CommandNotFoundFilter(Arguments args) {
+		super(args);
 	}
 
 	@Override
 	public void process() {
-		if (!cmd.isEmpty()) {
-			output.add(Message.COMMAND_NOT_FOUND.with_parameter(cmd));
-		}
+		error(Message.COMMAND_NOT_FOUND);
 	}
 }
