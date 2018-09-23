@@ -34,12 +34,16 @@ import java.util.Optional;
 public class LsFilter extends SequentialOutputFilter {
 	public LsFilter(Arguments args) {
 		super(args);
-		ensureNoArgs();
+	}
+
+	@Override
+	protected boolean preprocess() {
+		return ensureNoArgs() && ensureNoInput();
 	}
 
 	@Override
 	public void process() {
-		if (!ensureNoInput()) {
+		if (!preprocess()) {
 			return;
 		}
 		var entries = new File(SequentialREPL.state.getWorkingDirectory().toString()).list();

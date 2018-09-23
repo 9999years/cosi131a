@@ -31,17 +31,24 @@ public class CdFilter extends SequentialOutputFilter {
 
 	public CdFilter(Arguments args) {
 		super(args);
+	}
+
+	/**
+	 * i dont like this logic one bit
+	 */
+	@Override
+	protected boolean preprocess() {
 		if (ensureOneArg()) {
 			newPath = SequentialREPL.state.absolutePath(args.get(0));
+			return ensureNoInput();
+		} else {
+			return false;
 		}
 	}
 
 	@Override
 	public void process() {
-		if (!ensureNoInput()) {
-			return;
-		}
-		if (newPath != null) {
+		if (preprocess()) {
 			try {
 				// note that .toRealPath resolves symlinks
 				SequentialREPL.state.setWorkingDirectory(newPath.toRealPath().toString());

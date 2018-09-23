@@ -34,6 +34,11 @@ public class WcFilter extends SequentialInputFilter {
 	}
 
 	@Override
+	protected boolean preprocess() {
+		return ensureNoArgs();
+	}
+
+	@Override
 	public void process() {
 		super.process();
 		if (isOk()) {
@@ -45,7 +50,7 @@ public class WcFilter extends SequentialInputFilter {
 	protected String processLine(String line) {
 		lines++;
 		words += line.split("\\s+").length;
-		chars += line.trim().length();
+		chars += line.replace("\n", "").length();
 		return null;
 	}
 }

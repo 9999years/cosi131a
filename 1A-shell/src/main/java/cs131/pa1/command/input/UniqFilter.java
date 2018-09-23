@@ -31,13 +31,12 @@ public class UniqFilter extends SequentialInputFilter {
 
 	public UniqFilter(Arguments args) {
 		super(args);
-		ensureNoArgs();
 	}
 
 	@Override
-	public void process() {
+	protected boolean preprocess() {
 		lines = new HashSet<>(input.size());
-		super.process();
+		return ensureNoArgs();
 	}
 
 	@Override

@@ -28,8 +28,12 @@ public class GrepFilter extends SequentialInputFilter {
 
 	public GrepFilter(Arguments args) {
 		super(args);
-        ensureSomeArgs();
 		substr = String.join(" ", args);
+	}
+
+	@Override
+	protected boolean preprocess() {
+		return ensureSomeArgs() && ensureNotFirst();
 	}
 
 	@Override

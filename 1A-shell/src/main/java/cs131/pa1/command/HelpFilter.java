@@ -27,7 +27,15 @@ public class HelpFilter extends SequentialOutputFilter {
 	}
 
 	@Override
+	protected boolean preprocess() {
+		return ensureNoInput();
+	}
+
+	@Override
 	public void process() {
+		if (!preprocess()) {
+			return;
+		}
 		outputln("A simple shell. Available commands:");
 		outputln("    cat        Print file(s) to the terminal");
 		outputln("    exit       Exits the shell");

@@ -32,27 +32,30 @@ public class RedirectFilter extends SequentialInputFilter {
 
 	public RedirectFilter(Arguments args) {
 		super(args);
-		if (ensureOneArg()) {
-			try {
-				outFile = new PrintStream(
+	}
+
+	@Override
+	protected boolean preprocess() {
+		if (!ensureOneArg()) {
+			return false;
+		}
+		try {
+			outFile = new PrintStream(
 					new File(SequentialREPL
 							.state
 							.absolutePath(args.get(0))
 							.toString()));
-			} catch (FileNotFoundException e) {
-				error(Message.FILE_NOT_FOUND);
-			}
+		} catch (FileNotFoundException e) {
+			error(Message.FILE_NOT_FOUND);
 		}
+		return outFile != null && ensureLast();
 	}
 
 	@Override
 	public void process() {
-		if (outFile != null) {
-			super.process();
-		} else {
-			// drain input
-			input.clear();
-		}
+		super.process();
+		// drain input in case output failed
+		input.clear();
 	}
 
 	@Override

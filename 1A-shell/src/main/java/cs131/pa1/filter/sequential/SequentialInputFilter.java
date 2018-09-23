@@ -33,9 +33,7 @@ public abstract class SequentialInputFilter extends GoodSequentialFilter {
 
 	@Override
 	public void process() {
-		if (input.isEmpty()) {
-			error(Message.REQUIRES_INPUT);
-		}
+		ensureNotFirst();
 		super.process();
 	}
 }
