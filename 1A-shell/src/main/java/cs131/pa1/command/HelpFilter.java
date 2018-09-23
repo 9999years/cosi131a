@@ -28,15 +28,15 @@ public class HelpFilter extends SequentialOutputFilter {
 
 	@Override
 	public void process() {
-		outputln("A simple shell. Available commands include:");
-		outputln("+cat        Print file(s) to the terminal");
-		outputln("+exit       Exits the shell");
-		outputln("grep       Search lines of input for a substring");
-		outputln("+help       Prints this help");
-		outputln("+ls         List files and directories in current directory");
-		outputln("+pwd        Prints working directory");
-		outputln("uniq       Unique lines of input");
-		outputln("wc         Counts words, lines, and characters of input");
-		outputln("+>          Redirect input to a file");
+		outputln("A simple shell. Available commands:");
+		outputln("    cat        Print file(s) to the terminal");
+		outputln("    exit       Exits the shell");
+		outputln("    grep       Search lines of input for a substring");
+		outputln("    help       Prints this help");
+		outputln("    ls         List files and directories in current directory");
+		outputln("    pwd        Prints working directory");
+		outputln("    uniq       Unique lines of input");
+		outputln("    wc         Counts words, lines, and characters of input");
+		outputln("    >          Redirect input to a file");
 	}
 }

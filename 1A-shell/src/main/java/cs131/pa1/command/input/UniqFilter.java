@@ -21,32 +21,27 @@ package cs131.pa1.command.input;
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialInputFilter;
 
-import java.util.List;
+import java.util.HashSet;
 
+/**
+ * not how unix uniq works!!!!!!!!!!!!!!!
+ */
 public class UniqFilter extends SequentialInputFilter {
+	private HashSet<String> lines;
+
 	public UniqFilter(Arguments args) {
 		super(args);
+		ensureNoArgs();
 	}
 
 	@Override
 	public void process() {
-		if (input.isEmpty()) {
-			return;
-		}
-		// at least one element
-		var lastLine = input.poll();
-		output(lastLine);
-		while (!input.isEmpty()) {
-			var line = input.poll();
-			if (!line.equals(lastLine)) {
-				lastLine = line;
-				output(line);
-			}
-		}
+		lines = new HashSet<>(input.size());
+		super.process();
 	}
 
 	@Override
 	protected String processLine(String line) {
-		return null;
+		return lines.add(line) ? line : null;
 	}
 }

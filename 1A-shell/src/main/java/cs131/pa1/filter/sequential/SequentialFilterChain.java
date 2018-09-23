@@ -20,15 +20,14 @@ package cs131.pa1.filter.sequential;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.*;
 
 /**
  * A pipeline
  */
-public class SequentialFilterChain extends ArrayList<SequentialFilter> {
-	public static final int DEFAULT_CHAIN_SIZE = 4;
+public class SequentialFilterChain extends ArrayList<GoodSequentialFilter> {
+	public static final int DEFAULT_SIZE = 4;
 
-	public SequentialFilterChain(Collection<? extends SequentialFilter> filters) {
+	public SequentialFilterChain(Collection<? extends GoodSequentialFilter> filters) {
 		super(filters);
 	}
 
@@ -37,13 +36,23 @@ public class SequentialFilterChain extends ArrayList<SequentialFilter> {
 	}
 
 	SequentialFilterChain() {
-		super(DEFAULT_CHAIN_SIZE);
+		super(DEFAULT_SIZE);
+	}
+
+	private void finish(GoodSequentialFilter filter) {
+		filter.output.forEach(System.out::print);
 	}
 
 	public void process() {
-		SequentialCommandBuilder.linkFilters(this);
-		for (SequentialFilter filter : this) {
-			filter.process();
+		linkFilters();
+		for (var filter : this) {
+			if (filter.isOk()) {
+				filter.process();
+			}
+			if (!filter.isOk()) {
+				finish(filter);
+				return;
+			}
 		}
 	}
 
@@ -55,5 +64,12 @@ public class SequentialFilterChain extends ArrayList<SequentialFilter> {
 	public SequentialFilterChain printOutput() {
 		add(new OutputStreamFilter(System.out));
 		return this;
+	}
+
+	protected void linkFilters() {
+		stream().reduce(new EmptyFilter(), (p, n) -> {
+			p.setNextFilter(n);
+			return n;
+		});
 	}
 }

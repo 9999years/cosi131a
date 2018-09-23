@@ -21,8 +21,6 @@ package cs131.pa1.command.input;
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialInputFilter;
 
-import java.util.List;
-
 public class WcFilter extends SequentialInputFilter {
 	int lines;
 	int words;
@@ -32,13 +30,15 @@ public class WcFilter extends SequentialInputFilter {
 
 	public WcFilter(Arguments args) {
 		super(args);
-		ensureNoArgs(args);
+		ensureNoArgs();
 	}
 
 	@Override
 	public void process() {
 		super.process();
-		outputln(lines + " " + words + " " + chars);
+		if (isOk()) {
+			outputln(lines + " " + words + " " + chars);
+		}
 	}
 
 	@Override

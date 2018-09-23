@@ -23,7 +23,6 @@ import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
 
 import java.util.ArrayDeque;
-import java.util.List;
 
 /**
  * a GoodSequentialFilter always has an output Queue but doesn't always
@@ -31,6 +30,10 @@ import java.util.List;
  */
 public abstract class GoodSequentialFilter extends SequentialFilter {
 	protected Arguments args;
+	/**
+	 * has this command failed?
+	 */
+	protected boolean ok = true;
 
 	public GoodSequentialFilter() {
 		output = new ArrayDeque<>();
@@ -43,6 +46,18 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 
 	protected void error(Message message) {
 		output.add(errorString(message));
+		notOk();
+	}
+
+	public boolean isOk() {
+		return ok;
+	}
+
+	protected void notOk() {
+		ok = false;
+		if (input != null) {
+			input.clear();
+		}
 	}
 
 	protected void outputln(String line) {
@@ -58,20 +73,27 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 	}
 
 	/**
-	 *
-	 * @param args
 	 * @return true if args are OK (no args present) false otherwise
 	 */
-	protected boolean ensureNoArgs(Arguments args) {
+	protected boolean ensureNoArgs() {
 		if (args.isEmpty()) {
 			return true;
 		} else {
-			error(Message.REQUIRES_PARAMETER);
+			error(Message.INVALID_PARAMETER);
 			return false;
 		}
 	}
 
-	protected boolean ensureOneArg(Arguments args) {
+	protected boolean ensureSomeArgs() {
+		if (args.isEmpty()) {
+			error(Message.REQUIRES_PARAMETER);
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	protected boolean ensureOneArg() {
 		if (args.size() == 1) {
 			return true;
 		} else if (args.isEmpty()) {
@@ -80,6 +102,15 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 			error(Message.INVALID_PARAMETER);
 		}
 		return false;
+	}
+
+	protected boolean ensureNoInput() {
+		if (!input.isEmpty()) {
+			error(Message.CANNOT_HAVE_INPUT);
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override

@@ -31,15 +31,16 @@ public class CdFilter extends SequentialOutputFilter {
 
 	public CdFilter(Arguments args) {
 		super(args);
-		if (args.isEmpty()) {
-			newPath = SequentialREPL.state.absolutePath("");
-		} else if (ensureOneArg(args)) {
+		if (ensureOneArg()) {
 			newPath = SequentialREPL.state.absolutePath(args.get(0));
 		}
 	}
 
 	@Override
 	public void process() {
+		if (!ensureNoInput()) {
+			return;
+		}
 		if (newPath != null) {
 			try {
 				// note that .toRealPath resolves symlinks

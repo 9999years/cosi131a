@@ -28,58 +28,45 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CatFilter extends SequentialOutputFilter {
-	private List<File> files;
+	private Stream<File> files;
 
 	public CatFilter(Arguments args) {
 		super(args);
-		files = new ArrayList<>(args.size());
-		for (String arg : args) {
-			files.add(new File(SequentialREPL.state.absolutePath(arg).toString()));
-		}
-	}
-
-	/**
-	 * Attempt to open a buffered reader
-	 * @param file the file to open
-	 * @return Optional.of the reader if opening was successful,
-	 * Optional.empty otherwise
-	 */
-	private static Optional<BufferedReader> open(File file) {
-		try {
-			var is = new FileInputStream(file);
-			var br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-			return Optional.of(br);
-		} catch (FileNotFoundException e) {
-			return Optional.empty();
-		}
-	}
-
-	private static Optional<Stream<String>> lines(File file) {
-		return open(file)
-				.map(BufferedReader::lines)
-				.map(stream -> stream.map(s -> s + "\n"));
-	}
-
-	/**
-	 * Gets a stream of the files lines OR a stream describing the error
-	 * if the file could not be opened
-	 * @param file
-	 * @return
-	 */
-	private Stream<String> fileOutput(File file) {
-		return lines(file).orElseGet(
-				() -> Stream.of(errorString(Message.FILE_NOT_FOUND)));
+		ensureSomeArgs();
+		files = args.stream()
+				.map(SequentialREPL.state::absolutePath)
+				.map(Path::toString)
+				.map(File::new);
 	}
 
 	@Override
 	public void process() {
-		files.stream().flatMap(this::fileOutput).forEach(this::output);
+		if (!ensureNoInput()) {
+			return;
+		}
+		var inputStreams = new ArrayList<FileInputStream>(args.size());
+		for (var file : (Iterable<File>) files::iterator) {
+			try {
+				inputStreams.add(new FileInputStream(file));
+			} catch (FileNotFoundException e) {
+				error(Message.FILE_NOT_FOUND);
+				return;
+			}
+		}
+
+		inputStreams.stream()
+				.map(InputStreamReader::new)
+				.map(BufferedReader::new)
+				.flatMap(BufferedReader::lines)
+				.map(l -> l + "\n")
+				.forEach(this::output);
 	}
 }

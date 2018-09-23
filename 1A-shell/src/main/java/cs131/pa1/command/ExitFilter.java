@@ -32,6 +32,9 @@ public class ExitFilter extends SequentialOutputFilter {
 
 	@Override
 	public void process() {
+		if (!ensureNoInput()) {
+			return;
+		}
 		error(Message.GOODBYE);
 		SequentialREPL.shouldExit = true;
 	}

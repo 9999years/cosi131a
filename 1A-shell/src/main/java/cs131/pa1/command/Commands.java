@@ -28,6 +28,7 @@ import cs131.pa1.command.input.GrepFilter;
 import cs131.pa1.command.input.UniqFilter;
 import cs131.pa1.command.input.WcFilter;
 import cs131.pa1.filter.sequential.EmptyFilter;
+import cs131.pa1.filter.sequential.GoodSequentialFilter;
 import cs131.pa1.filter.sequential.SequentialFilter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -44,7 +45,7 @@ public class Commands {
 	 * map associating user-facing command names with the class that
 	 * implements their behavior
 	 */
-	private static final Map<String, Class<? extends SequentialFilter>> commands = Map.ofEntries(
+	private static final Map<String, Class<? extends GoodSequentialFilter>> commands = Map.ofEntries(
 			Map.entry("cat",   CatFilter.class),
 			Map.entry("cd",    CdFilter.class),
 			Map.entry("grep",  GrepFilter.class),
@@ -64,7 +65,7 @@ public class Commands {
 	 * this method, unlike forName, does not instantiate the class
 	 * @param command
 	 */
-	public static Class<? extends SequentialFilter> classForName(String command) {
+	public static Class<? extends GoodSequentialFilter> classForName(String command) {
 		return commands.getOrDefault(command, CommandNotFoundFilter.class);
 	}
 
@@ -73,7 +74,7 @@ public class Commands {
 	 * the specified arguments; instantiates the command too
 	 * @return
 	 */
-	public static SequentialFilter forName(Arguments args) {
+	public static GoodSequentialFilter forName(Arguments args) {
 		try {
 			return classForName(args.getCommand())
 					.getConstructor(Arguments.class)

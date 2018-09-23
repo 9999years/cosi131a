@@ -28,32 +28,28 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class LsFilter extends SequentialOutputFilter {
-	private List<File> dirs;
-
 	public LsFilter(Arguments args) {
 		super(args);
-		if (args.isEmpty()) {
-			args = new Arguments(args.getCommand(), List.of(""));
-		}
-		dirs = new ArrayList<>(args.size());
-		args.stream()
-				.map(SequentialREPL.state::absolutePath)
-				.map(Path::toString)
-				.map(File::new)
-				.forEach(dirs::add);
+		ensureNoArgs();
 	}
 
 	@Override
 	public void process() {
-		dirs.stream()
-				.map(File::list)
-				.map(Optional::ofNullable)
-				.map(fs -> fs.orElseGet(() -> new String[] {
-						errorString(Message.DIRECTORY_NOT_FOUND)}))
-				.flatMap(Arrays::stream)
-				.forEach(this::outputln);
+		if (!ensureNoInput()) {
+			return;
+		}
+		var entries = new File(SequentialREPL.state.getWorkingDirectory().toString()).list();
+		if (entries == null) {
+			// this is very bad...
+			error(Message.DIRECTORY_NOT_FOUND);
+			return;
+		}
+		for(var entry : entries) {
+			outputln(entry);
+		}
 	}
 }

@@ -25,13 +25,14 @@ import cs131.pa1.filter.sequential.SequentialREPL;
 public class PwdFilter extends SequentialOutputFilter {
 	public PwdFilter(Arguments args) {
 		super(args);
-		ensureNoArgs(args);
+		ensureNoArgs();
 	}
 
 	@Override
 	public void process() {
-		if (args.isEmpty()) {
-			outputln(SequentialREPL.state.getWorkingDirectory().toString());
+		if (!ensureNoInput()) {
+			return;
 		}
+		outputln(SequentialREPL.state.getWorkingDirectory().toString());
 	}
 }

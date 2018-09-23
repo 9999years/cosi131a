@@ -19,8 +19,7 @@
 package cs131.pa1.test.command;
 
 import cs131.pa1.filter.sequential.CollectionFilter;
-import cs131.pa1.filter.sequential.SequentialCommandBuilder;
-import cs131.pa1.filter.sequential.SequentialFilter;
+import cs131.pa1.filter.sequential.GoodSequentialFilter;
 import cs131.pa1.filter.sequential.SequentialFilterChain;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class TestCommand {
 	 * @param cmd
 	 * @return
 	 */
-	public static String[] testCommand(SequentialFilter cmd) {
+	public static String[] testCommand(GoodSequentialFilter cmd) {
 		var coll = new CollectionFilter();
 		new SequentialFilterChain(List.of(cmd, coll)).process();
 		return coll.collect().toArray(new String[0]);

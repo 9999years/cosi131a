@@ -25,7 +25,6 @@ import cs131.pa1.filter.sequential.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.List;
 
 public class RedirectFilter extends SequentialInputFilter {
 	public static final String NAME = ">";
@@ -33,7 +32,7 @@ public class RedirectFilter extends SequentialInputFilter {
 
 	public RedirectFilter(Arguments args) {
 		super(args);
-		if (ensureOneArg(args)) {
+		if (ensureOneArg()) {
 			try {
 				outFile = new PrintStream(
 					new File(SequentialREPL

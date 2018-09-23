@@ -5,6 +5,7 @@ echo "cleaning test files..."
 rm -r dir1
 rm \
 	ascii.txt \
+	ascii10.txt \
 	empty.txt \
 	empty.txt \
 	fizz-buzz-10.txt \

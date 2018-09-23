@@ -40,14 +40,7 @@ public class SequentialCommandBuilder {
 		return subCommandBoundary.splitAsStream(command);
 	}
 
-	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {
+	private static GoodSequentialFilter constructFilterFromSubCommand(String subCommand) {
 		return Commands.forName(new Arguments(subCommand));
-	}
-
-	public static void linkFilters(List<SequentialFilter> filters) {
-		filters.stream().reduce(new EmptyFilter(), (p, n) -> {
-			p.setNextFilter(n);
-			return n;
-		});
 	}
 }
