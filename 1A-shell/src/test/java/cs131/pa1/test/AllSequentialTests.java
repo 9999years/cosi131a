@@ -35,7 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({RedirectionTests.class, REPLTests.class, TextProcessingTests.class, WorkingDirectoryTests.class})
 public class AllSequentialTests {
 	
-	final static boolean DEBUGGING_MODE = false;
+	final static boolean DEBUGGING_MODE = true;
 
     @BeforeClass
     public static void setUp() {

@@ -51,6 +51,12 @@
                 <version>2.22.0</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
+                    <includes>
+                        <include>cs131.pa1.test.AllSequentialTests</include>
+                        <include>cs131.pa1.test.command.*</include>
+                        <include>cs131.pa1.test.filter.*</include>
+                        <include>cs131.pa1.test.other.*</include>
+                    </includes>
                 </configuration>
             </plugin>
             <plugin> <!-- javadoc html generation -->

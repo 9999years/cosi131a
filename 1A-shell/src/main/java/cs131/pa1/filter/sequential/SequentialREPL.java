@@ -25,6 +25,9 @@ import java.util.Scanner;
 
 public class SequentialREPL {
 	public static ShellState state = new ShellState();
+	/**
+	 * disgusting global variable set by ExitFilter because System.exit fucks with tests
+	 */
 	public static boolean shouldExit = false;
 
 	public static void main(String[] args) {
@@ -39,5 +42,6 @@ public class SequentialREPL {
 			SequentialCommandBuilder.createFiltersFromCommand(line)
 					.printOutput().process();
 		}
+		System.out.flush();
 	}
 }

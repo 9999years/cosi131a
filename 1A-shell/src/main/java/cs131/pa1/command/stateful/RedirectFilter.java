@@ -20,7 +20,7 @@ package cs131.pa1.command.stateful;
 
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
-import cs131.pa1.filter.sequential.SequentialInputFilter;
+import cs131.pa1.filter.sequential.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +35,11 @@ public class RedirectFilter extends SequentialInputFilter {
 		super(args);
 		if (ensureOneArg(args)) {
 			try {
-				outFile = new PrintStream(new File(args.get(0)));
+				outFile = new PrintStream(
+					new File(SequentialREPL
+							.state
+							.absolutePath(args.get(0))
+							.toString()));
 			} catch (FileNotFoundException e) {
 				error(Message.FILE_NOT_FOUND);
 			}

@@ -32,6 +32,7 @@ public class WcFilter extends SequentialInputFilter {
 
 	public WcFilter(Arguments args) {
 		super(args);
+		ensureNoArgs(args);
 	}
 
 	@Override
