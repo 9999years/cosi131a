@@ -22,7 +22,11 @@ package cs131.pa1.test;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -44,7 +48,7 @@ public class RedirectionTests {
 		assertOutput(Message.NEWCOMMAND.toString());
 		AllSequentialTests.destroyFile("new-hello-world.txt");
 	}
-
+	
 	@Test
 	public void testComplexRedirection(){
 		testInput("cat fizz-buzz-10000.txt | grep F | wc > trial-file.txt\nexit");
@@ -53,7 +57,7 @@ public class RedirectionTests {
 		assertOutput(Message.NEWCOMMAND.toString());
 		AllSequentialTests.destroyFile("trial-file.txt");
 	}
-
+	
 	@Test
 	public void testDirectoryShiftedRedirection() throws FileNotFoundException{
 		testInput("cd dir1\nls > folder-contents.txt\nexit");
@@ -67,14 +71,14 @@ public class RedirectionTests {
 			Scanner sc = new Scanner(f);
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine().replaceAll(Message.NEWCOMMAND.toString(), "");
-				if (!line.equals(Message.WELCOME.toString()) && !line.equals(Message.GOODBYE.toString()) && !line.equals(""))
+				if (!line.equals(Message.WELCOME.toString()) && !line.equals(Message.GOODBYE.toString()) && !line.equals("")) 
 					output.add(line);
 			}
 			sc.close();
 		} catch (Exception e) {
 			throw new FileNotFoundException("The dir1/folder-contents.txt file was not found");
 		}
-
+		
 		try {
 			assertEquals(expected, output);
 		} catch (AssertionError e) {
@@ -84,7 +88,7 @@ public class RedirectionTests {
 		assertOutput(Message.NEWCOMMAND.toString() + Message.NEWCOMMAND.toString());
 		AllSequentialTests.destroyFile("dir1/folder-contents.txt");
 	}
-
+	
 	private static void assertFileContentsEquals(String fileName, String expected){
 		File f = new File(fileName);
 		try {
@@ -99,41 +103,34 @@ public class RedirectionTests {
 			assertTrue(false);
 		}
 	}
-
+	
 	// Boilerplate, standard across test case files.
-
+	
 	private ByteArrayInputStream inContent;
-
+	
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-
+	
 	public void testInput(String s){
 		inContent = new ByteArrayInputStream(s.getBytes());
 		System.setIn(inContent);
 	}
-
+	
 	public void assertOutput(String expected){
                 AllSequentialTests.assertOutput(expected, outContent);
 	}
-
-	private InputStream stdin;
-	private PrintStream stdout;
-	private PrintStream stderr;
-
+	
 	@Before
 	public void setUpStreams() {
-		stdin = System.in;
-		stdout = System.out;
-		stderr = System.err;
 	    System.setOut(new PrintStream(outContent));
 	    System.setErr(new PrintStream(errContent));
 	}
 
 	@After
-	public void restoreStreams() {
-		System.setIn(stdin);
-		System.setOut(stdout);
-		System.setErr(stderr);
+	public void cleanUpStreams() {
+		System.setIn(null);
+	    System.setOut(null);
+	    System.setErr(null);
 	}
 }
