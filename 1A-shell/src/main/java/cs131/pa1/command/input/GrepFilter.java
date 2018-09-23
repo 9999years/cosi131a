@@ -24,12 +24,15 @@ import cs131.pa1.filter.sequential.SequentialInputFilter;
 import java.util.List;
 
 public class GrepFilter extends SequentialInputFilter {
+	private String substr;
+
 	public GrepFilter(Arguments args) {
 		super(args);
+		substr = String.join(" ", args);
 	}
 
 	@Override
 	protected String processLine(String line) {
-		return null;
+		return line.contains(substr) ? line : null;
 	}
 }

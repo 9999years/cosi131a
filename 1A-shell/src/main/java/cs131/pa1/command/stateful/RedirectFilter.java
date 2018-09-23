@@ -54,7 +54,7 @@ public class RedirectFilter extends SequentialInputFilter {
 
 	@Override
 	protected String processLine(String line) {
-		outFile.println(line);
+		outFile.print(line);
 		return null;
 	}
 }

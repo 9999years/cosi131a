@@ -42,7 +42,6 @@ public class LsFilterTest {
 				.collect(Collectors.toUnmodifiableSet());
 		var expected = new String[] {
 				"whatever", "abc", "x", "y.txt", "README.txt"};
-		System.out.println(listed.toString());
 
 		// same size
 		assertEquals(expected.length, listed.size());

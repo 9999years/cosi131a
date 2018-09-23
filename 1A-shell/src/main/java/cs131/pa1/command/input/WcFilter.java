@@ -24,12 +24,27 @@ import cs131.pa1.filter.sequential.SequentialInputFilter;
 import java.util.List;
 
 public class WcFilter extends SequentialInputFilter {
+	int lines;
+	int words;
+	// unix actually counts *bytes*, but that's 1. not very useful in the
+	// context of text and 2. very difficult to count in java
+	int chars;
+
 	public WcFilter(Arguments args) {
 		super(args);
 	}
 
 	@Override
+	public void process() {
+		super.process();
+		outputln(lines + " " + words + " " + chars);
+	}
+
+	@Override
 	protected String processLine(String line) {
+		lines++;
+		words += line.split("\\s+").length;
+		chars += line.trim().length();
 		return null;
 	}
 }
