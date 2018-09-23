@@ -21,23 +21,23 @@ package cs131.pa1.filter.sequential;
 import cs131.pa1.Arguments;
 import cs131.pa1.command.Commands;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
+import java.util.stream.*;
 
 public class SequentialCommandBuilder {
+	private static final Pattern subCommandBoundary = Pattern.compile("\\||(?=>)");
+	public static final String PIPE = "|";
+
 	public static SequentialFilterChain createFiltersFromCommand(String command) {
-		return new SequentialFilterChain(List.of(constructFilterFromSubCommand(command)));
+		return new SequentialFilterChain(
+				splitToSubCommands(command)
+				.map(SequentialCommandBuilder::constructFilterFromSubCommand)
+                .collect(Collectors.toUnmodifiableList()));
 	}
 
-	private static SequentialFilter determineFinalFilter(String command) {
-		return null;
-	}
-
-	private static String adjustCommandToRemoveFinalFilter(String command) {
-		return null;
+	private static Stream<String> splitToSubCommands(String command) {
+		return subCommandBoundary.splitAsStream(command);
 	}
 
 	private static SequentialFilter constructFilterFromSubCommand(String subCommand) {

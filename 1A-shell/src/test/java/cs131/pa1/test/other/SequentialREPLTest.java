@@ -18,32 +18,32 @@
 
 package cs131.pa1.test.other;
 
-import cs131.pa1.filter.sequential.InputStreamFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
 public class SequentialREPLTest {
-	static InputStream inputStream(String string) {
+	static Optional<InputStream> inputStream(String string) {
 		try {
-			return new ByteArrayInputStream(string.getBytes("UTF-8"));
+			return Optional.of(new ByteArrayInputStream(string.getBytes("UTF-8")));
 		} catch (UnsupportedEncodingException e) {
 			// should never happen
-			return null;
+			return Optional.empty();
 		}
 	}
 
-	@Test
 	public void main() {
 		// just make sure nothing crashes
-		System.setIn(inputStream("pwd\nexit\n"));
+		var is = inputStream("pwd\nexit\n").orElseThrow();
+		assertNotNull(is);
+		System.setIn(is);
 		SequentialREPL.main(null);
 	}
 }

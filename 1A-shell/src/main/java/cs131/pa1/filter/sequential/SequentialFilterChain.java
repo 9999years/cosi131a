@@ -18,10 +18,9 @@
 
 package cs131.pa1.filter.sequential;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.*;
 
 /**
  * A pipeline
@@ -29,7 +28,7 @@ import java.util.List;
 public class SequentialFilterChain extends ArrayList<SequentialFilter> {
 	public static final int DEFAULT_CHAIN_SIZE = 4;
 
-	public SequentialFilterChain(List<SequentialFilter> filters) {
+	public SequentialFilterChain(Collection<? extends SequentialFilter> filters) {
 		super(filters);
 	}
 

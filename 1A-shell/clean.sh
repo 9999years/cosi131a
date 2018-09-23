@@ -14,4 +14,6 @@ rm \
 	hello-world.txt \
 	hello.txt \
 	pi.txt \
-	world.txt
+	world.txt \
+	new-hello-world.txt \
+	trial-file.txt

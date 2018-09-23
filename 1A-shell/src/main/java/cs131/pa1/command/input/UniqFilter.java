@@ -24,6 +24,8 @@ import cs131.pa1.filter.sequential.SequentialInputFilter;
 import java.util.List;
 
 public class UniqFilter extends SequentialInputFilter {
+	private String lastLine;
+
 	public UniqFilter(Arguments args) {
 		super(args);
 	}

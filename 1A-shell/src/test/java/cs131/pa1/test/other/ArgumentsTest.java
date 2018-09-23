@@ -16,28 +16,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cs131.pa1;
+package cs131.pa1.test.other;
 
+import cs131.pa1.Arguments;
 import org.junit.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ShellStateTest {
-	public static Path abs(String name) {
-		return Paths.get(name).toAbsolutePath();
+public class ArgumentsTest {
+	@Test
+	public void simple() {
+		var ls = new Arguments("ls");
+		assertEquals("ls", ls.getCommand());
+		assertEquals(List.of(), ls);
+
+		var cat = new Arguments("cat xyz.txt abc.log");
+		assertEquals("cat", cat.getCommand());
+		assertEquals(List.of("xyz.txt", "abc.log"), cat);
 	}
 
 	@Test
-	public void simple() {
-		var cwd = new ShellState();
-		cwd.replaceWorkingDirectory("/tmp/whatever");
-		assertEquals(abs("/tmp/whatever"), cwd.getWorkingDirectory());
-		cwd.setWorkingDirectory("..");
-		assertEquals(abs("/tmp"), cwd.getWorkingDirectory());
-		cwd.replaceWorkingDirectory("xyz/abc");
-		assertEquals(abs("xyz/abc"), cwd.getWorkingDirectory());
+	public void empty() {
+		var empty = Arguments.empty();
+		assertEquals("", empty.getCommand());
+		assertEquals("", empty.getCommandLine());
+		assertEquals(List.of(), empty);
 	}
 }

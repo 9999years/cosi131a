@@ -19,10 +19,8 @@
 package cs131.pa1.test;
 
 import cs131.pa1.filter.Message;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+
+import java.io.*;
 
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;

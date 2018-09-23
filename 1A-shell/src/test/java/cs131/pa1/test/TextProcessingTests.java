@@ -25,6 +25,7 @@ import cs131.pa1.filter.sequential.SequentialREPL;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 
 import org.junit.After;
@@ -157,16 +158,23 @@ public class TextProcessingTests {
 		AllSequentialTests.assertOutput(expected, outContent);
 	}
 
+	private InputStream stdin;
+	private PrintStream stdout;
+	private PrintStream stderr;
+
 	@Before
 	public void setUpStreams() {
-	    System.setOut(new PrintStream(outContent));
-	    System.setErr(new PrintStream(errContent));
+		stdin = System.in;
+		stdout = System.out;
+		stderr = System.err;
+		System.setOut(new PrintStream(outContent));
+		System.setErr(new PrintStream(errContent));
 	}
 
 	@After
-	public void cleanUpStreams() {
-		System.setIn(null);
-	    System.setOut(null);
-	    System.setErr(null);
+	public void restoreStreams() {
+		System.setIn(stdin);
+		System.setOut(stdout);
+		System.setErr(stderr);
 	}
 }

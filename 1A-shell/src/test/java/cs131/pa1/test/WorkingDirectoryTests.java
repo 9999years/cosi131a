@@ -28,6 +28,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -127,16 +128,23 @@ public class WorkingDirectoryTests {
 		AllSequentialTests.assertOutput(expected, outContent);
 	}
 
+	private InputStream stdin;
+	private PrintStream stdout;
+	private PrintStream stderr;
+
 	@Before
 	public void setUpStreams() {
-	    System.setOut(new PrintStream(outContent));
-	    System.setErr(new PrintStream(errContent));
+		stdin = System.in;
+		stdout = System.out;
+		stderr = System.err;
+		System.setOut(new PrintStream(outContent));
+		System.setErr(new PrintStream(errContent));
 	}
 
 	@After
-	public void cleanUpStreams() {
-		System.setIn(null);
-	    System.setOut(null);
-	    System.setErr(null);
+	public void restoreStreams() {
+		System.setIn(stdin);
+		System.setOut(stdout);
+		System.setErr(stderr);
 	}
 }

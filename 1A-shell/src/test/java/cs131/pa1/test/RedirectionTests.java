@@ -22,11 +22,7 @@ package cs131.pa1.test;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -121,16 +117,23 @@ public class RedirectionTests {
                 AllSequentialTests.assertOutput(expected, outContent);
 	}
 
+	private InputStream stdin;
+	private PrintStream stdout;
+	private PrintStream stderr;
+
 	@Before
 	public void setUpStreams() {
+		stdin = System.in;
+		stdout = System.out;
+		stderr = System.err;
 	    System.setOut(new PrintStream(outContent));
 	    System.setErr(new PrintStream(errContent));
 	}
 
 	@After
-	public void cleanUpStreams() {
-		System.setIn(null);
-	    System.setOut(null);
-	    System.setErr(null);
+	public void restoreStreams() {
+		System.setIn(stdin);
+		System.setOut(stdout);
+		System.setErr(stderr);
 	}
 }

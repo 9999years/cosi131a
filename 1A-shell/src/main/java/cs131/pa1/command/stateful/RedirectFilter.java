@@ -28,6 +28,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 public class RedirectFilter extends SequentialInputFilter {
+	public static final String NAME = ">";
 	private PrintStream outFile;
 
 	public RedirectFilter(Arguments args) {

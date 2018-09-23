@@ -22,8 +22,10 @@ import cs131.pa1.Arguments;
 import cs131.pa1.command.stateful.LsFilter;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static cs131.pa1.test.command.TestCommand.testCommand;
 import static org.junit.Assert.*;
@@ -35,9 +37,12 @@ public class LsFilterTest {
 
 	@Test
 	public void simple() {
-		var listed = Set.of(testCommand(ls("src/test/resources/ls")));
+		var listed = Arrays.stream(testCommand(ls("src/test/resources/ls")))
+				.map(String::trim)
+				.collect(Collectors.toUnmodifiableSet());
 		var expected = new String[] {
 				"whatever", "abc", "x", "y.txt", "README.txt"};
+		System.out.println(listed.toString());
 
 		// same size
 		assertEquals(expected.length, listed.size());

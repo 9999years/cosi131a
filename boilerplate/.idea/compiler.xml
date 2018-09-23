@@ -10,7 +10,7 @@
 			<module name="{ARTIFACT_ID}" target="1.10" />
 		</annotationProcessing>
 		<bytecodeTargetLevel>
-			<module name="{ARTIFACT_ID}" target="1.10" />
+			<module name="{ARTIFACT_ID}" target="10" />
 		</bytecodeTargetLevel>
 	</component>
 </project>
