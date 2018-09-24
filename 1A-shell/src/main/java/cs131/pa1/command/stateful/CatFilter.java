@@ -27,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -37,39 +36,37 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CatFilter extends SequentialOutputFilter {
-	private List<FileInputStream> inputStreams;
+	private Stream<File> files;
 
 	public CatFilter(Arguments args) {
 		super(args);
-	}
-
-	@Override
-	protected boolean preprocess() {
-		var files = args.stream()
+		ensureSomeArgs();
+		files = args.stream()
 				.map(SequentialREPL.state::absolutePath)
 				.map(Path::toString)
 				.map(File::new);
-		inputStreams = new ArrayList<>(args.size());
+	}
+
+	@Override
+	public void process() {
+		if (!ensureNoInput()) {
+			return;
+		}
+		var inputStreams = new ArrayList<FileInputStream>(args.size());
 		for (var file : (Iterable<File>) files::iterator) {
 			try {
 				inputStreams.add(new FileInputStream(file));
 			} catch (FileNotFoundException e) {
 				error(Message.FILE_NOT_FOUND);
-				return false;
+				return;
 			}
 		}
-		return ensureSomeArgs() && ensureNoInput();
-	}
 
-	@Override
-	public void process() {
-		if (preprocess()) {
-			inputStreams.stream()
-					.map(InputStreamReader::new)
-					.map(BufferedReader::new)
-					.flatMap(BufferedReader::lines)
-					.map(l -> l + "\n")
-					.forEach(this::output);
-		}
+		inputStreams.stream()
+				.map(InputStreamReader::new)
+				.map(BufferedReader::new)
+				.flatMap(BufferedReader::lines)
+				.map(l -> l + "\n")
+				.forEach(this::output);
 	}
 }

@@ -18,17 +18,5 @@
 
 package cs131.pa1.test.filter;
 
-import cs131.pa1.filter.sequential.CollectionFilter;
-import cs131.pa1.filter.sequential.EmptyFilter;
-import cs131.pa1.filter.sequential.InputStreamFilter;
-import cs131.pa1.filter.sequential.SequentialCommandBuilder;
-import cs131.pa1.filter.sequential.SequentialFilterChain;
-import org.junit.Test;
-
-import java.io.Reader;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 public class SequentialCommandBuilderTest {
 }

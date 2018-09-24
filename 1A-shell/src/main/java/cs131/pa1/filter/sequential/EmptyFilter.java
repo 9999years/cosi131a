@@ -52,4 +52,9 @@ public class EmptyFilter extends GoodSequentialFilter {
 	protected String processLine(String line) {
 		return null;
 	}
+
+	@Override
+	protected boolean isATTY() {
+		return true;
+	}
 }

@@ -34,15 +34,12 @@ public class WcFilter extends SequentialInputFilter {
 	}
 
 	@Override
-	protected boolean preprocess() {
-		return ensureNoArgs();
-	}
-
-	@Override
 	public void process() {
-		super.process();
-		if (isOk()) {
-			outputln(lines + " " + words + " " + chars);
+		if (ensureNotFirst()) {
+			super.process();
+			if (isOk()) {
+				outputln(lines + " " + words + " " + chars);
+			}
 		}
 	}
 

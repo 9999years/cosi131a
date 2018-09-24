@@ -29,14 +29,10 @@ public class PwdFilter extends SequentialOutputFilter {
 	}
 
 	@Override
-	protected boolean preprocess() {
-		return ensureNoArgs() && ensureNoInput();
-	}
-
-	@Override
 	public void process() {
-		if (preprocess()) {
-			outputln(SequentialREPL.state.getWorkingDirectory().toString());
+		if (!ensureNoInput()) {
+			return;
 		}
+		outputln(SequentialREPL.state.getWorkingDirectory().toString());
 	}
 }

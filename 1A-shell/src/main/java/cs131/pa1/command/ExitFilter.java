@@ -31,15 +31,11 @@ public class ExitFilter extends SequentialOutputFilter {
 	}
 
 	@Override
-	protected boolean preprocess() {
-		return ensureNoInput() && ensureLast();
-	}
-
-	@Override
 	public void process() {
-		if (preprocess()) {
-			error(Message.GOODBYE);
-			SequentialREPL.shouldExit = true;
+		if (!ensureNoInput()) {
+			return;
 		}
+		error(Message.GOODBYE);
+		SequentialREPL.shouldExit = true;
 	}
 }

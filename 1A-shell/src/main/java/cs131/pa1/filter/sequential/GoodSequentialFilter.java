@@ -36,6 +36,7 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 	protected boolean ok = true;
 
 	public GoodSequentialFilter() {
+		output = new ArrayDeque<>();
 	}
 
 	public GoodSequentialFilter(Arguments args) {
@@ -104,16 +105,30 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 	}
 
 	protected boolean ensureNoInput() {
-		if (input == null || !input.isEmpty()) {
+		if (input != null && prev instanceof GoodSequentialFilter
+				&& ((GoodSequentialFilter) prev).isATTY()) {
+			return true;
+		} else {
 			error(Message.CANNOT_HAVE_INPUT);
 			return false;
-		} else {
-			return true;
 		}
 	}
 
+	// protected boolean ensureHasInput() {
+	// 	if (input == null || prev == null
+	// 			|| (prev instanceof GoodSequentialFilter
+	// 			&& ((GoodSequentialFilter) prev).isATTY())) {
+	// 		error(Message.REQUIRES_INPUT);
+	// 		return false;
+	// 	} else {
+	// 		return true;
+	// 	}
+	// }
+
 	protected boolean ensureNotFirst() {
-		if (input == null) {
+		if (input == null || prev == null
+				|| (prev instanceof GoodSequentialFilter
+				&& ((GoodSequentialFilter) prev).isATTY())) {
 			error(Message.REQUIRES_INPUT);
 			return false;
 		} else {
@@ -121,13 +136,22 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 		}
 	}
 
-	protected boolean ensureLast() {
-		if (output != null) {
+	protected boolean ensureIsLast() {
+		if ((output == null && next == null)
+				|| (next instanceof GoodSequentialFilter
+				&& ((GoodSequentialFilter) next).isATTY())) {
+			return true;
+		} else {
 			error(Message.CANNOT_HAVE_OUTPUT);
 			return false;
-		} else {
-			return true;
 		}
+	}
+
+	/**
+	 * does this filter represent a TTY like stdin or stdout?
+	 */
+	protected boolean isATTY() {
+		return false;
 	}
 
 	@Override
@@ -142,31 +166,12 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 	@Override
 	public void setNextFilter(Filter nextFilter) {
 		if (!(nextFilter instanceof GoodSequentialFilter)) {
-			// arrrghhhh bad api design
 			throw new RuntimeException("Should not attempt to link dissimilar filter types.");
 		}
 		var nextSequential = (GoodSequentialFilter) nextFilter;
-		if (output == null) {
-			output = new ArrayDeque<>();
-		}
 		this.next = nextSequential;
 		nextSequential.setPrevFilter(this);
 		// join this.output with nextFilter.input
 		nextSequential.input = output;
-	}
-
-	/**
-	 * a function for performing e.g. argument verification; if it returns
-	 * false, process() won't run
-	 */
-	protected boolean preprocess() {
-		return true;
-	}
-
-	@Override
-	public void process() {
-		if (preprocess()) {
-			super.process();
-		}
 	}
 }

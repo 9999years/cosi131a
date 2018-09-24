@@ -46,11 +46,9 @@ public class SequentialFilterChain extends ArrayList<GoodSequentialFilter> {
 	public void process() {
 		linkFilters();
 		for (var filter : this) {
-			// may have failed in constructor
 			if (filter.isOk()) {
 				filter.process();
 			}
-			// may have failed while processing
 			if (!filter.isOk()) {
 				finish(filter);
 				return;

@@ -41,4 +41,9 @@ public class OutputStreamFilter extends GoodSequentialFilter {
 		outputStream.print(line);
 		return null;
 	}
+
+	@Override
+	protected boolean isATTY() {
+		return true;
+	}
 }

@@ -33,7 +33,8 @@ public abstract class SequentialInputFilter extends GoodSequentialFilter {
 
 	@Override
 	public void process() {
-		ensureNotFirst();
-		super.process();
+		if (ensureNotFirst()) {
+			super.process();
+		}
 	}
 }

@@ -44,4 +44,9 @@ public class CollectionFilter extends GoodSequentialFilter {
 		}
 		return acc;
 	}
+
+	@Override
+	protected boolean isATTY() {
+		return true;
+	}
 }
