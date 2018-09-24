@@ -57,6 +57,8 @@
                         <include>cs131.pa1.test.filter.*</include>
                         <include>cs131.pa1.test.other.*</include>
                     </includes>
+                    <parallel>methods</parallel>
+		    <threadCount>1</threadCount>
                 </configuration>
             </plugin>
             <plugin> <!-- javadoc html generation -->

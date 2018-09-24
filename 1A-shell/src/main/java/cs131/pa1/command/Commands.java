@@ -45,7 +45,8 @@ public class Commands {
 	 * map associating user-facing command names with the class that
 	 * implements their behavior
 	 */
-	private static final Map<String, Class<? extends GoodSequentialFilter>> commands = Map.ofEntries(
+	private static final Map<String, Class<? extends GoodSequentialFilter>>
+		commands = Map.ofEntries(
 			Map.entry("cat",   CatFilter.class),
 			Map.entry("cd",    CdFilter.class),
 			Map.entry("grep",  GrepFilter.class),

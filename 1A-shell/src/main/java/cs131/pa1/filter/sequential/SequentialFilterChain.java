@@ -39,6 +39,10 @@ public class SequentialFilterChain extends ArrayList<GoodSequentialFilter> {
 		super(DEFAULT_SIZE);
 	}
 
+	/**
+	 * ends a pipeline prematurely by writing its output to System.out;
+	 * intended for errors
+	 */
 	private void finish(GoodSequentialFilter filter) {
 		filter.output.forEach(System.out::print);
 	}

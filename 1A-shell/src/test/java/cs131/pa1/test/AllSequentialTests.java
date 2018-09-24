@@ -34,8 +34,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({RedirectionTests.class, REPLTests.class, TextProcessingTests.class, WorkingDirectoryTests.class})
 public class AllSequentialTests {
-	
-	final static boolean DEBUGGING_MODE = true;
+
+	final static boolean DEBUGGING_MODE = false;
 
     @BeforeClass
     public static void setUp() {
@@ -49,13 +49,13 @@ public class AllSequentialTests {
 	createFile("fizz-buzz-1500000.txt", generateFizzBuzz(1500000));
     	createFile("ascii.txt", generateASCII());
     	createFile("pi.txt", generatePi());
-    	
+
     	File f = new File("dir1/dir2/dir3/dir4");
     	f.mkdirs();
 	createFile("dir1/f1.txt", "FILE 1\nTHIS IS THE FIRST FILE.\nI HOPE YOU LIKE IT\n\n\nYOU DO????");
 	createFile("dir1/dir2/f2.txt", "FILE 2\nTHIS IS THE SECOND FILE.\nIT IS PRETTY SIMILAR\nI HOPE YOU LIKE IT\n\n\nDO YOU????");
 	createFile("dir1/dir2/dir3/dir4/f4.txt", "FILE 1\nTHIS IS THE LAST FILE.\nI HOPE YOU LIKED IT\n\n\nDID YOU????");
-    	
+
     }
 
     @AfterClass
@@ -68,7 +68,7 @@ public class AllSequentialTests {
 	    		f.delete();
 	    	}
 			recursivelyDeleteFolders(new File("dir1"));
-			
+
 	    	// Test to see if all files were properly deleted
 			for (String fileName : files){
 	    		File f = new File(fileName);
@@ -76,9 +76,9 @@ public class AllSequentialTests {
 //	    			throw new Exception("File " + fileName + " should have been deleted");
 	    		}
 	    	}
-		}    	
+		}
     }
-    
+
 	private static void recursivelyDeleteFolders(File f){
 		for(File sub : f.listFiles()){
 			if (sub.isDirectory()){
@@ -101,13 +101,13 @@ public class AllSequentialTests {
     	pw.print(content);
     	pw.close();
     }
-    
+
     public static void assertOutput(String expected, ByteArrayOutputStream outContent){
 		String result = outContent.toString().replace("\r", "");
 		expected = String.format("%s%s%s%s", Message.WELCOME, expected, Message.NEWCOMMAND, Message.GOODBYE);
 		assertEquals(expected, result);
 	}
-    
+
     private static String generateFizzBuzz(int max){
     	StringBuffer sb = new StringBuffer();
     	for(int i = 0; i <= max; i++){
@@ -123,22 +123,22 @@ public class AllSequentialTests {
     	}
     	return sb.toString();
     }
-    
+
     private static String generateASCII() {
     		StringBuffer sb = new StringBuffer();
     		for(int i = 32; i <= 126; i++) {
-    			if (i != 62 && i != 124) 
+    			if (i != 62 && i != 124)
     				sb.append((char)i + "\n");
     		}
     		return sb.toString();
     }
-    
+
     private static String generatePi() {
     		return "Pi\nis\n3\n.\n1\n4\n1\n5\n9\n2\n6\n5\n3\n5\n9\n.\n.\n.\n";
     }
-    
-    
-    
+
+
+
 	// Cleanup message
 	public static void destroyFile(String fileName){
 		if (!DEBUGGING_MODE) {
@@ -148,6 +148,6 @@ public class AllSequentialTests {
 			}
 		}
 	}
-	
-    
+
+
 }

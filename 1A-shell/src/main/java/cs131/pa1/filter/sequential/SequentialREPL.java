@@ -21,16 +21,19 @@ package cs131.pa1.filter.sequential;
 import cs131.pa1.ShellState;
 import cs131.pa1.filter.Message;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class SequentialREPL {
-	public static ShellState state = new ShellState();
+	public static ShellState state;
 	/**
 	 * disgusting global variable set by ExitFilter because System.exit fucks with tests
 	 */
-	public static boolean shouldExit = false;
+	public static boolean shouldExit;
 
 	public static void main(String[] args) {
+		shouldExit = false;
+		state = new ShellState();
 		System.out.print(Message.WELCOME.toString());
 		var in = new Scanner(System.in);
 		while (!shouldExit) {
