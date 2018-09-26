@@ -18,14 +18,13 @@
 
 package cs131.pa1.filter.sequential;
 
-import cs131.pa1.ShellState;
+import cs131.pa1.WorkingDirectory;
 import cs131.pa1.filter.Message;
 
-import java.io.PrintStream;
 import java.util.Scanner;
 
 public class SequentialREPL {
-	public static ShellState state;
+	public static WorkingDirectory cwd;
 	/**
 	 * disgusting global variable set by ExitFilter because System.exit fucks with tests
 	 */
@@ -33,7 +32,7 @@ public class SequentialREPL {
 
 	public static void main(String[] args) {
 		shouldExit = false;
-		state = new ShellState();
+		cwd = new WorkingDirectory();
 		System.out.print(Message.WELCOME.toString());
 		var in = new Scanner(System.in);
 		while (!shouldExit) {

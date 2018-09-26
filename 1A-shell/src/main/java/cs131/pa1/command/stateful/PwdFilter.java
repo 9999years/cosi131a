@@ -33,6 +33,6 @@ public class PwdFilter extends SequentialOutputFilter {
 		if (!ensureNoInput()) {
 			return;
 		}
-		outputln(SequentialREPL.state.getWorkingDirectory().toString());
+		outputln(SequentialREPL.cwd.getWorkingDirectory().toString());
 	}
 }

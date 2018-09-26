@@ -18,7 +18,7 @@
 
 package cs131.pa1.test.other;
 
-import cs131.pa1.ShellState;
+import cs131.pa1.WorkingDirectory;
 import org.junit.Test;
 
 import java.nio.file.Path;
@@ -33,7 +33,7 @@ public class ShellStateTest {
 
 	@Test
 	public void simple() {
-		var cwd = new ShellState();
+		var cwd = new WorkingDirectory();
 		cwd.replaceWorkingDirectory("/tmp/whatever");
 		assertEquals(abs("/tmp/whatever"), cwd.getWorkingDirectory());
 		cwd.setWorkingDirectory("..");

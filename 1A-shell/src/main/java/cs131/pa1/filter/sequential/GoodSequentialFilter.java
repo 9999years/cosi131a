@@ -25,8 +25,18 @@ import cs131.pa1.filter.Message;
 import java.util.ArrayDeque;
 
 /**
- * a GoodSequentialFilter always has an output Queue but doesn't always
- * have an input
+ * a SequentialFilter class with added utility
+ * 1. this.output is never null, i.e. writing to output from the
+ * constructor is OK
+ * 2. there are several argument and state validation methods available
+ * (see VALIDATION below)
+ * 3. an instance has knowledge of its invocation, i.e. a command invoked
+ * as "cat whatever.txt" will be aware via this.args that it was invoked
+ * with the name "cat" and one argument ("whatever.txt")
+ *
+ * @see Arguments
+ * @see SequentialOutputFilter
+ * @see SequentialInputFilter
  */
 public abstract class GoodSequentialFilter extends SequentialFilter {
 	protected Arguments args;
@@ -72,6 +82,23 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 		return message.with_parameter(this.args.getCommandLine());
 	}
 
+
+	// VALIDATION METHODS
+	// these provide significant functionality:
+	// 1. they print the proper error messages -- formatted correctly
+	//    using this.args
+	// 2. they set ok = false to allow conditional quitting later in the
+	//    execution cycle
+	// 3. they return a boolean indicating if validation succeeded for use
+	//    in if() statements
+	//
+	// these methods are either argument-based or state-based
+	// * argument-based methods analyse this.args and are OK to call in
+	// the constructor
+	// * state-based methods analyse input, output, or this filter's position
+	// in a pipeline, and should only be called in process() or later
+
+	// ARGUMENT-BASED VALIDATORS
 	/**
 	 * @return true if args are OK (no args present) false otherwise
 	 */
@@ -104,6 +131,7 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 		return false;
 	}
 
+	// STATE-BASED VALIDATORS
 	protected boolean ensureNoInput() {
 		if (input != null && prev instanceof GoodSequentialFilter
 				&& ((GoodSequentialFilter) prev).isATTY()) {
@@ -113,17 +141,6 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 			return false;
 		}
 	}
-
-	// protected boolean ensureHasInput() {
-	// 	if (input == null || prev == null
-	// 			|| (prev instanceof GoodSequentialFilter
-	// 			&& ((GoodSequentialFilter) prev).isATTY())) {
-	// 		error(Message.REQUIRES_INPUT);
-	// 		return false;
-	// 	} else {
-	// 		return true;
-	// 	}
-	// }
 
 	protected boolean ensureNotFirst() {
 		if (input == null || prev == null
@@ -149,29 +166,12 @@ public abstract class GoodSequentialFilter extends SequentialFilter {
 
 	/**
 	 * does this filter represent a TTY like stdin or stdout?
+	 * there's a few "fake" filters that don't represent commands but just
+	 * i.e. print input to System.out or provide a noop to make a field
+	 * not null. these will return isATTY() = true. "fake" filters
+	 * include: OutputStreamFilter, CollectionFilter, EmptyFilter...
 	 */
 	protected boolean isATTY() {
 		return false;
-	}
-
-	@Override
-	public void setPrevFilter(Filter prevFilter) {
-		// check to avoid infinite loops
-		if (this.prev != prevFilter) {
-			this.prev = prevFilter;
-			prevFilter.setNextFilter(this);
-		}
-	}
-
-	@Override
-	public void setNextFilter(Filter nextFilter) {
-		if (!(nextFilter instanceof GoodSequentialFilter)) {
-			throw new RuntimeException("Should not attempt to link dissimilar filter types.");
-		}
-		var nextSequential = (GoodSequentialFilter) nextFilter;
-		this.next = nextSequential;
-		nextSequential.setPrevFilter(this);
-		// join this.output with nextFilter.input
-		nextSequential.input = output;
 	}
 }

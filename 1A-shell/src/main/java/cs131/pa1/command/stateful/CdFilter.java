@@ -32,7 +32,7 @@ public class CdFilter extends SequentialOutputFilter {
 	public CdFilter(Arguments args) {
 		super(args);
 		if (ensureOneArg()) {
-			newPath = SequentialREPL.state.absolutePath(args.get(0));
+			newPath = SequentialREPL.cwd.absolutePath(args.get(0));
 		}
 	}
 
@@ -44,7 +44,7 @@ public class CdFilter extends SequentialOutputFilter {
 		if (newPath != null) {
 			try {
 				// note that .toRealPath resolves symlinks
-				SequentialREPL.state.setWorkingDirectory(newPath.toRealPath().toString());
+				SequentialREPL.cwd.setWorkingDirectory(newPath.toRealPath());
 			} catch (IOException e) {
 				error(Message.DIRECTORY_NOT_FOUND);
 			}

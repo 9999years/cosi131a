@@ -29,6 +29,10 @@ public abstract class SequentialOutputFilter extends GoodSequentialFilter {
 		super(args);
 	}
 
+	protected boolean preprocess() {
+		return ensureNoInput();
+	}
+
 	@Override
 	abstract public void process();
 

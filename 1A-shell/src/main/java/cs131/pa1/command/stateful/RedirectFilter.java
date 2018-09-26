@@ -36,7 +36,7 @@ public class RedirectFilter extends SequentialInputFilter {
 			try {
 				outFile = new PrintStream(
 					new File(SequentialREPL
-							.state
+							.cwd
 							.absolutePath(args.get(0))
 							.toString()));
 			} catch (FileNotFoundException e) {

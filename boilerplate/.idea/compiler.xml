@@ -7,7 +7,6 @@
 				<sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
 				<outputRelativeToContentRoot value="true" />
 			</profile>
-			<module name="{ARTIFACT_ID}" target="1.10" />
 		</annotationProcessing>
 		<bytecodeTargetLevel>
 			<module name="{ARTIFACT_ID}" target="10" />

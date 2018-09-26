@@ -30,9 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CatFilter extends SequentialOutputFilter {
@@ -42,7 +39,7 @@ public class CatFilter extends SequentialOutputFilter {
 		super(args);
 		ensureSomeArgs();
 		files = args.stream()
-				.map(SequentialREPL.state::absolutePath)
+				.map(SequentialREPL.cwd::absolutePath)
 				.map(Path::toString)
 				.map(File::new);
 	}

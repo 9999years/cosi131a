@@ -24,12 +24,6 @@ import cs131.pa1.filter.sequential.SequentialOutputFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
 import java.io.File;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 public class LsFilter extends SequentialOutputFilter {
 	public LsFilter(Arguments args) {
@@ -42,7 +36,7 @@ public class LsFilter extends SequentialOutputFilter {
 		if (!ensureNoInput()) {
 			return;
 		}
-		var entries = new File(SequentialREPL.state.getWorkingDirectory().toString()).list();
+		var entries = new File(SequentialREPL.cwd.getWorkingDirectory().toString()).list();
 		if (entries == null) {
 			// this is very bad...
 			error(Message.DIRECTORY_NOT_FOUND);

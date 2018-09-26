@@ -21,22 +21,53 @@ package cs131.pa1;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ShellState {
+/**
+ * a working directory; java is "weird" with this (doesn't allow changing
+ * user.dir) so we create a structure <i>initialized</i> from user.dir and
+ * then mutated with Path.resolve and Path.normalize
+ *
+ * @see <a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4045688">
+ *    JDK-4045688 : Add chdir or equivalent notion of changing working
+ *    directory</a>
+ */
+public class WorkingDirectory {
+	/**
+	 * an ABSOLUTE PATH representing the current working directory
+	 */
 	private Path workingDirectory;
 
-	public ShellState() {
+	public WorkingDirectory() {
 		workingDirectory = Paths.get(System.getProperty("user.dir")).toAbsolutePath();
 	}
 
+	/**
+	 * gets the current working directory
+	 */
 	public Path getWorkingDirectory() {
 		return workingDirectory;
 	}
 
-	public void setWorkingDirectory(String relativePath) {
+	/**
+	 * mutates the current working directory represented by this object by
+	 * resolving a relative path
+	 */
+	public void setWorkingDirectory(Path relativePath) {
 		replaceWorkingDirectory(workingDirectory.resolve(relativePath)
 				.normalize());
 	}
 
+	/**
+	 * mutates the current working directory represented by this object by
+	 * resolving a relative path
+	 */
+	public void setWorkingDirectory(String relativePath) {
+		setWorkingDirectory(Paths.get(relativePath));
+	}
+
+	/**
+	 * replaces the current working directory with an absolute path;
+	 * verifies the path is absolute
+	 */
 	public void replaceWorkingDirectory(Path absolutePath) {
 		// trust..........but verify
 		if (!absolutePath.isAbsolute()) {
@@ -51,8 +82,8 @@ public class ShellState {
 
 	/**
 	 * gets an absolute path from a relative path, taking into account the current working directory
-	 * @param relativePath
-	 * @return an absolute path
+	 * @param relativePath the path to resolve as absolute
+	 * @return the relative path's absolute form
 	 */
 	public Path absolutePath(String relativePath) {
 		var rel = Paths.get(relativePath);
@@ -64,5 +95,10 @@ public class ShellState {
 		return Paths.get(
 				getWorkingDirectory().toString(),
 				relativePath).normalize().toAbsolutePath();
+	}
+
+	@Override
+	public String toString() {
+		return workingDirectory.toString();
 	}
 }
