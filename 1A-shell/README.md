@@ -2,7 +2,11 @@
 
 ## Notes
 
-This project is written using Java 10. Dimos said that all the imports are OK!
+This project is written using Java 10 and must be compiled with a JDK
+10-compatible compiler; this is both for the new local variable type inference
+syntax (e.g. `var expect = List.of(10, 11);`) and for several factory and
+collector methods (e.g. `Collectors.toUnmodifiableList()`). Dimos said that all
+the imports are OK!
 
 ## Authors
 

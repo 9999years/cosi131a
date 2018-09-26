@@ -64,6 +64,14 @@
                 <version>3.0.0</version>
                 <configuration>
                     <show>private</show>
+                    <additionalOptions>-html5</additionalOptions>
+                    <tags>
+                        <tag>
+                                <name>implNote</name>
+                                <placement>a</placement>
+                                <head>Implementation note:</head>
+                        </tag>
+                    </tags>
                 </configuration>
                 <executions>
                     <execution>
