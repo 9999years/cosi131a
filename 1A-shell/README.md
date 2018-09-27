@@ -10,7 +10,38 @@ the imports are OK!
 
 ## Authors
 
-Written by Rebecca Turner and Lin-ye Kaye.
+Written by Rebecca Turner (rebeccaturner@brandeis.edu) and Lin-ye Kaye
+(linyekaye@brandeis.edu).
+
+A general who-did-what table, although architectural decisions were made — and
+much code was written — in tandem:
+
+    Component                | Author
+    ---------                | ------
+    Arguments                | Rebecca
+    CommandNotFoundFilter    | Rebecca
+    Commands                 | Rebecca
+    ExitFilter               | Lin-ye
+    HelpFilter               | Lin-ye
+    GrepFilter               | Lin-ye
+    UniqFilter               | Rebecca
+    WcFilter                 | Rebecca
+    CatFilter                | Lin-ye
+    CdFilter                 | Lin-ye
+    LsFilter                 | Lin-ye
+    PwdFilter                | Rebecca
+    RedirectFilter           | Lin-ye
+    Message                  | Lin-ye
+    CollectionFilter         | Lin-ye
+    EmptyFilter              | Rebecca
+    GoodSequentialFilter     | Rebecca
+    OutputStreamFilter       | Lin-ye
+    SequentialCommandBuilder | Lin-ye
+    SequentialFilterChain    | Rebecca
+    SequentialInputFilter    | Lin-ye
+    SequentialOutputFilter   | Lin-ye
+    SequentialREPL           | Rebecca
+    WorkingDirectory         | Rebecca
 
 ## Compiling
 
@@ -30,17 +61,3 @@ Quick Maven reference:
     Build an executable `.jar`           | `package` or `jar:jar`
     Create a source `.zip` and `.tar.gz` | `package` or `assembly:single`
     Generate Javadocs                    | `package` or `javadoc:javadoc`
-
-## Sources
-
-    Directory tree                         | Files
-    --------------                         | -----
-    src                                    |
-    ├───main/java/cs131/pa1                |
-    │                   ├───command        | Implementations for commands like `cat`
-    │                   └───filter         | Provided sources
-    │                       └───sequential | Provided sources
-    └───test                               |
-        ├───java/cs131/pa1/test            | Provided tests
-        │                  └───command     | Command tests
-        └───resources                      | Test data
