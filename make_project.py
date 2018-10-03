@@ -74,7 +74,7 @@ def test_next_pa():
 
 def make_project(name, number,
         group_id='ooo.becca.cosi131a', artifact_id_fmt='rebeccaturner-PA{number}-{name}',
-        whatif=False):
+        whatif=False, force=False):
     dirname = f'{number}-{name}'
     artifact_id = artifact_id_fmt.format(number=number, name=name)
 
@@ -89,7 +89,7 @@ def make_project(name, number,
     if whatif:
         return
 
-    if os.path.exists(dirname):
+    if os.path.exists(dirname) and not force:
         raise ValueError(dirname + ' already exists')
 
     shutil.copytree('boilerplate', dirname, copy_function=shutil.copy)
@@ -134,8 +134,10 @@ def main():
             name) and `number` (project number); defaults to `rebeccaturner-PA{number}-{name}`''')
     parser.add_argument('-w', '--whatif', action='store_true',
             help='''Don't actually create a project''')
-    parser.add_argument('-g', '--group-id', type=nospaces, default='ooo.becca.cosi131a',
-            help='''groupId used in pom.xml; defaults to ooo.becca.cosi131a''')
+    parser.add_argument('-g', '--group-id', type=nospaces, default='edu.brandeis.cosi131a',
+            help='''groupId used in pom.xml; defaults to edu.brandeis.cosi131a''')
+    parser.add_argument('-f', '--force', action='store_true',
+            help='If given, overwrite files/folders even if they exist')
 
     parser.add_argument('project_name', type=nospaces,
             help='''Display name; used in the artifact ID''')
@@ -148,7 +150,7 @@ def main():
 
     make_project(args.project_name, num,
             group_id=args.group_id, artifact_id_fmt=args.id_format,
-            whatif=args.whatif)
+            whatif=args.whatif, force=args.force)
 
 if __name__ == '__main__':
     try:
