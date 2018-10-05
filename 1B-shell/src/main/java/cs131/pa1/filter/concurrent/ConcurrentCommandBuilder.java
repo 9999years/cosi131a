@@ -24,8 +24,11 @@ import java.util.regex.Pattern;
 import java.util.stream.*;
 
 public class ConcurrentCommandBuilder {
+	/**
+	 * splits <i>at</i> a literal pipe ("|") or <i>before</i> (without
+	 * consuming) a ">"
+	 */
 	private static final Pattern subCommandBoundary = Pattern.compile("\\||(?=>)");
-	public static final String PIPE = "|";
 
 	public static ConcurrentFilterChain createFiltersFromCommand(String command) {
 		return new ConcurrentFilterChain(

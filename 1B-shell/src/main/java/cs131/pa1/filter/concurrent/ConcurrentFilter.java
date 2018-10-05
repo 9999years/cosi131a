@@ -1,12 +1,29 @@
-package cs131.pa1.filter.concurrent;
+/*
+ * Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
+
+import java.util.LinkedList;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * a Filter class with added utility
@@ -24,14 +41,19 @@ import cs131.pa1.filter.Message;
  */
 public abstract class ConcurrentFilter extends Filter implements Runnable {
 	public static final int IO_QUEUE_SIZE = 64;
-	protected Queue<String> input;
-	protected Queue<String> output;
+	protected BlockingQueue<String> input;
+	protected BlockingQueue<String> output;
 
 	protected Arguments args;
 	/**
 	 * has this command failed?
 	 */
 	protected boolean ok = true;
+
+	/**
+	 * is this command finished?
+	 */
+	protected boolean done = false;
 
 	public ConcurrentFilter() {
 		output = new ArrayBlockingQueue<>(IO_QUEUE_SIZE);
@@ -52,15 +74,15 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	@Override
 	public void setNextFilter(Filter nextFilter) {
 		if (nextFilter instanceof ConcurrentFilter) {
-			ConcurrentFilter sequentialNext = (ConcurrentFilter) nextFilter;
-			this.next = sequentialNext;
-			sequentialNext.prev = this;
+			ConcurrentFilter concurrentNext = (ConcurrentFilter) nextFilter;
+			this.next = concurrentNext;
+			concurrentNext.prev = this;
 			if (this.output == null) {
-				this.output = new LinkedList<String>();
+				this.output = new ArrayBlockingQueue<>(IO_QUEUE_SIZE);
 			}
-			sequentialNext.input = this.output;
+			concurrentNext.input = this.output;
 		} else {
-			throw new RuntimeException("Should not attempt to link dissimilar filter types.");
+			throw new IllegalArgumentException("Should not attempt to link dissimilar filter types.");
 		}
 	}
 
@@ -68,32 +90,48 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		return next;
 	}
 
-	public void process() {
+	@Blocks
+	public void process() throws InterruptedException {
 		while (!input.isEmpty()) {
 			String line = input.poll();
 			String processedLine = processLine(line);
 			if (processedLine != null) {
-				output.add(processedLine);
+				output.put(processedLine);
 			}
 		}
 	}
 
 	@Override
 	public void run() {
-		process();
+		try {
+			process();
+		} catch (InterruptedException e) {
+			// TODO ??? what's the error-handling case here
+			e.printStackTrace();
+		}
+		done();
 	}
 
 	@Override
 	public boolean isDone() {
-		return input.size() == 0 && (prev == null || prev.isDone());
+		return done;
+	}
+
+	protected void done() {
+		done = true;
 	}
 
 	protected abstract String processLine(String line);
 
 	// ADDED METHODS
 
-	protected void error(Message message) {
-		output.add(errorString(message));
+	/**
+	 * set ok to false and print an error message
+	 * @param message the message to print
+	 */
+	@Blocks
+	protected void error(Message message) throws InterruptedException {
+		output.put(errorString(message));
 		notOk();
 	}
 
@@ -111,13 +149,14 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		}
 	}
 
-	protected void outputln(String line) {
-		// TODO go through uses of output and ensure thread-safety
-		output.add(line + "\n");
+	@Blocks
+	protected void outputln(String line) throws InterruptedException {
+		output.put(line + "\n");
 	}
 
-	protected void output(String string) {
-		output.add(string);
+	@Blocks
+	protected void output(String string) throws InterruptedException {
+		output.put(string);
 	}
 
 	protected String errorString(Message message) {
@@ -144,7 +183,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	/**
 	 * @return true if args are OK (no args present) false otherwise
 	 */
-	protected boolean ensureNoArgs() {
+	@Blocks
+	protected boolean ensureNoArgs() throws InterruptedException {
 		if (args.isEmpty()) {
 			return true;
 		} else {
@@ -153,7 +193,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		}
 	}
 
-	protected boolean ensureSomeArgs() {
+	@Blocks
+	protected boolean ensureSomeArgs() throws InterruptedException {
 		if (args.isEmpty()) {
 			error(Message.REQUIRES_PARAMETER);
 			return false;
@@ -162,7 +203,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		}
 	}
 
-	protected boolean ensureOneArg() {
+	@Blocks
+	protected boolean ensureOneArg() throws InterruptedException {
 		if (args.size() == 1) {
 			return true;
 		} else if (args.isEmpty()) {
@@ -174,7 +216,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	}
 
 	// STATE-BASED VALIDATORS
-	protected boolean ensureNoInput() {
+	@Blocks
+	protected boolean ensureNoInput() throws InterruptedException {
 		if (input != null && prev instanceof ConcurrentFilter
 				&& ((ConcurrentFilter) prev).isATTY()) {
 			return true;
@@ -184,7 +227,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		}
 	}
 
-	protected boolean ensureNotFirst() {
+	@Blocks
+	protected boolean ensureNotFirst() throws InterruptedException {
 		if (input == null || prev == null
 				|| (prev instanceof ConcurrentFilter
 				&& ((ConcurrentFilter) prev).isATTY())) {
@@ -195,7 +239,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 		}
 	}
 
-	protected boolean ensureIsLast() {
+	@Blocks
+	protected boolean ensureIsLast() throws InterruptedException {
 		if ((output == null && next == null)
 				|| (next instanceof ConcurrentFilter
 				&& ((ConcurrentFilter) next).isATTY())) {

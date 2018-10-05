@@ -35,7 +35,7 @@ public class ConcurrentFilterChain extends ArrayList<ConcurrentFilter> {
 	}
 
 	ConcurrentFilterChain() {
-		super(DEFAULT_SIZE);
+		this(DEFAULT_SIZE);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class ConcurrentFilterChain extends ArrayList<ConcurrentFilter> {
 		filter.output.forEach(System.out::print);
 	}
 
-	public void process() {
+	public void process() throws InterruptedException {
 		linkFilters();
 		for (var filter : this) {
 			if (filter.isOk()) {
