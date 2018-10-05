@@ -19,38 +19,62 @@ package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.filter.Message;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class ConcurrentREPL {
 	static String currentWorkingDirectory;
 	/**
+	 * map from command line strings to threads
+	 * <p>
 	 * our job-list needs to have fast random insertion and deletion as
 	 * well as a predictable iteration order; we avoid the O(n) amortized
 	 * complexity of list deletions with a hashset structure while keeping
-	 * iteration predictable with the linked list the LinkedHashSet
+	 * iteration predictable with the linked list the LinkedHashMap
 	 * maintains internally
 	 */
-	private static LinkedHashSet<ConcurrentFilter> jobs;
+	private static Jobs jobs;
 
 	public static void main(String[] args) {
 		currentWorkingDirectory = System.getProperty("user.dir");
-		jobs = new LinkedHashSet<>();
+		jobs = new Jobs();
 		Scanner s = new Scanner(System.in);
 		System.out.print(Message.WELCOME);
 		String command;
 		while (true) {
 			//obtaining the command from the user
 			System.out.print(Message.NEWCOMMAND);
-			command = s.nextLine();
+			command = s.nextLine().trim();
+			boolean background = ConcurrentCommandBuilder.isBackgroundCommand(command);
 			if (command.equals("exit")) {
 				break;
-			} else if (!command.trim().equals("")) {
+			} else if (command.equals("repl_jobs")) {
+				System.out.print(jobs.toPrettyString());
+			} else if (command.equals("kill")) {
+				// TODO implement this
+				System.out.println("unimplemented!");
+			} else if (!command.isEmpty()) {
 				//building the filters list from the command
-				ConcurrentFilter filterlist = ConcurrentCommandBuilder.createFiltersFromCommand(command);
-				while (filterlist != null) {
-					var thread = new Thread(filterlist);
-					filterlist = (ConcurrentFilter) filterlist.getNext();
+				var filterList = ConcurrentCommandBuilder.createFiltersFromCommand(command);
+				if (filterList == null) {
+					continue;
+				}
+				List<Thread> threads = filterList.stream()
+						.map(Thread::new)
+						.peek(Thread::start)
+						.collect(Collectors.toList());
+				if (background) {
+					jobs.add(new Job(command, threads));
+				} else {
+					for (var thread : threads) {
+						try {
+							thread.join();
+						} catch (InterruptedException e) {
+							// TODO GUAAHHA?A????
+							break;
+						}
+					}
 				}
 			}
 		}

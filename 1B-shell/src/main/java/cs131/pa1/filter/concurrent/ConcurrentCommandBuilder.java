@@ -23,13 +23,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class ConcurrentCommandBuilder {
 
-	public static ConcurrentFilter createFiltersFromCommand(String command) {
-		//initialize the list that will hold all of the filters
-		List<ConcurrentFilter> filters = new ArrayList<>();
+	/**
+	 * it's true -- and "very clever" -- that any ConcurrentFilter
+	 * functions as the de-facto head of a linked list. However, the real
+	 * List interface comes with many benefits, such as repeated iteration
+	 * @param command
+	 * @return
+	 */
+	public static List<ConcurrentFilter> createFiltersFromCommand(String command) {
 		command = trimBackground(command);
 		//removing the final filter here
 		String truncCommand = adjustCommandToRemoveFinalFilter(command);
@@ -37,16 +42,13 @@ public class ConcurrentCommandBuilder {
 			return null;
 		}
 		//for all the commands, split them by pipes, construct each filter, and add them to the filters list.
-		Stream<ConcurrentFilter> commands = Arrays.stream(truncCommand.split("\\|"))
+		List<ConcurrentFilter> filters = Arrays.stream(truncCommand.split("\\|"))
 				.map(String::trim)
 				.filter(String::isEmpty)
-				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand);
-		for (var filter : (Iterable<ConcurrentFilter>) commands::iterator) {
-			if (filter != null) {
-				filters.add(filter);
-			} else {
-				return null;
-			}
+				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
+				.collect(Collectors.toCollection(ArrayList::new));
+		if (filters.contains(null)) {
+			return null;
 		}
 
 		ConcurrentFilter fin = determineFinalFilter(command);
@@ -56,7 +58,7 @@ public class ConcurrentCommandBuilder {
 		filters.add(fin);
 
 		if (linkFilters(filters, command)) {
-			return filters.get(0);
+			return filters;
 		} else {
 			return null;
 		}
