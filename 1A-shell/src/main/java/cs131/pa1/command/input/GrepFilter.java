@@ -21,19 +21,24 @@ package cs131.pa1.command.input;
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialInputFilter;
 
-import java.util.List;
-
+/**
+ * Searches each line in a given input for a specific string, returns each line containing the string.
+ */
 public class GrepFilter extends SequentialInputFilter {
-	private String substr;
+	
+	private String searchTerm;
 
 	public GrepFilter(Arguments args) {
 		super(args);
         ensureSomeArgs();
-		substr = String.join(" ", args);
+		searchTerm = String.join(" ", args);
 	}
 
 	@Override
 	protected String processLine(String line) {
-		return line.contains(substr) ? line : null;
+		if (line.contains(searchTerm)) {
+			return line;
+		}
+		return null;
 	}
 }

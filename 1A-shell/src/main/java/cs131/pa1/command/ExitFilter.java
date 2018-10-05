@@ -23,9 +23,11 @@ import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 import cs131.pa1.filter.sequential.SequentialREPL;
 
-import java.util.List;
-
+/**
+ * Ends the REPL loop when processed.
+ */
 public class ExitFilter extends SequentialOutputFilter {
+	
 	public ExitFilter(Arguments args) {
 		super(args);
 	}
@@ -36,6 +38,6 @@ public class ExitFilter extends SequentialOutputFilter {
 			return;
 		}
 		error(Message.GOODBYE);
-		SequentialREPL.shouldExit = true;
+		SequentialREPL.quit = true;
 	}
 }

@@ -21,11 +21,13 @@ package cs131.pa1.command.input;
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialInputFilter;
 
+/**
+ * Counts lines, words, and characters in a given input.
+ */
 public class WcFilter extends SequentialInputFilter {
+	
 	int lines;
 	int words;
-	// unix actually counts *bytes*, but that's 1. not very useful in the
-	// context of text and 2. very difficult to count in java
 	int chars;
 
 	public WcFilter(Arguments args) {

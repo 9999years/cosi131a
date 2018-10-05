@@ -27,8 +27,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
 public class CatFilterTest {
 	static CatFilter cat(String args) {
 		return new CatFilter(new Arguments("cat " + args));

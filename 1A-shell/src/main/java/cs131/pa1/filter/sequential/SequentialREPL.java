@@ -24,26 +24,23 @@ import cs131.pa1.filter.Message;
 import java.util.Scanner;
 
 public class SequentialREPL {
+	
 	public static WorkingDirectory cwd;
-	/**
-	 * disgusting global variable set by ExitFilter because System.exit fucks with tests
-	 */
-	public static boolean shouldExit;
+	public static boolean quit;
 
 	public static void main(String[] args) {
-		shouldExit = false;
+		quit = false;
 		cwd = new WorkingDirectory();
 		System.out.print(Message.WELCOME.toString());
-		var in = new Scanner(System.in);
-		while (!shouldExit) {
+		Scanner input = new Scanner(System.in);
+		while (!quit) {
 			System.out.print(Message.NEWCOMMAND.toString());
-			var line = "exit";
-			if (in.hasNextLine()) {
-				line = in.nextLine();
+			String line = "exit";
+			if (input.hasNextLine()) {
+				line = input.nextLine();
 			}
 			SequentialCommandBuilder.createFiltersFromCommand(line)
 					.printOutput().process();
 		}
-		System.out.flush();
 	}
 }

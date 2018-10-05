@@ -29,10 +29,8 @@ import cs131.pa1.command.input.UniqFilter;
 import cs131.pa1.command.input.WcFilter;
 import cs131.pa1.filter.sequential.EmptyFilter;
 import cs131.pa1.filter.sequential.GoodSequentialFilter;
-import cs131.pa1.filter.sequential.SequentialFilter;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.AbstractMap;
 import java.util.Map;
 
 /**

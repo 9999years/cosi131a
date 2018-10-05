@@ -19,7 +19,6 @@
 package cs131.pa1.filter.sequential;
 
 import cs131.pa1.Arguments;
-import cs131.pa1.filter.Filter;
 import cs131.pa1.filter.Message;
 
 import java.util.ArrayDeque;

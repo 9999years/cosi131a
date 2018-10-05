@@ -28,9 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 

@@ -22,8 +22,6 @@ import cs131.pa1.Arguments;
 import cs131.pa1.filter.Message;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
-import java.util.List;
-
 public class CommandNotFoundFilter extends SequentialOutputFilter {
 	public CommandNotFoundFilter(Arguments args) {
 		super(args);

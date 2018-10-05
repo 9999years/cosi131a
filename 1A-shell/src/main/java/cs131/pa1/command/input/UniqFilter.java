@@ -24,9 +24,10 @@ import cs131.pa1.filter.sequential.SequentialInputFilter;
 import java.util.HashSet;
 
 /**
- * not how unix uniq works!!!!!!!!!!!!!!!
+ * Given an input, output only unique elements. 
  */
 public class UniqFilter extends SequentialInputFilter {
+	
 	private HashSet<String> lines;
 
 	public UniqFilter(Arguments args) {
@@ -42,6 +43,9 @@ public class UniqFilter extends SequentialInputFilter {
 
 	@Override
 	protected String processLine(String line) {
-		return lines.add(line) ? line : null;
+		if (lines.add(line)) {
+			return line;
+		}
+		return null;
 	}
 }

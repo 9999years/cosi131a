@@ -21,7 +21,6 @@ package cs131.pa1.filter.sequential;
 import cs131.pa1.Arguments;
 import cs131.pa1.command.Commands;
 
-import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.*;
 

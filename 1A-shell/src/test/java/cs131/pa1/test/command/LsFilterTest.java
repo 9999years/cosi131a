@@ -20,11 +20,8 @@ package cs131.pa1.test.command;
 
 import cs131.pa1.Arguments;
 import cs131.pa1.command.stateful.LsFilter;
-import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static cs131.pa1.test.command.TestCommand.testCommand;

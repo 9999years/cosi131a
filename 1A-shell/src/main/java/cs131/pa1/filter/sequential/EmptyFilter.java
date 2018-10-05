@@ -20,9 +20,6 @@ package cs131.pa1.filter.sequential;
 
 import cs131.pa1.Arguments;
 
-import java.util.ArrayDeque;
-import java.util.LinkedList;
-
 /**
  * a filter with no input or output
  *

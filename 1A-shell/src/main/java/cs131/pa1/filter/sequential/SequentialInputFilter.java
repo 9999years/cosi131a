@@ -19,14 +19,12 @@
 package cs131.pa1.filter.sequential;
 
 import cs131.pa1.Arguments;
-import cs131.pa1.filter.Message;
-
-import java.util.List;
 
 /**
- * a Filter which requires input
+ * A filter that requires input.
  */
 public abstract class SequentialInputFilter extends GoodSequentialFilter {
+	
 	public SequentialInputFilter(Arguments args) {
 		super(args);
 	}

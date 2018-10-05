@@ -21,7 +21,11 @@ package cs131.pa1.command;
 import cs131.pa1.Arguments;
 import cs131.pa1.filter.sequential.SequentialOutputFilter;
 
+/**
+ * Displays available commands.
+ */
 public class HelpFilter extends SequentialOutputFilter {
+	
 	public HelpFilter(Arguments args) {
 		super(args);
 	}
