@@ -66,7 +66,9 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 
 	protected void done() {
 		done = true;
-		input.clear();
+		if (input != null) {
+			input.clear();
+		}
 	}
 
 	@Override

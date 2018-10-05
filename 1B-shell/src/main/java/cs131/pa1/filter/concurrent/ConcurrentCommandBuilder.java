@@ -48,7 +48,6 @@ public class ConcurrentCommandBuilder {
 				.filter(((Predicate<String>) String::isEmpty).negate())
 				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
 				.collect(Collectors.toCollection(ArrayList::new));
-		System.out.println(filters);
 		if (filters.contains(null)) {
 			return null;
 		}
