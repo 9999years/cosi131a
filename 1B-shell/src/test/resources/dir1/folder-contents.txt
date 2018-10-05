@@ -1,3 +1,0 @@
-dir2
-f1.txt
-folder-contents.txt
