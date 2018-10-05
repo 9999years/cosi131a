@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ConcurrentCommandBuilder {
@@ -42,11 +43,12 @@ public class ConcurrentCommandBuilder {
 			return null;
 		}
 		//for all the commands, split them by pipes, construct each filter, and add them to the filters list.
-		List<ConcurrentFilter> filters = Arrays.stream(truncCommand.split("\\|"))
+		var filters = Arrays.stream(truncCommand.split("\\|"))
 				.map(String::trim)
-				.filter(String::isEmpty)
+				.filter(((Predicate<String>) String::isEmpty).negate())
 				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
 				.collect(Collectors.toCollection(ArrayList::new));
+		System.out.println(filters);
 		if (filters.contains(null)) {
 			return null;
 		}

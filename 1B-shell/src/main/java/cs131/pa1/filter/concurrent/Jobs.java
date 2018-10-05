@@ -17,11 +17,14 @@
 
 package cs131.pa1.filter.concurrent;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.Spliterator;
 
-public class Jobs extends AbstractList<Job> {
+import static java.util.Collections.addAll;
+
+public class Jobs implements Iterable<Job> {
 	private ArrayList<Job> jobs;
 
 	public Jobs(Collection<Job> jobs) {
@@ -46,6 +49,7 @@ public class Jobs extends AbstractList<Job> {
 				.append(". ")
 				.append(job)
 				.append("\n");
+			i++;
 		}
 		return sb.toString();
 	}
@@ -62,7 +66,7 @@ public class Jobs extends AbstractList<Job> {
 	 * removes all done jobs from this list
 	 */
 	public void removeDone() {
-		removeIf(Job::isDone);
+		jobs.removeIf(Job::isDone);
 	}
 
 	/**
@@ -72,13 +76,33 @@ public class Jobs extends AbstractList<Job> {
 	 * @param index
 	 * @return
 	 */
-	@Override
 	public Job get(int index) {
 		return jobs.get(index - 1);
 	}
 
-	@Override
 	public int size() {
 		return jobs.size();
+	}
+
+	public boolean add(Job job) {
+		return jobs.add(job);
+	}
+
+	public Job set(int index, Job element) {
+		return jobs.set(index - 1, element);
+	}
+
+	public Job remove(int index) {
+		return jobs.remove(index - 1);
+	}
+
+	@Override
+	public Iterator<Job> iterator() {
+		return jobs.iterator();
+	}
+
+	@Override
+	public Spliterator<Job> spliterator() {
+		return jobs.spliterator();
 	}
 }
