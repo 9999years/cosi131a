@@ -36,6 +36,15 @@ public class ConcurrentREPL {
 	 */
 	private static Jobs jobs;
 
+	private static void kill(String command) {
+		String[] args = command.split("\\s+");
+		if (args.length != 2) {
+			System.out.print(Message.INVALID_PARAMETER.with_parameter(command));
+		}
+		int job = Integer.valueOf(args[1]);
+		jobs.kill(job);
+	}
+
 	public static void main(String[] args) {
 		currentWorkingDirectory = System.getProperty("user.dir");
 		jobs = new Jobs();
@@ -51,9 +60,9 @@ public class ConcurrentREPL {
 				break;
 			} else if (command.equals("repl_jobs")) {
 				System.out.print(jobs.toPrettyString());
-			} else if (command.equals("kill")) {
+			} else if (command.startsWith("kill")) {
 				// TODO implement this
-				System.out.println("unimplemented!");
+				kill(command);
 			} else if (!command.isEmpty()) {
 				//building the filters list from the command
 				var filterList = ConcurrentCommandBuilder.createFiltersFromCommand(command);
