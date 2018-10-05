@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
- * and Lin-ye Kaye (linyekaye@brandeis.edu)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +18,7 @@
 package cs131.pa1.test.other;
 
 import cs131.pa1.filter.Message;
-import cs131.pa1.filter.sequential.SequentialREPL;
+import cs131.pa1.filter.concurrent.ConcurrentREPL;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,13 +27,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class SequentialREPLTest {
+public class ConcurrentREPLTest {
 	InputStream stdin;
 	PrintStream stdout;
 	PrintStream stderr;
@@ -95,7 +92,7 @@ public class SequentialREPLTest {
 		var inStr = "cd " + RESOURCES + "\n" + lineJoin(input);
 		System.setIn(new ByteArrayInputStream(inStr.getBytes()));
 		// run shell
-		SequentialREPL.main(new String[0]);
+		ConcurrentREPL.main(new String[0]);
 		// apply a "> " to every line in expected output and join with \n before
 		// comparing
 		var expectStr = Message.NEWCOMMAND
