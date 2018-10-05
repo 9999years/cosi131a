@@ -18,27 +18,26 @@
 package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.Arguments;
-import cs131.pa1.command.Commands;
 
-import java.util.regex.Pattern;
-import java.util.stream.*;
-
-public class ConcurrentCommandBuilder {
-	private static final Pattern subCommandBoundary = Pattern.compile("\\||(?=>)");
-	public static final String PIPE = "|";
-
-	public static ConcurrentFilterChain createFiltersFromCommand(String command) {
-		return new ConcurrentFilterChain(
-				splitToSubCommands(command)
-				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
-                .collect(Collectors.toUnmodifiableList()));
+/**
+ * A ConcurrentFilter that doesn't read input; throws an error if the
+ * input queue is non-empty. only a starting operation
+ */
+public abstract class ConcurrentOutputFilter extends ConcurrentFilter {
+	public ConcurrentOutputFilter(Arguments args) {
+		super(args);
 	}
 
-	private static Stream<String> splitToSubCommands(String command) {
-		return subCommandBoundary.splitAsStream(command);
+	protected boolean preprocess() {
+		return ensureNoInput();
 	}
 
-	private static ConcurrentFilter constructFilterFromSubCommand(String subCommand) {
-		return Commands.forName(new Arguments(subCommand));
+	@Override
+	abstract public void process();
+
+	@Override
+	protected String processLine(String line) {
+		// throw new NotImplementedException("OutputFilter does not read input!");
+		return null;
 	}
 }

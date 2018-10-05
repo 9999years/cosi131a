@@ -18,27 +18,31 @@
 package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.Arguments;
-import cs131.pa1.command.Commands;
 
-import java.util.regex.Pattern;
-import java.util.stream.*;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
-public class ConcurrentCommandBuilder {
-	private static final Pattern subCommandBoundary = Pattern.compile("\\||(?=>)");
-	public static final String PIPE = "|";
+/**
+ * filter which writes all the data in its input queue line-wise to an output stream
+ *
+ * try: new OutputStreamFilter(System.out)
+ */
+public class OutputStreamFilter extends ConcurrentFilter {
+	private final PrintStream outputStream;
 
-	public static ConcurrentFilterChain createFiltersFromCommand(String command) {
-		return new ConcurrentFilterChain(
-				splitToSubCommands(command)
-				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
-                .collect(Collectors.toUnmodifiableList()));
+	OutputStreamFilter(OutputStream outputStream) {
+		super(Arguments.empty());
+		this.outputStream = new PrintStream(outputStream);
 	}
 
-	private static Stream<String> splitToSubCommands(String command) {
-		return subCommandBoundary.splitAsStream(command);
+	@Override
+	protected String processLine(String line) {
+		outputStream.print(line);
+		return null;
 	}
 
-	private static ConcurrentFilter constructFilterFromSubCommand(String subCommand) {
-		return Commands.forName(new Arguments(subCommand));
+	@Override
+	protected boolean isATTY() {
+		return true;
 	}
 }

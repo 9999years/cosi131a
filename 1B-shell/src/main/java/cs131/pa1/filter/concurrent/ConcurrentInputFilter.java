@@ -1,5 +1,6 @@
 /*
  * Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
+ * and Lin-ye Kaye (linyekaye@brandeis.edu)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,27 +19,22 @@
 package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.Arguments;
-import cs131.pa1.command.Commands;
+import cs131.pa1.filter.Message;
 
-import java.util.regex.Pattern;
-import java.util.stream.*;
+import java.util.List;
 
-public class ConcurrentCommandBuilder {
-	private static final Pattern subCommandBoundary = Pattern.compile("\\||(?=>)");
-	public static final String PIPE = "|";
-
-	public static ConcurrentFilterChain createFiltersFromCommand(String command) {
-		return new ConcurrentFilterChain(
-				splitToSubCommands(command)
-				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
-                .collect(Collectors.toUnmodifiableList()));
+/**
+ * a Filter which requires input
+ */
+public abstract class ConcurrentInputFilter extends ConcurrentFilter {
+	public ConcurrentInputFilter(Arguments args) {
+		super(args);
 	}
 
-	private static Stream<String> splitToSubCommands(String command) {
-		return subCommandBoundary.splitAsStream(command);
-	}
-
-	private static ConcurrentFilter constructFilterFromSubCommand(String subCommand) {
-		return Commands.forName(new Arguments(subCommand));
+	@Override
+	public void process() {
+		if (ensureNotFirst()) {
+			super.process();
+		}
 	}
 }

@@ -18,27 +18,40 @@
 package cs131.pa1.filter.concurrent;
 
 import cs131.pa1.Arguments;
-import cs131.pa1.command.Commands;
 
-import java.util.regex.Pattern;
-import java.util.stream.*;
+import java.util.ArrayDeque;
+import java.util.LinkedList;
 
-public class ConcurrentCommandBuilder {
-	private static final Pattern subCommandBoundary = Pattern.compile("\\||(?=>)");
-	public static final String PIPE = "|";
-
-	public static ConcurrentFilterChain createFiltersFromCommand(String command) {
-		return new ConcurrentFilterChain(
-				splitToSubCommands(command)
-				.map(ConcurrentCommandBuilder::constructFilterFromSubCommand)
-                .collect(Collectors.toUnmodifiableList()));
+/**
+ * a filter with no input or output
+ *
+ * isDone will always return true
+ */
+public class EmptyFilter extends ConcurrentFilter {
+	public EmptyFilter() {
+		super(Arguments.empty());
 	}
 
-	private static Stream<String> splitToSubCommands(String command) {
-		return subCommandBoundary.splitAsStream(command);
+	/**
+	 * only provided for interface-compatibility with cs131.pa1.command.stateful
+	 * @param args
+	 */
+	public EmptyFilter(Arguments args) {
+		this();
 	}
 
-	private static ConcurrentFilter constructFilterFromSubCommand(String subCommand) {
-		return Commands.forName(new Arguments(subCommand));
+	@Override
+	public void process() {
+		// do nothing!
+	}
+
+	@Override
+	protected String processLine(String line) {
+		return null;
+	}
+
+	@Override
+	protected boolean isATTY() {
+		return true;
 	}
 }
