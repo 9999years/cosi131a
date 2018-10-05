@@ -46,6 +46,7 @@ public class ConcurrentFilterChain extends ArrayList<ConcurrentFilter> {
 		filter.output.forEach(System.out::print);
 	}
 
+	// TODO make this use .run and not .process
 	public void process() throws InterruptedException {
 		linkFilters();
 		for (var filter : this) {

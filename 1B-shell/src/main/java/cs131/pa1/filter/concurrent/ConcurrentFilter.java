@@ -92,8 +92,8 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 
 	@Blocks
 	public void process() throws InterruptedException {
-		while (!input.isEmpty()) {
-			String line = input.poll();
+		while (!prev.isDone()) {
+			String line = input.take();
 			String processedLine = processLine(line);
 			if (processedLine != null) {
 				output.put(processedLine);
