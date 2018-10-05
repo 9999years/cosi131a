@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="rebeccaturner-and-linkaye-PA1B-shell" target="10" />
+      <module name="rebeccaturner-and-linkaye-PA1B-shell" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
