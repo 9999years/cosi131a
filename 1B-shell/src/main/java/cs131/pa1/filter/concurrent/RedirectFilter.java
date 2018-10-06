@@ -26,9 +26,11 @@ import java.io.IOException;
 
 public class RedirectFilter extends ConcurrentFilter {
 	private FileWriter fw;
+	private String line;
 
 	public RedirectFilter(String line) throws Exception {
 		super();
+		this.line = line;
 		String[] param = line.split(">");
 		if(param.length > 1) {
 			if(param[1].trim().equals("")) {
@@ -48,13 +50,20 @@ public class RedirectFilter extends ConcurrentFilter {
 	}
 
 	@Override
+	public void process() throws InterruptedException {
+		super.process();
+		try {
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			System.out.printf(Message.FILE_NOT_FOUND.toString(), line);
+		}
+	}
+
+	@Override
 	public String processLine(String line) {
 		try {
 			fw.append(line + "\n");
-			if(isDone()) {
-				fw.flush();
-				fw.close();
-			}
 		} catch (IOException e) {
 			System.out.printf(Message.FILE_NOT_FOUND.toString(), line);
 		}

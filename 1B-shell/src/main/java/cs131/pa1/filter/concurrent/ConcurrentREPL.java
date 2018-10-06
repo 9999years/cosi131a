@@ -40,15 +40,17 @@ public class ConcurrentREPL {
 		String[] args = command.split("\\s+");
 		if (args.length < 2) {
 			System.out.print(Message.REQUIRES_PARAMETER.with_parameter(command));
+			return;
 		} else if (args.length > 2) {
-			System.out.println(Message.INVALID_PARAMETER.with_parameter(command));
+			System.out.print(Message.INVALID_PARAMETER.with_parameter(command));
+			return;
 		}
 		try {
 			int job = Integer.valueOf(args[1]);
 			jobs.kill(job);
 		} catch (IllegalArgumentException
 				| IndexOutOfBoundsException e) {
-			System.out.println(Message.INVALID_PARAMETER.with_parameter(command));
+			System.out.print(Message.INVALID_PARAMETER.with_parameter(command));
 		}
 	}
 
