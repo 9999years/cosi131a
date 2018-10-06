@@ -44,7 +44,7 @@ public class Jobs implements Iterable<Job> {
 		StringBuilder sb = new StringBuilder();
 		int i = 1;
 		for (Job job : this) {
-			sb.append("  ")
+			sb.append("\t")
 				.append(i)
 				.append(". ")
 				.append(job)

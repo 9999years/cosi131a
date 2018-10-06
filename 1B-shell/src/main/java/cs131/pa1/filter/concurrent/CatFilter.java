@@ -55,9 +55,6 @@ public class CatFilter extends ConcurrentFilter{
 
 	@Override
 	public void process() throws InterruptedException {
-		if (!reader.hasNextLine()) {
-			output.put("");
-		}
 		while(reader.hasNextLine()) {
 			output.put(reader.nextLine());
 		}

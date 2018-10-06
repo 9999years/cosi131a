@@ -51,10 +51,7 @@
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
                     <includes>
-                        <include>cs131.pa1.test.AllSequentialTests</include>
-                        <include>cs131.pa1.test.command.*</include>
-                        <include>cs131.pa1.test.filter.*</include>
-                        <include>cs131.pa1.test.other.*</include>
+                        <include>cs131.pa1.test.AllConcurrentTests</include>
                     </includes>
                 </configuration>
             </plugin>

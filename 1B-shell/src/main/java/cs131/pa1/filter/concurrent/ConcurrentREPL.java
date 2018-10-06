@@ -38,11 +38,18 @@ public class ConcurrentREPL {
 
 	private static void kill(String command) {
 		String[] args = command.split("\\s+");
-		if (args.length != 2) {
-			System.out.print(Message.INVALID_PARAMETER.with_parameter(command));
+		if (args.length < 2) {
+			System.out.print(Message.REQUIRES_PARAMETER.with_parameter(command));
+		} else if (args.length > 2) {
+			System.out.println(Message.INVALID_PARAMETER.with_parameter(command));
 		}
-		int job = Integer.valueOf(args[1]);
-		jobs.kill(job);
+		try {
+			int job = Integer.valueOf(args[1]);
+			jobs.kill(job);
+		} catch (IllegalArgumentException
+				| IndexOutOfBoundsException e) {
+			System.out.println(Message.INVALID_PARAMETER.with_parameter(command));
+		}
 	}
 
 	public static void main(String[] args) {
@@ -59,6 +66,7 @@ public class ConcurrentREPL {
 			if (command.equals("exit")) {
 				break;
 			} else if (command.equals("repl_jobs")) {
+				jobs.removeDone();
 				System.out.print(jobs.toPrettyString());
 			} else if (command.startsWith("kill")) {
 				// TODO implement this

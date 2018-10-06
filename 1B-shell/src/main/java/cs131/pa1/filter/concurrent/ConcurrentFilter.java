@@ -69,10 +69,12 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 			// TODO this can cause problems if the previous thread
 			// finishes between the loop entry and this line WHILE writing
 			// no output
-			String line = input.take(); // wait for input
-			String processedLine = processLine(line);
-			if (processedLine != null) {
-				output.put(processedLine);
+			if (!input.isEmpty()) {
+				String line = input.take(); // wait for input
+				String processedLine = processLine(line);
+				if (processedLine != null) {
+					output.put(processedLine);
+				}
 			}
 		}
 	}
