@@ -70,7 +70,7 @@ public class ConcurrentREPL {
 					continue;
 				}
 				List<Thread> threads = filterList.stream()
-						.map(Thread::new)
+						.map(t -> new Thread(t, t.toString()))
 						.peek(Thread::start)
 						.collect(Collectors.toList());
 				if (background) {
@@ -80,7 +80,8 @@ public class ConcurrentREPL {
 						try {
 							thread.join();
 						} catch (InterruptedException e) {
-							// TODO GUAAHHA?A????
+							// TODO what the hell would happen here?
+							e.printStackTrace();
 							break;
 						}
 					}

@@ -28,7 +28,7 @@ public class WcFilter extends ConcurrentFilter {
 
 	public void process() throws InterruptedException {
 		super.process();
-		output.add(processLine(null));
+		output.put(processLine(null));
 	}
 
 	public String processLine(String line) {

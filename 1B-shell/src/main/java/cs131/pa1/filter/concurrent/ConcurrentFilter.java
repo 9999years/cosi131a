@@ -29,7 +29,7 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 
 	protected BlockingQueue<String> input;
 	protected BlockingQueue<String> output;
-	
+
 	@Override
 	public void setPrevFilter(Filter prevFilter) {
 		prevFilter.setNextFilter(this);
@@ -53,9 +53,22 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 	public Filter getNext() {
 		return next;
 	}
-	
+
+	@Override
+	public void run() {
+		try {
+ 			this.process(); // process the input as soon as it is received
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt(); // some thread was interrupted or killed, halt process
+		}
+		done();
+	}
+
 	public void process() throws InterruptedException {
-		while (!prev.isDone()) {
+		while (!prev.isDone() || !input.isEmpty()) {
+			// TODO this can cause problems if the previous thread
+			// finishes between the loop entry and this line WHILE writing
+			// no output
 			String line = input.take(); // wait for input
 			String processedLine = processLine(line);
 			if (processedLine != null) {
@@ -63,27 +76,19 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 			}
 		}
 	}
-	
+
 	protected abstract String processLine(String line);
-	
 	// our changes start here
+
 	protected void done() {
 		done = true;
-		input.clear();
+		if (input != null) {
+			input.clear();
+		}
 	}
 
 	@Override
 	public boolean isDone() {
 		return done;
-	}
-	
-	@Override
-	public void run() {
-		try {
-			this.process(); // process the input as soon as it is received
-			done();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt(); // some thread was interrupted or killed, halt process
-		}
 	}
 }
