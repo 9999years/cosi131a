@@ -20,10 +20,13 @@ package cs131.pa1.filter.concurrent;
 import java.util.List;
 
 public class Job {
+	protected static int TOTAL_JOBS = 1;
+	public final int pid;
 	private String commandLine;
 	private List<Thread> threads;
 
 	public Job(String commandLine, List<Thread> threads) {
+		pid = TOTAL_JOBS++;
 		this.commandLine = commandLine;
 		this.threads = threads;
 	}

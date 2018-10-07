@@ -19,90 +19,55 @@ package cs131.pa1.filter.concurrent;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Spliterator;
 
-import static java.util.Collections.addAll;
-
-public class Jobs implements Iterable<Job> {
-	private ArrayList<Job> jobs;
-
+public class Jobs extends ArrayList<Job> {
 	public Jobs(Collection<Job> jobs) {
 		this(jobs.size());
 		addAll(jobs);
 	}
 
 	public Jobs(int size) {
-		jobs = new ArrayList<>(size);
+		super(size);
 	}
 
 	public Jobs() {
-		jobs = new ArrayList<>();
+		super();
 	}
 
 	public String toPrettyString() {
 		StringBuilder sb = new StringBuilder();
-		int i = 1;
 		for (Job job : this) {
 			sb.append("\t")
-				.append(i)
+				.append(job.pid)
 				.append(". ")
 				.append(job)
 				.append("\n");
-			i++;
 		}
 		return sb.toString();
 	}
 
 	/**
 	 * kills the specified job
-	 * @param index
 	 */
-	public void kill(int index) {
-		get(index).kill();
+	public boolean kill(int pid) {
+		if (isEmpty()) {
+			return false;
+		}
+		var itr = iterator();
+		for (Job job = itr.next(); itr.hasNext(); job = itr.next()) {
+			if (pid == job.pid) {
+				job.kill();
+				itr.remove();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
 	 * removes all done jobs from this list
 	 */
 	public void removeDone() {
-		jobs.removeIf(Job::isDone);
-	}
-
-	/**
-	 * note for user-friendly reasons (to match up with the numbers
-	 * provided by toPrettyString()) the indexes used by this are 1-based
-	 * rather than 0-based
-	 * @param index
-	 * @return
-	 */
-	public Job get(int index) {
-		return jobs.get(index - 1);
-	}
-
-	public int size() {
-		return jobs.size();
-	}
-
-	public boolean add(Job job) {
-		return jobs.add(job);
-	}
-
-	public Job set(int index, Job element) {
-		return jobs.set(index - 1, element);
-	}
-
-	public Job remove(int index) {
-		return jobs.remove(index - 1);
-	}
-
-	@Override
-	public Iterator<Job> iterator() {
-		return jobs.iterator();
-	}
-
-	@Override
-	public Spliterator<Job> spliterator() {
-		return jobs.spliterator();
+		removeIf(Job::isDone);
 	}
 }

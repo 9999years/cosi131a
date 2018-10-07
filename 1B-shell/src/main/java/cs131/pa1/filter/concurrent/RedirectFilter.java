@@ -33,7 +33,7 @@ public class RedirectFilter extends ConcurrentFilter {
 		this.line = line;
 		String[] param = line.split(">");
 		if(param.length > 1) {
-			if(param[1].trim().equals("")) {
+			if(param[1].trim().isEmpty()) {
 				System.out.printf(Message.REQUIRES_PARAMETER.toString(), line.trim());
 				throw new Exception();
 			}

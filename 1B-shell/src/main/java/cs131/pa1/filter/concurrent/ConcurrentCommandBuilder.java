@@ -36,7 +36,7 @@ public class ConcurrentCommandBuilder {
 	 * @return
 	 */
 	public static List<ConcurrentFilter> createFiltersFromCommand(String command) {
-		command = trimBackground(command);
+		command = trimBackground(command) + " ";
 		//removing the final filter here
 		String truncCommand = adjustCommandToRemoveFinalFilter(command);
 		if (truncCommand == null) {

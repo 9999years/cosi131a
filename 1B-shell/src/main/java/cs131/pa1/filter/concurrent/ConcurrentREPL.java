@@ -47,15 +47,20 @@ public class ConcurrentREPL {
 		}
 		try {
 			int job = Integer.valueOf(args[1]);
-			jobs.kill(job);
-		} catch (IllegalArgumentException
-				| IndexOutOfBoundsException e) {
+			if (!jobs.kill(job)) {
+				// invalid pid
+				throw new IllegalArgumentException();
+			}
+		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
 			System.out.print(Message.INVALID_PARAMETER.with_parameter(command));
 		}
 	}
 
 	public static void main(String[] args) {
 		currentWorkingDirectory = System.getProperty("user.dir");
+		// reset the job counter; needed because this method is run
+		// multiple times in a single thread in the test suite
+		Job.TOTAL_JOBS = 1;
 		jobs = new Jobs();
 		Scanner s = new Scanner(System.in);
 		System.out.print(Message.WELCOME);
