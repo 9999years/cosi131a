@@ -22,8 +22,8 @@ import java.util.List;
 public class Job {
 	protected static int TOTAL_JOBS = 1;
 	public final int pid;
-	private String commandLine;
-	private List<Thread> threads;
+	private final String commandLine;
+	private final List<Thread> threads;
 
 	public Job(String commandLine, List<Thread> threads) {
 		pid = TOTAL_JOBS++;

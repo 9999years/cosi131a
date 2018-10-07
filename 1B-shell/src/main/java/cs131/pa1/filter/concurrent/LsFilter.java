@@ -19,14 +19,11 @@ package cs131.pa1.filter.concurrent;
 import java.io.File;
 
 public class LsFilter extends ConcurrentFilter {
-	int counter;
-	File folder;
-	File[] flist;
+	private final File[] flist;
 
 	public LsFilter() {
 		super();
-		counter = 0;
-		folder = new File(ConcurrentREPL.currentWorkingDirectory);
+		File folder = new File(ConcurrentREPL.currentWorkingDirectory);
 		flist = folder.listFiles();
 	}
 

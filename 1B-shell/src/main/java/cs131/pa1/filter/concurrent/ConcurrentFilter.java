@@ -66,9 +66,6 @@ public abstract class ConcurrentFilter extends Filter implements Runnable {
 
 	public void process() throws InterruptedException {
 		while (!prev.isDone() || !input.isEmpty()) {
-			// TODO this can cause problems if the previous thread
-			// finishes between the loop entry and this line WHILE writing
-			// no output
 			if (!input.isEmpty()) {
 				String line = input.take(); // wait for input
 				String processedLine = processLine(line);

@@ -65,7 +65,7 @@ public class ConcurrentREPL {
 		Scanner s = new Scanner(System.in);
 		System.out.print(Message.WELCOME);
 		String command;
-		while (true) {
+		REPL: while (true) {
 			//obtaining the command from the user
 			System.out.print(Message.NEWCOMMAND);
 			command = s.nextLine().trim();
@@ -76,7 +76,6 @@ public class ConcurrentREPL {
 				jobs.removeDone();
 				System.out.print(jobs.toPrettyString());
 			} else if (command.startsWith("kill")) {
-				// TODO implement this
 				kill(command);
 			} else if (!command.isEmpty()) {
 				//building the filters list from the command
@@ -95,9 +94,8 @@ public class ConcurrentREPL {
 						try {
 							thread.join();
 						} catch (InterruptedException e) {
-							// TODO what the hell would happen here?
-							e.printStackTrace();
-							break;
+							// ctrl+c = exit
+							break REPL;
 						}
 					}
 				}

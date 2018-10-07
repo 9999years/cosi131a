@@ -25,8 +25,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class RedirectFilter extends ConcurrentFilter {
-	private FileWriter fw;
-	private String line;
+	private final FileWriter fw;
+	private final String line;
 
 	public RedirectFilter(String line) throws Exception {
 		super();
