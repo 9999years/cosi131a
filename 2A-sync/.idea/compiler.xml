@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="rebeccaturner-and-linyekaye-PA2A-sync" target="1.5" />
+      <module name="rebeccaturner-and-linyekaye-PA2A-sync" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -9,7 +9,7 @@
 			</profile>
 		</annotationProcessing>
 		<bytecodeTargetLevel>
-			<module name="{ARTIFACT_ID}" target="1.8" />
+			<module name="{ARTIFACT_ID}" target="8" />
 		</bytecodeTargetLevel>
 	</component>
 </project>
