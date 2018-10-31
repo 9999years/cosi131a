@@ -53,6 +53,9 @@
                 <version>2.22.0</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
+                    <excludes>
+                        <exclude>cs131.pa2.Test.PrioritySchedulerTest</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin> <!-- javadoc html generation -->
@@ -60,7 +63,6 @@
                 <version>3.0.0</version>
                 <configuration>
                     <show>private</show>
-                    <additionalOptions>-html5</additionalOptions>
                     <tags>
                         <tag>
                             <name>implNote</name>
