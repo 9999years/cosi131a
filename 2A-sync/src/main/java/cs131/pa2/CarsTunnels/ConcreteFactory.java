@@ -21,6 +21,11 @@ public class ConcreteFactory implements Factory {
 	}
 
 	@Override
+	public Vehicle createNewAmbulance(String label, Direction direction) {
+		return new Ambulance(label, direction);
+	}
+
+	@Override
 	public Vehicle createNewSled(String label, Direction direction) {
 		return new Sled(label, direction);
 	}
@@ -28,11 +33,6 @@ public class ConcreteFactory implements Factory {
 	@Override
 	public Tunnel createNewPriorityScheduler(String label, Collection<Tunnel> tunnels, Log log) {
 		throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-	@Override
-	public Vehicle createNewAmbulance(String label, Direction direction) {
-		return new Ambulance(label, direction);
 	}
 
 	@Override

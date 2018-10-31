@@ -30,7 +30,7 @@ public class BasicTunnel extends Tunnel {
 	// the vehicles currently in the tunnel; this represents a horrible little
 	// fixed-size array-set
 	private Vehicle[] vehicles = new Vehicle[MAX_CAPACITY];
-	int vehiclesInTunnel = 0;
+	private int vehiclesInTunnel = 0;
 
 	public BasicTunnel(String name) {
 		super(name);
