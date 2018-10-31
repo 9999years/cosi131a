@@ -3,6 +3,7 @@ import os
 import re
 import shutil
 from dataclasses import dataclass
+import functools
 
 from termcolor import colored
 
@@ -72,6 +73,8 @@ def test_next_pa():
     assert '2' == next_pa(['1', '1A', '1C'])
     assert '3' == next_pa(['sadogjasoig', '2', '1', '1A', '1C'])
 
+idea = functools.partial(os.path.join, '.idea')
+
 def make_project(name, number,
         group_id='ooo.becca.cosi131a', artifact_id_fmt='rebeccaturner-PA{number}-{name}',
         whatif=False, force=False):
@@ -109,14 +112,14 @@ def make_project(name, number,
     # mutating pom.xml
     replace('pom.xml')
     replace('README.md')
-    replace(os.path.join('.idea', 'compiler.xml'))
-    replace(os.path.join('.idea', 'modules.xml'))
-    replace(os.path.join('.idea', 'workspace.xml'))
+    replace(idea('compiler.xml'))
+    replace(idea('modules.xml'))
+    replace(idea('workspace.xml'))
 
-    with open(os.path.join('.idea', '.name'), 'w') as namefile:
+    with open(idea('.name'), 'w') as namefile:
         namefile.write(artifact_id)
 
-    shutil.move('template.iml', artifact_id + '.iml')
+    shutil.move(idea('template.iml', idea(dirname + '.iml')
 
 def main():
     parser = argparse.ArgumentParser(description='''Creates project boilerplate

@@ -17,6 +17,8 @@
 
 package cs131.pa2.CarsTunnels;
 
+import cs131.pa2.Abstract.Vehicle;
+
 public enum VehicleType {
 	Car(3, Car.class),
 	Sled(1, Sled.class);
@@ -24,12 +26,21 @@ public enum VehicleType {
 	public final int maxInTunnel;
 	public final Class clazz;
 
-	private VehicleType(int maxInTunnel, Class clazz) {
+	VehicleType(int maxInTunnel, Class clazz) {
 		this.maxInTunnel = maxInTunnel;
 		this.clazz = clazz;
 	}
 
 	public boolean isInstance(Object o) {
 		return this.clazz.isInstance(o);
+	}
+
+	public static VehicleType from(Vehicle vehicle) {
+		for (VehicleType vt : VehicleType.values()) {
+			if (vt.clazz.isInstance(vehicle)) {
+				return vt;
+			}
+		}
+		throw new IllegalArgumentException();
 	}
 }
