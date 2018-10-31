@@ -1,31 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
-  ~ and Lin-ye Kaye (linyekaye@brandeis.edu)
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.brandeis.cosi131a</groupId> <!-- this identifies you -->
-    <artifactId>PA2A-sync-rebeccaturner-and-linyekaye</artifactId> <!-- this identifies the project -->
+    <artifactId>rebeccaturner-and-linyekaye-PA2A-sync</artifactId> <!-- this identifies the project -->
     <version>1.0.0</version>
     <properties>
-        <java.version>8</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
     </properties>
@@ -44,8 +27,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin> <!-- test running -->
@@ -53,9 +36,6 @@
                 <version>2.22.0</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
-                    <excludes>
-                        <exclude>cs131.pa2.Test.PrioritySchedulerTest</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
             <plugin> <!-- javadoc html generation -->
@@ -63,11 +43,12 @@
                 <version>3.0.0</version>
                 <configuration>
                     <show>private</show>
+                    <additionalOptions>-html5</additionalOptions>
                     <tags>
                         <tag>
                             <name>implNote</name>
                             <placement>a</placement>
-                            <head>Implementation note:</head>
+                            <head>Im plementation note:</head>
                         </tag>
                     </tags>
                 </configuration>
@@ -104,7 +85,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>xxx</mainClass>
+                            <mainClass>fully.qualified.MainClass</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -4,6 +4,7 @@ import re
 import shutil
 from dataclasses import dataclass
 import functools
+from pathlib import Path
 
 from termcolor import colored
 
@@ -97,6 +98,8 @@ def make_project(name, number,
 
     shutil.copytree('boilerplate', dirname, copy_function=shutil.copy)
     os.chdir(dirname)
+    os.makedirs('src/main/java', exist_ok=True)
+    os.makedirs('src/test/java', exist_ok=True)
 
     def replace(fname):
         """replace {ARTIFACT_ID}, etc. w/ proper values"""
@@ -119,7 +122,7 @@ def make_project(name, number,
     with open(idea('.name'), 'w') as namefile:
         namefile.write(artifact_id)
 
-    shutil.move(idea('template.iml', idea(dirname + '.iml')
+    shutil.move(idea('template.iml'), idea(artifact_id + '.iml'))
 
 def main():
     parser = argparse.ArgumentParser(description='''Creates project boilerplate

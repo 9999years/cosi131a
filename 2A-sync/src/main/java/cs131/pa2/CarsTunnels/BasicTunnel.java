@@ -19,7 +19,7 @@ import java.util.concurrent.BlockingQueue;
  * • Only one sled may be inside a tunnel at any given time.
  * • Cars and sleds cannot share a tunnel.
  */
-public class BasicTunnel extends Tunnel {
+public class  	BasicTunnel extends Tunnel {
 	// absolute maximum vehicle capacity of the tunnel
 	public static final int MAX_CAPACITY = 3;
 
