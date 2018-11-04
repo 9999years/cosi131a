@@ -41,6 +41,8 @@ public enum VehicleType {
 				return vt;
 			}
 		}
-		throw new IllegalArgumentException();
+		// unspecified vehicles are cars :)
+		// (this line is a failsafe because Ambulance doesn't inherit from Car)
+		return VehicleType.Car;
 	}
 }

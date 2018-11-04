@@ -1,16 +1,9 @@
 package cs131.pa2.CarsTunnels;
 
 import cs131.pa2.Abstract.Direction;
+import cs131.pa2.Abstract.Log.Log;
 import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
-
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /**
  * Each tunnel has only one lane, so at any given time all vehicles must
@@ -28,10 +21,14 @@ public class BasicTunnel extends Tunnel {
 	// Type of vehicle currently using the tunnel
 	private VehicleType vehicleType = VehicleType.Car;
 	// the vehicles currently in the tunnel
-	private Vehicles vehicles;
+	private Vehicles vehicles = new Vehicles();
 
 	public BasicTunnel(String name) {
 		super(name);
+	}
+
+	public BasicTunnel(String name, Log log) {
+		super(name, log);
 	}
 
 	@Override
@@ -64,6 +61,7 @@ public class BasicTunnel extends Tunnel {
 
 	private boolean canEnter(Vehicle vehicle) {
 		if (vehicles.size() == 0) {
+			// a vehicle can always enter an empty tunnel
 			direction = vehicle.getDirection();
 			vehicleType = VehicleType.from(vehicle);
 			return true;
