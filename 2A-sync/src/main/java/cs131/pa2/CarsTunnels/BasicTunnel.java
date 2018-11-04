@@ -59,6 +59,10 @@ public class BasicTunnel extends Tunnel {
 		return vehicleType.maxInTunnel - vehicles.size();
 	}
 
+	private boolean isFull() {
+		return remainingSlots() == 0;
+	}
+
 	private boolean canEnter(Vehicle vehicle) {
 		if (vehicles.size() == 0) {
 			// a vehicle can always enter an empty tunnel
@@ -69,10 +73,8 @@ public class BasicTunnel extends Tunnel {
 			return false;
 		} else if (direction != vehicle.getDirection()) {
 			return false;
-		} else if (remainingSlots() == 0) {
-			return false;
 		} else {
-			return true;
+			return isFull();
 		}
 	}
 
