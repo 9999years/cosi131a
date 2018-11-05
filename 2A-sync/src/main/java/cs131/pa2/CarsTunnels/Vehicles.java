@@ -1,6 +1,6 @@
 /*
  * Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
- * and Lin-Ye Kaye (linyekaye@brandeis.edu)
+ * and Lin-ye Kaye (linyekaye@brandeis.edu)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,5 +63,33 @@ public class Vehicles {
 
 	public int size() {
 		return vehiclesInTunnel;
+	}
+	
+	public boolean containsAmbulance( ) {
+		for (int i = 0; i < vehicles.length; i++) {
+			if (vehicles[i] instanceof Ambulance) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Makes all vehicles that are not ambulances "pull over".
+	 */
+	public void pullOverNonessentials() {
+		for (Vehicle v : vehicles) {
+			v.pullOver();
+		}
+	}
+	
+	/**
+	 * Restart all of the vehicles that are not ambulances
+	 */
+	public void restartNonessentials() {
+		for (Vehicle v : vehicles) {
+			v.restart();
+		}
 	}
 }
