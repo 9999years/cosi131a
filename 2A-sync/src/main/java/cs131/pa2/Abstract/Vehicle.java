@@ -146,12 +146,8 @@ public abstract class Vehicle implements Runnable {
 		while(true) {
 			for (Tunnel tunnel : tunnels) {
 				if(tunnel.tryToEnter(this)) {
-					startTime = Instant.now();
 					doWhileInTunnel();
 					tunnel.exitTunnel(this);
-					if (this instanceof Ambulance) {
-						tunnel.notifyAll();
-					}
 					this.log.addToLog(this, EventType.COMPLETE);
 					return; // done, so leave the whole function
 				}
@@ -174,12 +170,17 @@ public abstract class Vehicle implements Runnable {
 	 * vehicle is, the less time this will take.
 	 */
 	public final void doWhileInTunnel() {
+		setStartTime();
+		if (this instanceof Ambulance) {
+			// fix this
+		}
 		try {
 			requiredTime = ((10 - speed) * 100);
 			Thread.sleep(requiredTime);
 		} catch(InterruptedException e) {
 			System.err.println("Interrupted vehicle " + getName());
 		}
+		
 	}
 
 	@Override
@@ -225,23 +226,27 @@ public abstract class Vehicle implements Runnable {
 	}
 	
 	public void pullOver() {
+		setEndTime(); // record when the car pulled over.
 		try {
-			this.wait();
+			this.wait(); // simulates the car stopping.
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		setEndTime();
 	}
 	
+	/**
+	 * Makes a vehicle that pulled over simulate continuing through the tunnel
+	 * by waiting for the amount of time it had left in the tunnel.
+	 */
 	public void restart() {
-		requiredTime = requiredTime - (int)Duration.between(startTime, endTime).toMillis(); // account for time the 
+		// determine how much time the car has left in the tunnel 
+		requiredTime = requiredTime - (int)Duration.between(startTime, endTime).toMillis(); 
+		// end the vehicle's waiting
 		this.notify();
 		setStartTime();
 		try {
 			this.wait(requiredTime);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
