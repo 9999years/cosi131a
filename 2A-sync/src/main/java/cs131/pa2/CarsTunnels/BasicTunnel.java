@@ -1,9 +1,16 @@
 package cs131.pa2.CarsTunnels;
 
 import cs131.pa2.Abstract.Direction;
-import cs131.pa2.Abstract.Log.Log;
 import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
+
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * Each tunnel has only one lane, so at any given time all vehicles must
@@ -20,15 +27,13 @@ public class BasicTunnel extends Tunnel {
 	private Direction direction = Direction.NORTH;
 	// Type of vehicle currently using the tunnel
 	private VehicleType vehicleType = VehicleType.Car;
-	// the vehicles currently in the tunnel
-	private Vehicles vehicles = new Vehicles();
+	// the vehicles currently in the tunnel; this represents a horrible little
+	// fixed-size array-set
+	private Vehicle[] vehicles = new Vehicle[MAX_CAPACITY];
+	int vehiclesInTunnel = 0;
 
 	public BasicTunnel(String name) {
 		super(name);
-	}
-
-	public BasicTunnel(String name, Log log) {
-		super(name, log);
 	}
 
 	@Override
@@ -37,16 +42,49 @@ public class BasicTunnel extends Tunnel {
 			return false;
 		}
 		// should never return false, but just to be safe
-		return vehicles.add(vehicle);
+		return add(vehicle);
 	}
 
 	@Override
 	public synchronized void exitTunnelInner(Vehicle vehicle) {
-		if (!vehicles.remove(vehicle)) {
+		if (!remove(vehicle)) {
 			// something has gone horribly wrong (or the caller used a bad
 			// vehicle...?)
 			throw new IllegalStateException("Attempted to remove unknown vehicle from tunnel");
 		}
+	}
+
+	/**
+	 * adds a vehicle to the tunnel, performing NO checks for correctness
+	 * @param vehicle the vehicle to add
+	 * @return whether or not a vehicle was added
+	 */
+	private boolean add(Vehicle vehicle) {
+		for (int i = 0; i < vehicles.length; i++) {
+			if (vehicles[i] == null) {
+				vehicles[i] = vehicle;
+				vehiclesInTunnel++;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * removes the specified vehicle from the tunnel; equality is determined
+	 * with the identity operator
+	 * @return true if a vehicle was removed
+	 */
+	private boolean remove(Vehicle vehicle) {
+		for (int i = 0; i < vehicles.length; i++) {
+			if (vehicles[i] == vehicle) {
+				// nulling out the reference lets the JVM GC collect it
+				vehicles[i] = null;
+				vehiclesInTunnel--;
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -56,25 +94,22 @@ public class BasicTunnel extends Tunnel {
 	 * no vehicles in the tunnel, returns at least 1
 	 */
 	private int remainingSlots() {
-		return vehicleType.maxInTunnel - vehicles.size();
-	}
-
-	private boolean isFull() {
-		return remainingSlots() == 0;
+		return vehicleType.maxInTunnel - vehiclesInTunnel;
 	}
 
 	private boolean canEnter(Vehicle vehicle) {
-		if (vehicles.size() == 0) {
-			// a vehicle can always enter an empty tunnel
+		if (vehiclesInTunnel == 0) {
 			direction = vehicle.getDirection();
-			vehicleType = VehicleType.from(vehicle);
+			vehicleType = vehicleType.from(vehicle);
 			return true;
 		} else if (!vehicleType.isInstance(vehicle)) {
 			return false;
 		} else if (direction != vehicle.getDirection()) {
 			return false;
+		} else if (remainingSlots() == 0) {
+			return false;
 		} else {
-			return isFull();
+			return true;
 		}
 	}
 
