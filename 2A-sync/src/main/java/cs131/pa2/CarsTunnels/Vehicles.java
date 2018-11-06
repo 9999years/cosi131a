@@ -20,76 +20,19 @@ package cs131.pa2.CarsTunnels;
 
 import cs131.pa2.Abstract.Vehicle;
 
-public class Vehicles {
-	// the vehicles currently in the tunnel; this represents a horrible little
-	// fixed-size array-set
-	private Vehicle[] vehicles = new Vehicle[BasicTunnel.MAX_CAPACITY];
-	private int vehiclesInTunnel = 0;
+import java.util.ArrayList;
+import java.util.Collection;
 
-	/**
-	 * adds a vehicle to the tunnel, performing NO checks for correctness
-	 *
-	 * @param vehicle the vehicle to add
-	 * @return whether or not a vehicle was added
-	 */
-	public synchronized boolean add(Vehicle vehicle) {
-		for (int i = 0; i < vehicles.length; i++) {
-			if (vehicles[i] == null) {
-				vehicles[i] = vehicle;
-				vehiclesInTunnel++;
-				return true;
-			}
-		}
-		return false;
+public class Vehicles extends ArrayList<Vehicle> {
+	public Vehicles() {
+		super(BasicTunnel.MAX_CAPACITY);
 	}
 
-	/**
-	 * removes the specified vehicle from the tunnel; equality is determined
-	 * with the identity operator
-	 *
-	 * @return true if a vehicle was removed
-	 */
-	public synchronized boolean remove(Vehicle vehicle) {
-		for (int i = 0; i < vehicles.length; i++) {
-			if (vehicles[i] == vehicle) {
-				// nulling out the reference lets the JVM GC collect it
-				vehicles[i] = null;
-				vehiclesInTunnel--;
-				return true;
-			}
-		}
-		return false;
+	public Vehicles(Collection<? extends Vehicle> collection) {
+		super(collection);
 	}
 
-	public int size() {
-		return vehiclesInTunnel;
-	}
-	
-	public boolean containsAmbulance( ) {
-		for (int i = 0; i < vehicles.length; i++) {
-			if (vehicles[i] instanceof Ambulance) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
-	/**
-	 * Makes all vehicles that are not ambulances "pull over".
-	 */
-	public void pullOverNonessentials() {
-		for (Vehicle v : vehicles) {
-			v.pullOver();
-		}
-	}
-	
-	/**
-	 * Restart all of the vehicles that are not ambulances
-	 */
-	public void restartNonessentials() {
-		for (Vehicle v : vehicles) {
-			v.restart();
-		}
+	public boolean containsAmbulance() {
+		return stream().anyMatch(v -> v instanceof Ambulance);
 	}
 }

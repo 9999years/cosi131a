@@ -1,11 +1,32 @@
+/*
+ * Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
+ * and Lin-ye Kaye (linyekaye@brandeis.edu)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cs131.pa2.Abstract;
-import java.util.*;
-import java.time.Duration;
-import java.time.Instant;
 
 import cs131.pa2.Abstract.Log.EventType;
 import cs131.pa2.Abstract.Log.Log;
 import cs131.pa2.CarsTunnels.Ambulance;
+
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
 
 /**
  * A Vehicle is a Runnable which enters tunnels. You must subclass
@@ -64,7 +85,7 @@ public abstract class Vehicle implements Runnable {
 	/**
 	 * Create a Vehicle with default priority that can cross one of
 	 * a collection of tunnels.
-	 * 
+	 *
 	 * @param name      The name of this vehicle to be displayed in the
 	 *                  output.
 	 * @param direction The side of the tunnel being entered.
@@ -88,7 +109,7 @@ public abstract class Vehicle implements Runnable {
 		this.speed = speed;
 	}
 
-	/** 
+	/**
 	 * Sets this vehicle's priority - used for priority scheduling
 	 *
 	 * @param priority The new priority (between 0 and 4 inclusive)
@@ -132,7 +153,7 @@ public abstract class Vehicle implements Runnable {
 
 	/**
 	 * Find and cross through one of the tunnels.
-	 * 
+	 *
 	 * When a thread is run, it keeps looping through its collection
 	 * of available tunnels until it succeeds in entering one of
 	 * them. Then, it will call doWhileInTunnel (to simulate doing
@@ -180,7 +201,7 @@ public abstract class Vehicle implements Runnable {
 		} catch(InterruptedException e) {
 			System.err.println("Interrupted vehicle " + getName());
 		}
-		
+
 	}
 
 	@Override
@@ -216,15 +237,15 @@ public abstract class Vehicle implements Runnable {
 		}
 		return true;
 	}
-	
+
 	public void setStartTime() {
 		startTime = Instant.now();
 	}
-	
+
 	public void setEndTime() {
 		endTime = Instant.now();
 	}
-	
+
 	public void pullOver() {
 		setEndTime(); // record when the car pulled over.
 		try {
@@ -233,14 +254,14 @@ public abstract class Vehicle implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Makes a vehicle that pulled over simulate continuing through the tunnel
 	 * by waiting for the amount of time it had left in the tunnel.
 	 */
 	public void restart() {
-		// determine how much time the car has left in the tunnel 
-		requiredTime = requiredTime - (int)Duration.between(startTime, endTime).toMillis(); 
+		// determine how much time the car has left in the tunnel
+		requiredTime = requiredTime - (int)Duration.between(startTime, endTime).toMillis();
 		// end the vehicle's waiting
 		this.notify();
 		setStartTime();
