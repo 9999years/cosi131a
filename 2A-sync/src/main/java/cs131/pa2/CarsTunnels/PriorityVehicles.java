@@ -21,14 +21,15 @@ package cs131.pa2.CarsTunnels;
 import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
+import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 /**
- * a queue of waiting vehicles ordered by priority combined with a map
- * associating vehicles with the tunnel they're in
+ * a queue of vehicles ordered by priority
  */
 public class PriorityVehicles {
 	private PriorityQueue<Vehicle> waiting =
@@ -38,35 +39,33 @@ public class PriorityVehicles {
 	public PriorityVehicles() {
 	}
 
-	/**
-	 * Add a vehicle to the waiting queue
-	 */
+	public int waitingSize() {
+		return waiting.size();
+	}
+
+	public int inTunnelsSize() {
+		return inTunnels.size();
+	}
+
 	public void addWaiting(Vehicle vehicle) {
 		waiting.add(vehicle);
 	}
 
-	/**
-	 * Move a vehicle from the waiting queue to the tunneled set; doesn't
-	 * require the vehicle to actually be in the waiting queue to begin with
-	 */
+	public void addTunneled(Vehicle vehicle, Tunnel tunnel) {
+		inTunnels.put(vehicle, tunnel);
+	}
+
 	public void tunnelWaiting(Vehicle vehicle, Tunnel tunnel) {
 		// sometimes the vehicle never got into the waiting set. that's OK!
 		waiting.remove(vehicle);
 		inTunnels.put(vehicle, tunnel);
 	}
 
-	/**
-	 * Removes a vehicle from its tunnel and from this map
-	 */
 	public void exitTunnel(Vehicle vehicle) {
 		inTunnels.get(vehicle).exitTunnel(vehicle);
 		inTunnels.remove(vehicle);
 	}
 
-	/**
-	 * is a vehicle's priority as high or higher than a given vehicle in the
-	 * queue?
-	 */
 	public boolean isHighestPriority(Vehicle vehicle) {
 		return waiting.isEmpty()
 				|| vehicle.getPriority() >= waiting.element().getPriority();

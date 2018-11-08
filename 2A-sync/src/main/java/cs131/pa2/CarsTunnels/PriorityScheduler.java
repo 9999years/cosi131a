@@ -23,9 +23,11 @@ import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * When a Vehicle calls tryToEnter(vehicle) on a PriorityScheduler instance, the
@@ -62,7 +64,6 @@ public class PriorityScheduler extends Tunnel {
 
 	@Override
 	public boolean tryToEnterInner(Vehicle vehicle) {
-		// check priority
 		if (vehicles.isHighestPriority(vehicle)) {
 			for (Tunnel tunnel : tunnels) {
 				if (tunnel.tryToEnter(vehicle)) {
@@ -72,8 +73,7 @@ public class PriorityScheduler extends Tunnel {
 				}
 			}
 		}
-		// no tunnel could take it OR its priority wasn't high enough; now it's
-		// waiting
+		// no tunnel could take it; now it's waiting
 		vehicles.addWaiting(vehicle);
 		return false;
 	}
