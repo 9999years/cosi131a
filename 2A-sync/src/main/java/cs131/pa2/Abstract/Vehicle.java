@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -271,7 +272,14 @@ public abstract class Vehicle implements Runnable {
 	}
 
 	public void interrupt() {
+		Objects.requireNonNull(thread, toString() + " has no thread!");
 		thread.interrupt();
+	}
+
+	public Lock lockAndInterrupt() {
+		lock.lock();
+		interrupt();
+		return lock;
 	}
 
 	/**

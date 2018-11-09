@@ -23,11 +23,9 @@ import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.PriorityQueue;
 
 /**
  * When a Vehicle calls tryToEnter(vehicle) on a PriorityScheduler instance, the

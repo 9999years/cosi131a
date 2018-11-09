@@ -90,7 +90,8 @@ public class PreemptivePriorityScheduler extends Tunnel {
 		Tunnel tunnel = vehicles.exitTunnel(vehicle);
 
 		if (vehicle instanceof Ambulance && tunnel instanceof BasicTunnel) {
-			((BasicTunnel) tunnel).restartNonEssential();
+			BasicTunnel basicTunnel = (BasicTunnel) tunnel;
+			basicTunnel.restartNonEssential();
 		}
 	}
 }

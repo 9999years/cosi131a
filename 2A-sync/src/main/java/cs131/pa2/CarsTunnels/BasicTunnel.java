@@ -23,7 +23,9 @@ import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.locks.Lock;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -46,7 +48,7 @@ public class BasicTunnel extends Tunnel {
 	private Vehicles vehicles = new Vehicles();
 
 	private boolean isPreemptive = false;
-	ArrayList<Lock> locks = new ArrayList<>(MAX_CAPACITY);
+	Collection<Lock> locks = new ArrayList<>(MAX_CAPACITY);
 
 	public BasicTunnel(String name) {
 		super(name);
@@ -83,7 +85,7 @@ public class BasicTunnel extends Tunnel {
 		return vehicleType.maxInTunnel - vehicles.size();
 	}
 
-	private boolean canEnter(Vehicle vehicle) {
+	boolean canEnter(Vehicle vehicle) {
 		if (vehicles.size() == 0) {
 			direction = vehicle.getDirection();
 			vehicleType = VehicleType.from(vehicle);
@@ -116,12 +118,10 @@ public class BasicTunnel extends Tunnel {
 	}
 
 	public void interruptNonEssential() {
-		nonEssentialVehicles().forEach(v -> {
-			Lock lock = v.getLock();
-			lock.lock();
-			locks.add(lock);
-			v.interrupt();
-		});
+		locks.clear();
+		locks.addAll(nonEssentialVehicles()
+				.map(Vehicle::lockAndInterrupt)
+				.collect(Collectors.toList()));
 	}
 
 	public void restartNonEssential() {
@@ -131,5 +131,9 @@ public class BasicTunnel extends Tunnel {
 
 	protected void isPreemptive() {
 		isPreemptive = true;
+	}
+
+	public int size() {
+		return vehicles.size();
 	}
 }

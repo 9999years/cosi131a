@@ -19,3 +19,13 @@ Quick Maven reference:
     Build an executable `.jar`           | `package` or `jar:jar`
     Create a source `.zip` and `.tar.gz` | `package` or `assembly:single`
     Generate Javadocs                    | `package` or `javadoc:javadoc`
+
+## Implementation
+
+### Preemptive
+
+To make a vehicle pull over:
+
+1. lock its lock, so it can't immediately restart
+2. Call its interrupt method, which delegates to `thread.interrupt()`
+3. When you are ready to restart it, release its lock
