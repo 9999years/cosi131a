@@ -59,9 +59,11 @@ public class PriorityVehicles {
 		inTunnels.put(vehicle, tunnel);
 	}
 
-	public void exitTunnel(Vehicle vehicle) {
-		inTunnels.get(vehicle).exitTunnel(vehicle);
+	public Tunnel exitTunnel(Vehicle vehicle) {
+		Tunnel tunnel = inTunnels.get(vehicle);
+		tunnel.exitTunnel(vehicle);
 		inTunnels.remove(vehicle);
+		return tunnel;
 	}
 
 	public boolean isHighestPriority(Vehicle vehicle) {

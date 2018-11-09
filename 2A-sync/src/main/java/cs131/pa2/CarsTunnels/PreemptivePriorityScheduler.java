@@ -76,9 +76,6 @@ public class PreemptivePriorityScheduler extends Tunnel {
 					// remove vehicle from waiting queue and associate with a tunnel
 					vehicles.tunnelWaiting(vehicle, tunnel);
 					vehicle.setTunnel(this);
-					if (vehicle instanceof Ambulance) {
-						startAmbulance(vehicle, tunnel);
-					}
 					return true;
 				}
 			}
@@ -90,32 +87,10 @@ public class PreemptivePriorityScheduler extends Tunnel {
 
 	@Override
 	public void exitTunnelInner(Vehicle vehicle) {
-		vehicles.exitTunnel(vehicle);
-	}
+		Tunnel tunnel = vehicles.exitTunnel(vehicle);
 
-	private void startAmbulance(Vehicle vehicle, Tunnel tunnel) {
-		if (tunnel instanceof BasicTunnel) {
-			BasicTunnel basicTunnel = (BasicTunnel) tunnel;
-			basicTunnel.interruptNonEssential();
-		} else {
-			throw new IllegalArgumentException("What non-basic tunnel...?");
-		}
-	}
-
-	/**
-	 * mark the given vehicle as exited a tunnel; a call-back interface
-	 */
-	public void finish(Vehicle vehicle) {
-		if (vehicle instanceof Ambulance) {
-			// restart other vehicles if an ambulance just exited a tunnel
-			Ambulance ambulance = (Ambulance) vehicle;
-			Tunnel tunnel = vehicles.getTunnel(ambulance);
-			if (tunnel instanceof BasicTunnel) {
-				BasicTunnel basicTunnel = (BasicTunnel) tunnel;
-				basicTunnel.restartNonEssential();
-			} else {
-				throw new IllegalArgumentException("What non-basic tunnel...?");
-			}
+		if (vehicle instanceof Ambulance && tunnel instanceof BasicTunnel) {
+			((BasicTunnel) tunnel).restartNonEssential();
 		}
 	}
 }

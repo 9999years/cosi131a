@@ -54,9 +54,6 @@
                 <version>2.22.0</version>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
-                    <includes>
-                        <include>cs131.pa2.Test.VehiclesTest</include>
-                    </includes>
                 </configuration>
             </plugin>
             <plugin> <!-- javadoc html generation -->

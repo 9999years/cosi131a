@@ -20,7 +20,6 @@ package cs131.pa2.Abstract;
 
 import cs131.pa2.Abstract.Log.EventType;
 import cs131.pa2.Abstract.Log.Log;
-import cs131.pa2.CarsTunnels.PreemptivePriorityScheduler;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -28,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * A Vehicle is a Runnable which enters tunnels. You must subclass
@@ -75,10 +75,11 @@ public abstract class Vehicle implements Runnable {
 	 */
 	private Tunnel tunnel;
 
+	private ReentrantLock lock = new ReentrantLock();
 	/**
 	 * wait condition if this vehicle is stopped in a tunnel
 	 */
-	private Condition stopped;
+	private Condition stopped = lock.newCondition();
 
 	/**
 	 * Initialize a Vehicle; called from Vehicle constructors.
@@ -220,7 +221,6 @@ public abstract class Vehicle implements Runnable {
 		thread = Thread.currentThread();
 		remainingTime = ((10 - speed) * 100);
 		waitRemainingTime();
-		finish();
 	}
 
 	@Override
@@ -263,12 +263,11 @@ public abstract class Vehicle implements Runnable {
 		// calculate remaining time
 		remainingTime = ChronoUnit.MILLIS.between(startTime, Instant.now());
 		startTime = null;
-		try {
-			stopped.await();
-		} catch (InterruptedException | IllegalMonitorStateException e) {
-			// highly #gross
-		}
+		lock.lock();
 		waitRemainingTime();
+		if (lock.isHeldByCurrentThread()) {
+			lock.unlock();
+		}
 	}
 
 	public void interrupt() {
@@ -284,7 +283,9 @@ public abstract class Vehicle implements Runnable {
 			startTime = Instant.now();
 			Thread.sleep(remainingTime);
 		} catch (InterruptedException e) {
-			System.err.println("Interrupted vehicle " + getName());
+			if (lock.isHeldByCurrentThread()) {
+				lock.unlock();
+			}
 			pullOver();
 		}
 	}
@@ -297,15 +298,7 @@ public abstract class Vehicle implements Runnable {
 		this.stopped = condition;
 	}
 
-	/**
-	 * finalizes this vehicles journey; really just an implementation detail
-	 * for the priority scheduler and a hack at that
-	 */
-	private void finish() {
-		if (this.tunnel instanceof PreemptivePriorityScheduler) {
-			PreemptivePriorityScheduler scheduler =
-					(PreemptivePriorityScheduler) this.tunnel;
-			scheduler.finish(this);
-		}
+	public ReentrantLock getLock() {
+		return lock;
 	}
 }

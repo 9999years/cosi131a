@@ -22,8 +22,8 @@ import cs131.pa2.Abstract.Direction;
 import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 import java.util.stream.Stream;
 
 /**
@@ -46,9 +46,7 @@ public class BasicTunnel extends Tunnel {
 	private Vehicles vehicles = new Vehicles();
 
 	private boolean isPreemptive = false;
-	private ReentrantLock ambulanceLock = new ReentrantLock();
-	// condition set when an ambulance is in the tunnel
-	private Condition ambulance = ambulanceLock.newCondition();
+	ArrayList<Lock> locks = new ArrayList<>(MAX_CAPACITY);
 
 	public BasicTunnel(String name) {
 		super(name);
@@ -59,9 +57,8 @@ public class BasicTunnel extends Tunnel {
 		if (!canEnter(vehicle)) {
 			return false;
 		}
-		vehicle.setCondition(ambulance);
 		if (isPreemptive && vehicle instanceof Ambulance) {
-			ambulanceLock.lock();
+			interruptNonEssential();
 		}
 		// should never return false, but just to be safe
 		return vehicles.add(vehicle);
@@ -119,12 +116,17 @@ public class BasicTunnel extends Tunnel {
 	}
 
 	public void interruptNonEssential() {
-		nonEssentialVehicles().forEach(Vehicle::interrupt);
+		nonEssentialVehicles().forEach(v -> {
+			Lock lock = v.getLock();
+			lock.lock();
+			locks.add(lock);
+			v.interrupt();
+		});
 	}
 
 	public void restartNonEssential() {
-		ambulance.signalAll();
-		ambulanceLock.unlock();
+		locks.forEach(Lock::unlock);
+		locks.clear();
 	}
 
 	protected void isPreemptive() {
