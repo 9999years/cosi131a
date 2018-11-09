@@ -26,22 +26,23 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * TODO
+ * When a Vehicle calls tryToEnter(vehicle) on a PriorityScheduler instance, the
+ * vehicle must wait if:
+ * • the vehicle's priority is not the highest
+ * • there are no tunnels the vehicle can enter
+ * <p>
+ * Otherwise, the vehicle successfully enters one of the tunnels.
+ * <p>
+ * To “exit” a vehicle, make sure to call tunnel.exitTunnel(v)
+ * • After a vehicle has successfully exited a tunnel, the waiting vehicles should
+ * be signaled to retry to enter a tunnel. Note that the vehicles with highest
+ * priority should be allowed to enter.
+ * • Use condition variables to avoid busy waiting when the car cannot find a
+ * tunnel to enter. Make sure the use of the condition variables is safe.
  */
-public class PreemptivePriorityScheduler extends Tunnel{
-	// Synchronization variables
-	private final Lock lock = new ReentrantLock();
-	private final Condition shouldEnter = lock.newCondition();
-
-	// State variables
-	private int waitingAmbulances = 0;
-	private int activeAmbulances = 0;
-
+public class PreemptivePriorityScheduler extends Tunnel {
 	private List<Tunnel> tunnels = new ArrayList<>();
 	private PriorityVehicles vehicles = new PriorityVehicles();
 
@@ -53,27 +54,36 @@ public class PreemptivePriorityScheduler extends Tunnel{
 		this(name, c, Tunnel.DEFAULT_LOG);
 	}
 
-	public PreemptivePriorityScheduler(String name, Collection<? extends Tunnel> c, Log log) {
+	public PreemptivePriorityScheduler(String name, Collection<? extends Tunnel> c,
+									   Log log) {
 		super(name, log);
 		tunnels.addAll(c);
+
+		// hack!
+		for (Tunnel tunnel : tunnels) {
+			if (tunnel instanceof BasicTunnel) {
+				BasicTunnel basicTunnel = (BasicTunnel) tunnel;
+				basicTunnel.isPreemptive();
+			}
+		}
 	}
 
 	@Override
 	public boolean tryToEnterInner(Vehicle vehicle) {
-		// check priority
 		if (vehicles.isHighestPriority(vehicle)) {
 			for (Tunnel tunnel : tunnels) {
 				if (tunnel.tryToEnter(vehicle)) {
-					if (vehicle instanceof Ambulance) {
-
-					}
-					// vehicle entered tunnel, remove it from the waiting queue
+					// remove vehicle from waiting queue and associate with a tunnel
 					vehicles.tunnelWaiting(vehicle, tunnel);
+					vehicle.setTunnel(this);
+					if (vehicle instanceof Ambulance) {
+						startAmbulance(vehicle, tunnel);
+					}
 					return true;
 				}
 			}
 		}
-		// vehicle didn't enter a tunnel, add it to waiting queue
+		// no tunnel could take it; now it's waiting
 		vehicles.addWaiting(vehicle);
 		return false;
 	}
@@ -83,37 +93,29 @@ public class PreemptivePriorityScheduler extends Tunnel{
 		vehicles.exitTunnel(vehicle);
 	}
 
-	// returns true if a vehicle should not be able to access a tunnel
-	public boolean noAccess() {
-		return (activeAmbulances > 0);
+	private void startAmbulance(Vehicle vehicle, Tunnel tunnel) {
+		if (tunnel instanceof BasicTunnel) {
+			BasicTunnel basicTunnel = (BasicTunnel) tunnel;
+			basicTunnel.interruptNonEssential();
+		} else {
+			throw new IllegalArgumentException("What non-basic tunnel...?");
+		}
 	}
 
-	public void startAmbulance() {
-		lock.lock();
-		try {
-			waitingAmbulances++;
-			while (noAccess()) {
-				shouldEnter.await();
+	/**
+	 * mark the given vehicle as exited a tunnel; a call-back interface
+	 */
+	public void finish(Vehicle vehicle) {
+		if (vehicle instanceof Ambulance) {
+			// restart other vehicles if an ambulance just exited a tunnel
+			Ambulance ambulance = (Ambulance) vehicle;
+			Tunnel tunnel = vehicles.getTunnel(ambulance);
+			if (tunnel instanceof BasicTunnel) {
+				BasicTunnel basicTunnel = (BasicTunnel) tunnel;
+				basicTunnel.restartNonEssential();
+			} else {
+				throw new IllegalArgumentException("What non-basic tunnel...?");
 			}
-			waitingAmbulances--;
-			activeAmbulances++;
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			lock.unlock();
 		}
 	}
-
-	public void stopAmbulance() {
-		lock.lock();
-		try {
-			activeAmbulances--;
-			assert(activeAmbulances == 0);
-			shouldEnter.signal();
-		} finally {
-			lock.unlock();
-		}
-	}
-
 }

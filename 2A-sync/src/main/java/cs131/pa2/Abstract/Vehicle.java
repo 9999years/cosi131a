@@ -20,12 +20,14 @@ package cs131.pa2.Abstract;
 
 import cs131.pa2.Abstract.Log.EventType;
 import cs131.pa2.Abstract.Log.Log;
+import cs131.pa2.CarsTunnels.PreemptivePriorityScheduler;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.concurrent.locks.Condition;
 
 /**
  * A Vehicle is a Runnable which enters tunnels. You must subclass
@@ -36,7 +38,7 @@ import java.util.Objects;
  * its constructor by calling tryToEnter on each Tunnel instance. As
  * long as tryToEnter returns false (indicating that the Vehicle did
  * not enter that tunnel), the Vehicle will keep trying. This is
- * called busy-waiting.
+ * called busy-stopped.
  * <p>
  * In addition to recreating the constructors, the only method that
  * you must override in Vehicle subclasses is getDefaultSpeed. This
@@ -67,6 +69,16 @@ public abstract class Vehicle implements Runnable {
 	 * the thread this vehicle belongs to
 	 */
 	private Thread thread;
+
+	/**
+	 * the tunnel this vehicle is in
+	 */
+	private Tunnel tunnel;
+
+	/**
+	 * wait condition if this vehicle is stopped in a tunnel
+	 */
+	private Condition stopped;
 
 	/**
 	 * Initialize a Vehicle; called from Vehicle constructors.
@@ -208,6 +220,7 @@ public abstract class Vehicle implements Runnable {
 		thread = Thread.currentThread();
 		remainingTime = ((10 - speed) * 100);
 		waitRemainingTime();
+		finish();
 	}
 
 	@Override
@@ -251,10 +264,9 @@ public abstract class Vehicle implements Runnable {
 		remainingTime = ChronoUnit.MILLIS.between(startTime, Instant.now());
 		startTime = null;
 		try {
-			wait();
-		} catch (InterruptedException e) {
-			// uh oh!!!
-			e.printStackTrace();
+			stopped.await();
+		} catch (InterruptedException | IllegalMonitorStateException e) {
+			// highly #gross
 		}
 		waitRemainingTime();
 	}
@@ -274,6 +286,26 @@ public abstract class Vehicle implements Runnable {
 		} catch (InterruptedException e) {
 			System.err.println("Interrupted vehicle " + getName());
 			pullOver();
+		}
+	}
+
+	public void setTunnel(Tunnel tunnel) {
+		this.tunnel = tunnel;
+	}
+
+	public void setCondition(Condition condition) {
+		this.stopped = condition;
+	}
+
+	/**
+	 * finalizes this vehicles journey; really just an implementation detail
+	 * for the priority scheduler and a hack at that
+	 */
+	private void finish() {
+		if (this.tunnel instanceof PreemptivePriorityScheduler) {
+			PreemptivePriorityScheduler scheduler =
+					(PreemptivePriorityScheduler) this.tunnel;
+			scheduler.finish(this);
 		}
 	}
 }

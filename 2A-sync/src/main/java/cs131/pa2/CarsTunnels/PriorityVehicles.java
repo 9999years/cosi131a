@@ -21,12 +21,10 @@ package cs131.pa2.CarsTunnels;
 import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
-import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
 
 /**
  * a queue of vehicles ordered by priority
@@ -69,5 +67,9 @@ public class PriorityVehicles {
 	public boolean isHighestPriority(Vehicle vehicle) {
 		return waiting.isEmpty()
 				|| vehicle.getPriority() >= waiting.element().getPriority();
+	}
+
+	public Tunnel getTunnel(Vehicle vehicle) {
+		return inTunnels.get(vehicle);
 	}
 }

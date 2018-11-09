@@ -22,6 +22,10 @@ import cs131.pa2.Abstract.Direction;
 import cs131.pa2.Abstract.Tunnel;
 import cs131.pa2.Abstract.Vehicle;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Stream;
+
 /**
  * Each tunnel has only one lane, so at any given time all vehicles must
  * be traveling in the same direction.
@@ -41,6 +45,11 @@ public class BasicTunnel extends Tunnel {
 	// fixed-size array-set
 	private Vehicles vehicles = new Vehicles();
 
+	private boolean isPreemptive = false;
+	private ReentrantLock ambulanceLock = new ReentrantLock();
+	// condition set when an ambulance is in the tunnel
+	private Condition ambulance = ambulanceLock.newCondition();
+
 	public BasicTunnel(String name) {
 		super(name);
 	}
@@ -49,6 +58,10 @@ public class BasicTunnel extends Tunnel {
 	public synchronized boolean tryToEnterInner(Vehicle vehicle) {
 		if (!canEnter(vehicle)) {
 			return false;
+		}
+		vehicle.setCondition(ambulance);
+		if (isPreemptive && vehicle instanceof Ambulance) {
+			ambulanceLock.lock();
 		}
 		// should never return false, but just to be safe
 		return vehicles.add(vehicle);
@@ -78,8 +91,10 @@ public class BasicTunnel extends Tunnel {
 			direction = vehicle.getDirection();
 			vehicleType = VehicleType.from(vehicle);
 			return true;
-		} else if (vehicle instanceof Ambulance && !containsAmbulance()) {
+		} else if (isPreemptive && vehicle instanceof Ambulance && !containsAmbulance()) {
 			return true;
+		} else if (isPreemptive && containsAmbulance()) {
+			return false;
 		} else if (!vehicleType.isInstance(vehicle)) {
 			return false;
 		} else if (direction != vehicle.getDirection()) {
@@ -99,8 +114,20 @@ public class BasicTunnel extends Tunnel {
 		return vehicles.stream().anyMatch(v -> v instanceof Ambulance);
 	}
 
+	private Stream<Vehicle> nonEssentialVehicles() {
+		return vehicles.stream().filter(v -> !(v instanceof Ambulance));
+	}
+
 	public void interruptNonEssential() {
-		vehicles.stream().filter(v -> !(v instanceof Ambulance))
-				.forEach(Vehicle::interrupt);
+		nonEssentialVehicles().forEach(Vehicle::interrupt);
+	}
+
+	public void restartNonEssential() {
+		ambulance.signalAll();
+		ambulanceLock.unlock();
+	}
+
+	protected void isPreemptive() {
+		isPreemptive = true;
 	}
 }
