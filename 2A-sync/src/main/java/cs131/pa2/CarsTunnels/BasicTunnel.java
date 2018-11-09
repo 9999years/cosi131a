@@ -59,7 +59,7 @@ public class BasicTunnel extends Tunnel {
 		if (!canEnter(vehicle)) {
 			return false;
 		}
-		if (isPreemptive && vehicle instanceof Ambulance) {
+		if (isPreemptive && vehicle instanceof Ambulance && locks.isEmpty()) {
 			interruptNonEssential();
 		}
 		// should never return false, but just to be safe

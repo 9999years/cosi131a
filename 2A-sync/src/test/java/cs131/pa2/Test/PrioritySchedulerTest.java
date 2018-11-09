@@ -129,7 +129,10 @@ public class PrioritySchedulerTest {
 						lastEnteredVehicle = currentEvent.getVehicle();
 					}
 					else if (currentEvent.getVehicle().getPriority() > lastEnteredVehicle.getPriority()){
-						assertTrue("Vehicle "+currentEvent.getVehicle() + " has higher priority than "+lastEnteredVehicle + " and should run before!", false);
+						assertTrue("Vehicle "+currentEvent.getVehicle() + " " +
+								"has higher priority (" + currentEvent.getVehicle().getPriority()
+								+ ") than "+lastEnteredVehicle + " (" + lastEnteredVehicle.getPriority() +
+								") and should run before!", false);
 					}
 				}
 			}

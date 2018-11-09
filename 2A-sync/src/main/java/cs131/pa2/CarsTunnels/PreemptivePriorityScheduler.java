@@ -69,8 +69,10 @@ public class PreemptivePriorityScheduler extends Tunnel {
 	}
 
 	@Override
-	public boolean tryToEnterInner(Vehicle vehicle) {
-		if (vehicles.isHighestPriority(vehicle)) {
+	public synchronized boolean tryToEnterInner(Vehicle vehicle) {
+		if (vehicles.isHighestPriority(vehicle)
+				// no ambulances waiting or vehicle is an ambulance
+				&& (!vehicles.hasWaitingAmbulance() || vehicle instanceof Ambulance)) {
 			for (Tunnel tunnel : tunnels) {
 				if (tunnel.tryToEnter(vehicle)) {
 					// remove vehicle from waiting queue and associate with a tunnel
@@ -86,12 +88,17 @@ public class PreemptivePriorityScheduler extends Tunnel {
 	}
 
 	@Override
-	public void exitTunnelInner(Vehicle vehicle) {
+	public synchronized void exitTunnelInner(Vehicle vehicle) {
 		Tunnel tunnel = vehicles.exitTunnel(vehicle);
 
+		// we enforce only one ambulance in the tunnel + exitTunnel throws an
+		// exception if the vehicle wasn't in the tunnel, so we're sure this
+		// is the correct tunnel
 		if (vehicle instanceof Ambulance && tunnel instanceof BasicTunnel) {
-			BasicTunnel basicTunnel = (BasicTunnel) tunnel;
-			basicTunnel.restartNonEssential();
+			if (!vehicles.hasWaitingAmbulance()) {
+				BasicTunnel basicTunnel = (BasicTunnel) tunnel;
+				basicTunnel.restartNonEssential();
+			}
 		}
 	}
 }

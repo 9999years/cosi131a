@@ -25,44 +25,48 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.stream.Stream;
 
 /**
  * a queue of vehicles ordered by priority
  */
 public class PriorityVehicles {
 	private PriorityQueue<Vehicle> waiting =
-			new PriorityQueue<>(Comparator.comparingInt(Vehicle::getPriority));
+			new PriorityQueue<>(Comparator.comparingInt(Vehicle::getPriority).reversed());
 	private Map<Vehicle, Tunnel> inTunnels = new HashMap<>();
 
 	public PriorityVehicles() {
 	}
 
-	public int waitingSize() {
+	public synchronized int waitingSize() {
 		return waiting.size();
 	}
 
-	public int inTunnelsSize() {
+	public synchronized int inTunnelsSize() {
 		return inTunnels.size();
 	}
 
-	public void addWaiting(Vehicle vehicle) {
-		waiting.add(vehicle);
+	public synchronized void addWaiting(Vehicle vehicle) {
+		// watch out O(n) ha ha
+		if (!waiting.contains(vehicle)) {
+			waiting.add(vehicle);
+		}
 	}
 
-	public void addTunneled(Vehicle vehicle, Tunnel tunnel) {
-		inTunnels.put(vehicle, tunnel);
-	}
-
-	public void tunnelWaiting(Vehicle vehicle, Tunnel tunnel) {
+	public synchronized void tunnelWaiting(Vehicle vehicle, Tunnel tunnel) {
 		// sometimes the vehicle never got into the waiting set. that's OK!
 		waiting.remove(vehicle);
 		inTunnels.put(vehicle, tunnel);
 	}
 
-	public Tunnel exitTunnel(Vehicle vehicle) {
-		Tunnel tunnel = inTunnels.get(vehicle);
-		tunnel.exitTunnel(vehicle);
-		inTunnels.remove(vehicle);
+	public synchronized Tunnel exitTunnel(Vehicle vehicle) {
+		Tunnel tunnel = inTunnels.remove(vehicle);
+		if (tunnel != null) {
+			tunnel.exitTunnel(vehicle);
+		} else {
+			throw new IllegalStateException("Vehicle not in tunnel present in" +
+					" tunnel map!");
+		}
 		return tunnel;
 	}
 
@@ -71,7 +75,21 @@ public class PriorityVehicles {
 				|| vehicle.getPriority() >= waiting.element().getPriority();
 	}
 
-	public Tunnel getTunnel(Vehicle vehicle) {
+	public synchronized Tunnel getTunnel(Vehicle vehicle) {
 		return inTunnels.get(vehicle);
+	}
+
+	public synchronized Vehicle element() {
+		return waiting.element();
+	}
+
+	public Stream<Ambulance> waitingAmbulances() {
+		return waiting.stream()
+				.filter(v -> v instanceof Ambulance)
+				.map(v -> (Ambulance) v);
+	}
+
+	public boolean hasWaitingAmbulance() {
+		return waitingAmbulances().findAny().isPresent();
 	}
 }

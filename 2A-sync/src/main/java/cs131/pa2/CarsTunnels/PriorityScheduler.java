@@ -61,7 +61,7 @@ public class PriorityScheduler extends Tunnel {
 	}
 
 	@Override
-	public boolean tryToEnterInner(Vehicle vehicle) {
+	public synchronized boolean tryToEnterInner(Vehicle vehicle) {
 		if (vehicles.isHighestPriority(vehicle)) {
 			for (Tunnel tunnel : tunnels) {
 				if (tunnel.tryToEnter(vehicle)) {
@@ -77,7 +77,7 @@ public class PriorityScheduler extends Tunnel {
 	}
 
 	@Override
-	public void exitTunnelInner(Vehicle vehicle) {
+	public synchronized void exitTunnelInner(Vehicle vehicle) {
 		vehicles.exitTunnel(vehicle);
 	}
 
