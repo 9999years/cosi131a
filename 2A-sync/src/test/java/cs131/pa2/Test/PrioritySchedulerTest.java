@@ -1,24 +1,40 @@
+/*
+ * Copyright 2018 Rebecca Turner (rebeccaturner@brandeis.edu)
+ * and Lin-ye Kaye (linyekaye@brandeis.edu)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cs131.pa2.Test;
 
-import static org.junit.Assert.assertTrue;
+import cs131.pa2.Abstract.Direction;
+import cs131.pa2.Abstract.Log.Event;
+import cs131.pa2.Abstract.Log.EventType;
+import cs131.pa2.Abstract.Log.Log;
+import cs131.pa2.Abstract.Tunnel;
+import cs131.pa2.Abstract.Vehicle;
+import cs131.pa2.CarsTunnels.Ambulance;
+import cs131.pa2.CarsTunnels.Car;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-
-import org.junit.Test;
-
-import cs131.pa2.Abstract.Direction;
-import cs131.pa2.Abstract.Tunnel;
-import cs131.pa2.Abstract.Vehicle;
-import cs131.pa2.Abstract.Log.Event;
-import cs131.pa2.Abstract.Log.EventType;
-import cs131.pa2.Abstract.Log.Log;
-import cs131.pa2.CarsTunnels.Ambulance;
-import cs131.pa2.CarsTunnels.Car;
+import static org.junit.Assert.assertTrue;
 
 public class PrioritySchedulerTest {
 
@@ -40,13 +56,13 @@ public class PrioritySchedulerTest {
         tunnels.add(TestUtilities.factory.createNewBasicTunnel(name));
         return TestUtilities.factory.createNewPriorityScheduler(prioritySchedulerName, tunnels, new Log());
     }
-    
+
     private Tunnel setupPreemptivePriorityScheduler(String name) {
     	Collection<Tunnel> tunnels = new ArrayList<Tunnel>();
     	tunnels.add(TestUtilities.factory.createNewBasicTunnel(name));
     	return TestUtilities.factory.createNewPreemptivePriorityScheduler(preemptivePrioritySchedulerName, tunnels, new Log());
     }
-    
+
     private Tunnel setupPreemptivePrioritySchedulerTwoTunnels(String name1, String name2) {
     	Collection<Tunnel> tunnels = new ArrayList<Tunnel>();
     	tunnels.add(TestUtilities.factory.createNewBasicTunnel(name1));
@@ -67,14 +83,14 @@ public class PrioritySchedulerTest {
         Tunnel tunnel = setupSimplePriorityScheduler(TestUtilities.mrNames[0]);
         TestUtilities.VehicleEnters(sled, tunnel);
     }
-    
+
     @Test
     public void Ambulance_Enter() {
     	Vehicle ambulance = TestUtilities.factory.createNewAmbulance(TestUtilities.gbNames[0], Direction.random());
         Tunnel tunnel = setupSimplePriorityScheduler(TestUtilities.mrNames[0]);
         TestUtilities.VehicleEnters(ambulance, tunnel);
     }
-    
+
     @Test
     public void Priority() {
     	List<Thread> vehicleThreads = new ArrayList<Thread>();
@@ -117,9 +133,9 @@ public class PrioritySchedulerTest {
 					}
 				}
 			}
-		} while (!currentEvent.getEvent().equals(EventType.END_TEST));    		
+		} while (!currentEvent.getEvent().equals(EventType.END_TEST));
     }
-    
+
     @Test
     public void PreemptivePriority() {
     	List<Thread> vehicleThreads = new ArrayList<Thread>();
@@ -197,7 +213,7 @@ public class PrioritySchedulerTest {
 			assertTrue("Vehicles did not enter tunnel successfully!", false);
 		}
     }
-    
+
     @Test
     public void PreemptivePriorityManyAmb() {
     	List<Thread> vehicleThreads = new ArrayList<Thread>();
@@ -211,6 +227,11 @@ public class PrioritySchedulerTest {
             sharedThread.start();
             vehicleThreads.add(sharedThread);
         }
+        try {
+			Thread.sleep(50);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
         // start 4 fast ambulances
         for (int i=0; i<4; i++) {
 	        Vehicle ambulance = TestUtilities.factory.createNewAmbulance("AMB"+i, Direction.values()[i % Direction.values().length]);
@@ -220,7 +241,7 @@ public class PrioritySchedulerTest {
 	        ambulanceThread.start();
 	        vehicleThreads.add(ambulanceThread);
 	        try {
-				Thread.sleep(400);
+				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -241,7 +262,7 @@ public class PrioritySchedulerTest {
 		for (int i=0; i<4; i++)
 			ambulances[i] = null;
 		for (int i=0; i<3; i++)
-			cars[i] = null;		
+			cars[i] = null;
 		int ambulancesLeft = 0;
 		do {
 			currentEvent = log.get();
@@ -296,7 +317,7 @@ public class PrioritySchedulerTest {
 			if(cars[i] == null)
 				assertTrue("Cars did not enter tunnel successfully!", false);
     }
-    
+
     @Test
     public void PreemptivePriorityManyTunnels() {
     	List<Thread> vehicleThreads = new ArrayList<Thread>();
@@ -315,6 +336,11 @@ public class PrioritySchedulerTest {
         Thread car2Thread = new Thread(car2);
         car2Thread.start();
         vehicleThreads.add(car2Thread);
+        try {
+			Thread.sleep(50);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
         // start a slow ambulance
         Vehicle ambulance = TestUtilities.factory.createNewAmbulance("AMB0", Direction.NORTH);
         ambulance.setSpeed(0);
@@ -334,17 +360,21 @@ public class PrioritySchedulerTest {
 		Event currentEvent;
 		ambulance=null; car1=null; car2=null;
 		Tunnel ambulanceTunnel=null;
+		Tunnel car1Tunnel = null;
+		Vehicle lonelyCar = null;
 		boolean ambulanceLeft=false, carLonelyTunnelLeft=false;
 		do {
 			currentEvent = log.get();
 			if (currentEvent.getEvent() == EventType.ENTER_SUCCESS && currentEvent.getVehicle() instanceof Ambulance) {
 				ambulance = currentEvent.getVehicle();
 				ambulanceTunnel = currentEvent.getTunnel();
+				lonelyCar = (car1Tunnel == ambulanceTunnel ? car2: car1);
 			}
 			if (currentEvent.getEvent() == EventType.ENTER_SUCCESS && currentEvent.getVehicle() instanceof Car) {
 				switch(currentEvent.getVehicle().getName()){
 				case "0":
 					car1 = currentEvent.getVehicle();
+					car1Tunnel = currentEvent.getTunnel();
 					break;
 				case "1":
 					car2 = currentEvent.getVehicle();
@@ -359,14 +389,14 @@ public class PrioritySchedulerTest {
 					assertTrue("Vehicle "+currentEvent.getVehicle() + " left tunnel while ambulance was still running!", false);
 				}
 				if(currentEvent.getVehicle() instanceof Car && currentEvent.getTunnel().getName() != ambulanceTunnel.getName()) {
-					assertTrue("Car "+ currentEvent.getVehicle().getName() + " should be in the other Tunnel" , currentEvent.getVehicle() == car2);
+					assertTrue("Car "+ currentEvent.getVehicle().getName() + " should be in the other Tunnel" , currentEvent.getVehicle() == lonelyCar);
 					carLonelyTunnelLeft = true;
 				}
 				if(currentEvent.getVehicle() instanceof Ambulance) {
 					ambulanceLeft = true;
 					// at this point, car in the other tunnel must have left!
 					if(!carLonelyTunnelLeft)
-						assertTrue("Car "+ car2.getName() + " should not wait for ambulance to exit, since they are in different tunnels", false);
+						assertTrue("Car "+ lonelyCar.getName() + " should not wait for ambulance to exit, since they are in different tunnels", false);
 				}
 			}
 			System.out.println(currentEvent.toString());

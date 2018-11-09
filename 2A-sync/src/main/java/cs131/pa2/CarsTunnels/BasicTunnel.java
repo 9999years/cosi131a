@@ -30,7 +30,7 @@ import cs131.pa2.Abstract.Vehicle;
  * • Cars and sleds cannot share a tunnel.
  */
 public class BasicTunnel extends Tunnel {
-	// absolute maximum vehicle capacity of the tunnel
+	// rough estimate of vehicle capacity of the tunnel
 	public static final int MAX_CAPACITY = 4;
 
 	// Direction vehicles in tunnel currently travelling
@@ -78,6 +78,8 @@ public class BasicTunnel extends Tunnel {
 			direction = vehicle.getDirection();
 			vehicleType = VehicleType.from(vehicle);
 			return true;
+		} else if (vehicle instanceof Ambulance && !containsAmbulance()) {
+			return true;
 		} else if (!vehicleType.isInstance(vehicle)) {
 			return false;
 		} else if (direction != vehicle.getDirection()) {
@@ -93,4 +95,12 @@ public class BasicTunnel extends Tunnel {
 		return vehicles.contains(v);
 	}
 
+	public boolean containsAmbulance() {
+		return vehicles.stream().anyMatch(v -> v instanceof Ambulance);
+	}
+
+	public void interruptNonEssential() {
+		vehicles.stream().filter(v -> !(v instanceof Ambulance))
+				.forEach(Vehicle::interrupt);
+	}
 }

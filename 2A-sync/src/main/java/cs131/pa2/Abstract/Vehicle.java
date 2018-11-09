@@ -20,10 +20,9 @@ package cs131.pa2.Abstract;
 
 import cs131.pa2.Abstract.Log.EventType;
 import cs131.pa2.Abstract.Log.Log;
-import cs131.pa2.CarsTunnels.Ambulance;
 
-import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -31,43 +30,57 @@ import java.util.Objects;
 /**
  * A Vehicle is a Runnable which enters tunnels. You must subclass
  * Vehicle to customize its behavior (e.g., Car and Sled).
- *
+ * <p>
  * When you start a thread which runs a Vehicle, the Vehicle will
  * immediately begin trying to enter the tunnel or tunnels passed into
  * its constructor by calling tryToEnter on each Tunnel instance. As
  * long as tryToEnter returns false (indicating that the Vehicle did
  * not enter that tunnel), the Vehicle will keep trying. This is
  * called busy-waiting.
- *
+ * <p>
  * In addition to recreating the constructors, the only method that
  * you must override in Vehicle subclasses is getDefaultSpeed. This
  * instance method is called from the private init method, and the
  * integer that it returns is used as the speed for the vehicle.
  */
 public abstract class Vehicle implements Runnable {
-	private String            	name;
-	private Direction          	direction;
-	private Collection<Tunnel> 	tunnels;
-	private int                	priority;
-	private int                	speed;
-	private Log 				log;
-	private Instant				startTime; // when the vehicle enters the tunnel
-	private Instant				endTime; // when the vehicle pulls over
-	private int					requiredTime; // milliseconds a vehicle will need to pass through the tunnel
+	private String name;
+	private Direction direction;
+	private Collection<Tunnel> tunnels;
+	private int priority;
+	private int speed;
+	private Log log;
+
+	// ADDED FIELDS
+	/**
+	 * milliseconds a vehicle will need to pass through the tunnel
+	 */
+	private long remainingTime;
+
+	/**
+	 * when the vehicle started progressing through the tunnel; used to
+	 * calculate how much time is remaining
+	 */
+	private Instant startTime;
+
+	/**
+	 * the thread this vehicle belongs to
+	 */
+	private Thread thread;
 
 	/**
 	 * Initialize a Vehicle; called from Vehicle constructors.
 	 */
 	private void init(String name, Direction direction,
-			int priority, Log log) {
-		this.name      = name;
+					  int priority, Log log) {
+		this.name = name;
 		this.direction = direction;
-		this.priority  = 0;
-		this.speed     = getDefaultSpeed();
-		this.log       = log;
-		this.tunnels   = new ArrayList<Tunnel>();
+		this.priority = 0;
+		this.speed = getDefaultSpeed();
+		this.log = log;
+		this.tunnels = new ArrayList<Tunnel>();
 
-		if(this.speed < 0 || this.speed > 9) {
+		if (this.speed < 0 || this.speed > 9) {
 			throw new RuntimeException("Vehicle has invalid speed");
 		}
 	}
@@ -75,7 +88,7 @@ public abstract class Vehicle implements Runnable {
 	/**
 	 * Override in a subclass to determine the speed of the
 	 * vehicle.
-	 *
+	 * <p>
 	 * Must return a number between 0 and 9 (inclusive). Higher
 	 * numbers indicate greater speed. The faster a vehicle, the less
 	 * time it will spend in a tunnel.
@@ -100,11 +113,12 @@ public abstract class Vehicle implements Runnable {
 
 	/**
 	 * Sets this vehicle's speed - used for preemptive priority scheduler test
+	 *
 	 * @param speed the new speed to be set (0 to 9)
 	 */
 	public void setSpeed(int speed) {
-		if(this.speed < 0 || this.speed > 9) {
-			throw new RuntimeException("Invalid speed: "+ speed);
+		if (this.speed < 0 || this.speed > 9) {
+			throw new RuntimeException("Invalid speed: " + speed);
 		}
 		this.speed = speed;
 	}
@@ -115,7 +129,7 @@ public abstract class Vehicle implements Runnable {
 	 * @param priority The new priority (between 0 and 4 inclusive)
 	 */
 	public final void setPriority(int priority) {
-		if(priority < 0 || priority > 4) {
+		if (priority < 0 || priority > 4) {
 			throw new RuntimeException("Invalid priority: " + priority);
 		}
 		this.priority = priority;
@@ -153,7 +167,7 @@ public abstract class Vehicle implements Runnable {
 
 	/**
 	 * Find and cross through one of the tunnels.
-	 *
+	 * <p>
 	 * When a thread is run, it keeps looping through its collection
 	 * of available tunnels until it succeeds in entering one of
 	 * them. Then, it will call doWhileInTunnel (to simulate doing
@@ -164,9 +178,9 @@ public abstract class Vehicle implements Runnable {
 		// Loop over all tunnels repeated until we can enter one, then
 		// think inside the tunnel, exit the tunnel, and leave this
 		// entire method.
-		while(true) {
+		while (true) {
 			for (Tunnel tunnel : tunnels) {
-				if(tunnel.tryToEnter(this)) {
+				if (tunnel.tryToEnter(this)) {
 					doWhileInTunnel();
 					tunnel.exitTunnel(this);
 					this.log.addToLog(this, EventType.COMPLETE);
@@ -191,17 +205,9 @@ public abstract class Vehicle implements Runnable {
 	 * vehicle is, the less time this will take.
 	 */
 	public final void doWhileInTunnel() {
-		setStartTime();
-		if (this instanceof Ambulance) {
-			// fix this
-		}
-		try {
-			requiredTime = ((10 - speed) * 100);
-			Thread.sleep(requiredTime);
-		} catch(InterruptedException e) {
-			System.err.println("Interrupted vehicle " + getName());
-		}
-
+		thread = Thread.currentThread();
+		remainingTime = ((10 - speed) * 100);
+		waitRemainingTime();
 	}
 
 	@Override
@@ -238,37 +244,36 @@ public abstract class Vehicle implements Runnable {
 		return true;
 	}
 
-	public void setStartTime() {
-		startTime = Instant.now();
-	}
-
-	public void setEndTime() {
-		endTime = Instant.now();
-	}
+	// ADDED METHODS
 
 	public void pullOver() {
-		setEndTime(); // record when the car pulled over.
+		// calculate remaining time
+		remainingTime = ChronoUnit.MILLIS.between(startTime, Instant.now());
+		startTime = null;
 		try {
-			this.wait(); // simulates the car stopping.
+			wait();
 		} catch (InterruptedException e) {
+			// uh oh!!!
 			e.printStackTrace();
 		}
+		waitRemainingTime();
+	}
+
+	public void interrupt() {
+		thread.interrupt();
 	}
 
 	/**
-	 * Makes a vehicle that pulled over simulate continuing through the tunnel
-	 * by waiting for the amount of time it had left in the tunnel.
+	 * Waits for the time remaining in remainingTime, saving state to
+	 * gracefully pull over / restart as needed
 	 */
-	public void restart() {
-		// determine how much time the car has left in the tunnel
-		requiredTime = requiredTime - (int)Duration.between(startTime, endTime).toMillis();
-		// end the vehicle's waiting
-		this.notify();
-		setStartTime();
+	private void waitRemainingTime() {
 		try {
-			this.wait(requiredTime);
+			startTime = Instant.now();
+			Thread.sleep(remainingTime);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			System.err.println("Interrupted vehicle " + getName());
+			pullOver();
 		}
 	}
 }
