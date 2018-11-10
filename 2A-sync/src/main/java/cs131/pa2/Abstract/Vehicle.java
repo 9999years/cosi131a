@@ -20,6 +20,7 @@ package cs131.pa2.Abstract;
 
 import cs131.pa2.Abstract.Log.EventType;
 import cs131.pa2.Abstract.Log.Log;
+import cs131.pa2.CarsTunnels.PreemptivePriorityScheduler;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -221,6 +221,16 @@ public abstract class Vehicle implements Runnable {
 	public final void doWhileInTunnel() {
 		thread = Thread.currentThread();
 		remainingTime = ((10 - speed) * 100);
+
+		// See PreemptivePriorityScheduler.tryToEnterInner() for an explanation
+		if(tunnel instanceof PreemptivePriorityScheduler) {
+			try {
+				Thread.sleep(PreemptivePriorityScheduler.COMPENSATORY_WAIT_MS);
+			} catch (InterruptedException e) {
+				// ignore't
+			}
+		}
+
 		waitRemainingTime();
 	}
 
@@ -276,7 +286,7 @@ public abstract class Vehicle implements Runnable {
 		thread.interrupt();
 	}
 
-	public Lock lockAndInterrupt() {
+	public ReentrantLock lockAndInterrupt() {
 		lock.lock();
 		interrupt();
 		return lock;

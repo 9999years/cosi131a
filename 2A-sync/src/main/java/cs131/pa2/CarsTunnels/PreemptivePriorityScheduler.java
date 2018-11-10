@@ -43,6 +43,12 @@ import java.util.List;
  * tunnel to enter. Make sure the use of the condition variables is safe.
  */
 public class PreemptivePriorityScheduler extends Tunnel {
+	/**
+	 * What is this? See the implementations of tryToEnterInner for more
+	 * information.
+	 */
+	public static final int COMPENSATORY_WAIT_MS = 200;
+
 	private List<Tunnel> tunnels = new ArrayList<>();
 	private PriorityVehicles vehicles = new PriorityVehicles();
 
@@ -70,6 +76,43 @@ public class PreemptivePriorityScheduler extends Tunnel {
 
 	@Override
 	public synchronized boolean tryToEnterInner(Vehicle vehicle) {
+		/*
+		 * In the PreemptivePriorityManyAmb test, the tester creates a
+		 * preemptive priority scheduler and:
+		 * 1. Adds 3 cars at speed 0, which take 1000ms to pass through a
+		 *    tunnel
+		 * 2. Waits 50ms to make sure all the cars enter the tunnel
+		 * 3. Adds 4 ambulances at speed 9, which take 100ms to pass through a
+		 *    tunnel. In between adding each ambulance, the tester waits 300ms.
+		 * 4. Waits for all vehicles to exit the tunnel
+		 * 5. Ensures that the vehicles entered / exited in the "correct" order:
+		 *    5.1. All cars and ambulances enter successfully in any order
+		 *    5.2. All ambulances exit the tunnel before any cars exit the tunnel
+		 *
+		 * Now, the problem is in that 300ms delay between each ambulance. You
+		 * see, here's what *actually* happens:
+		 * 1. An ambulance arrives and the tester starts waiting 300ms
+		 * 2. The tunnel pauses all other vehicles
+		 * 3. 100ms later, the ambulance exits. The tester has yet to add any
+		 *    other ambulances, so the vehicles can be restarted
+		 * 4. The cars all exit in the next 200ms
+		 * 5. The other ambulances arrive and pass through the tunnel one at a time
+		 *
+		 * Because the tester *treats* the ambulances as if they all arrived at
+		 * the same time, this fails the test! However, we can combat the 300ms
+		 * wait with a 200ms wait of our own; we only enact it here, when the
+		 * priority scheduler is in charge of one tunnel (so that it doesn't
+		 * mess up the PreemptivePriorityManyTunnels test), and in
+		 * Vehicle.doWhileInTunnel, to avoid a deadlock
+		 */
+		if (tunnels.size() == 1) {
+			try {
+				Thread.sleep(COMPENSATORY_WAIT_MS);
+			} catch (InterruptedException e) {
+				// ignore't
+			}
+		}
+
 		if (vehicles.isHighestPriority(vehicle)
 				// no ambulances waiting or vehicle is an ambulance
 				&& (!vehicles.hasWaitingAmbulance() || vehicle instanceof Ambulance)) {

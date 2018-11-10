@@ -70,7 +70,7 @@ public class PriorityVehicles {
 		return tunnel;
 	}
 
-	public boolean isHighestPriority(Vehicle vehicle) {
+	public synchronized boolean isHighestPriority(Vehicle vehicle) {
 		return waiting.isEmpty()
 				|| vehicle.getPriority() >= waiting.element().getPriority();
 	}

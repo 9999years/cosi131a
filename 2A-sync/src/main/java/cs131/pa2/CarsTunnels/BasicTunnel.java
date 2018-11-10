@@ -25,6 +25,7 @@ import cs131.pa2.Abstract.Vehicle;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -48,7 +49,7 @@ public class BasicTunnel extends Tunnel {
 	private Vehicles vehicles = new Vehicles();
 
 	private boolean isPreemptive = false;
-	Collection<Lock> locks = new ArrayList<>(MAX_CAPACITY);
+	private Collection<ReentrantLock> locks = new ArrayList<>(MAX_CAPACITY);
 
 	public BasicTunnel(String name) {
 		super(name);
@@ -125,7 +126,9 @@ public class BasicTunnel extends Tunnel {
 	}
 
 	public void restartNonEssential() {
-		locks.forEach(Lock::unlock);
+		locks.stream()
+				.filter(ReentrantLock::isHeldByCurrentThread)
+				.forEach(Lock::unlock);
 		locks.clear();
 	}
 
