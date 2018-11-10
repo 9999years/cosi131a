@@ -20,6 +20,7 @@ package cs131.pa2.Abstract;
 
 import cs131.pa2.Abstract.Log.EventType;
 import cs131.pa2.Abstract.Log.Log;
+import cs131.pa2.CarsTunnels.Ambulance;
 import cs131.pa2.CarsTunnels.PreemptivePriorityScheduler;
 
 import java.time.Instant;
@@ -223,7 +224,7 @@ public abstract class Vehicle implements Runnable {
 		remainingTime = ((10 - speed) * 100);
 
 		// See PreemptivePriorityScheduler.tryToEnterInner() for an explanation
-		if(tunnel instanceof PreemptivePriorityScheduler) {
+		if(tunnel instanceof PreemptivePriorityScheduler && this instanceof Ambulance) {
 			try {
 				Thread.sleep(PreemptivePriorityScheduler.COMPENSATORY_WAIT_MS);
 			} catch (InterruptedException e) {
