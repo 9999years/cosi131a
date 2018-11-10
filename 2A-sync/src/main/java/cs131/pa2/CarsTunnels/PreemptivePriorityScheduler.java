@@ -105,7 +105,7 @@ public class PreemptivePriorityScheduler extends Tunnel {
 		 * mess up the PreemptivePriorityManyTunnels test), and in
 		 * Vehicle.doWhileInTunnel, to avoid a deadlock
 		 */
-		if (tunnels.size() == 1) {
+		if (tunnels.size() == 1 && vehicle instanceof Ambulance) {
 			try {
 				Thread.sleep(COMPENSATORY_WAIT_MS);
 			} catch (InterruptedException e) {
@@ -138,10 +138,8 @@ public class PreemptivePriorityScheduler extends Tunnel {
 		// exception if the vehicle wasn't in the tunnel, so we're sure this
 		// is the correct tunnel
 		if (vehicle instanceof Ambulance && tunnel instanceof BasicTunnel) {
-			if (!vehicles.hasWaitingAmbulance()) {
-				BasicTunnel basicTunnel = (BasicTunnel) tunnel;
-				basicTunnel.restartNonEssential();
-			}
+			BasicTunnel basicTunnel = (BasicTunnel) tunnel;
+			basicTunnel.restartNonEssential();
 		}
 	}
 }

@@ -224,7 +224,7 @@ public abstract class Vehicle implements Runnable {
 		remainingTime = ((10 - speed) * 100);
 
 		// See PreemptivePriorityScheduler.tryToEnterInner() for an explanation
-		if(tunnel instanceof PreemptivePriorityScheduler && this instanceof Ambulance) {
+		if(this instanceof Ambulance) {
 			try {
 				Thread.sleep(PreemptivePriorityScheduler.COMPENSATORY_WAIT_MS);
 			} catch (InterruptedException e) {

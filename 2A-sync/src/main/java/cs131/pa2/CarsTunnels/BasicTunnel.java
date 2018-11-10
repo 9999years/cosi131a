@@ -126,9 +126,7 @@ public class BasicTunnel extends Tunnel {
 	}
 
 	public void restartNonEssential() {
-		locks.stream()
-				.filter(ReentrantLock::isHeldByCurrentThread)
-				.forEach(Lock::unlock);
+		locks.forEach(Lock::unlock);
 		locks.clear();
 	}
 
